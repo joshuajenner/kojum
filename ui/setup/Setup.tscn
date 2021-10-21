@@ -54,6 +54,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Player" parent="UICanvas/UI" instance=ExtResource( 7 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 209.676
+margin_top = 70.8865
+margin_right = 209.676
+margin_bottom = 70.8865
+
 [node name="Title" type="Label" parent="UICanvas/UI"]
 use_parent_material = true
 margin_left = 16.0
@@ -74,14 +82,6 @@ texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Player" parent="UICanvas/UI" instance=ExtResource( 7 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 64.0
-margin_top = 64.0
-margin_right = 64.0
-margin_bottom = 64.0
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
