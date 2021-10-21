@@ -6,3 +6,8 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+
+# Assets
+assets/
+icon.png
+icon.png.import
