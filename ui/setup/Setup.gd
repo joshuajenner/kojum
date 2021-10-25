@@ -3,11 +3,13 @@ extends Node2D
 var title = "res://ui/title/Title.tscn"
 
 onready var fill = $Fill
-#onready var ui = $UI
+onready var players = $UICanvas/UI/Players
 onready var canvas = $UICanvas
 onready var anim = $Anim
 
 onready var back = $Back
+
+var player_connector = load("res://ui/setup/components/Player.tscn")
 
 const RESOLUTION = Vector2(512, 288)
 var vp
@@ -31,6 +33,10 @@ func on_Window_Resized(ws, sc):
 		Vector2(0, ws.y)
 	])
 	fill.offset = Vector2((-ws.x/2), (-ws.y/2))
+	if sc >= 4:
+		players.rect_size.x = 436
+	else:
+		players.rect_size.x = 468
 
 func on_Scale_Changed(sc):
 	canvas.scale = Vector2(sc, sc)
@@ -44,3 +50,9 @@ func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		MenuSwitcher.switch_menu(title)
 		back.play()
+
+
+func _on_Player_player_connected():
+	var new_player = player_connector.instance()
+	players.add_child(new_player)
+	new_player.connect("player_connected", self, "_on_Player_player_connected")

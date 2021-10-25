@@ -6,7 +6,7 @@
 [ext_resource path="res://shaders/bb.tres" type="Material" id=4]
 [ext_resource path="res://ui/setup/Camera.gd" type="Script" id=5]
 [ext_resource path="res://assets/sfx/ui/button/back.wav" type="AudioStream" id=6]
-[ext_resource path="res://ui/setup/components/Player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ui/setup/components/players/Players.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "enter"
@@ -54,14 +54,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Player" parent="UICanvas/UI" instance=ExtResource( 7 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 209.676
-margin_top = 70.8865
-margin_right = 209.676
-margin_bottom = 70.8865
-
 [node name="Title" type="Label" parent="UICanvas/UI"]
 use_parent_material = true
 margin_left = 16.0
@@ -82,6 +74,8 @@ texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Players" parent="UICanvas/UI" instance=ExtResource( 7 )]
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
