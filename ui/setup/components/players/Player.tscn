@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://ui/setup/components/players/Player.gd" type="Script" id=2]
@@ -6,8 +6,222 @@
 [ext_resource path="res://shaders/bb.tres" type="Material" id=4]
 [ext_resource path="res://assets/textures/ui/panel_frame.png" type="Texture" id=5]
 [ext_resource path="res://assets/textures/ui/panel_frame_flip.png" type="Texture" id=6]
-[ext_resource path="res://assets/test_body.png" type="Texture" id=7]
+[ext_resource path="res://assets/textures/ui/prvw_body_small.png" type="Texture" id=7]
 [ext_resource path="res://assets/textures/ui/kb_or_c.png" type="Texture" id=8]
+[ext_resource path="res://assets/textures/ui/prvw_shadow.png" type="Texture" id=9]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 REF1 : hint_color;
+uniform vec4 REF2 : hint_color;
+uniform vec4 REF3 : hint_color;
+
+uniform vec4 NEW1 : hint_color;
+uniform vec4 NEW2 : hint_color;
+uniform vec4 NEW3 : hint_color;
+
+void fragment() {
+    vec4 curr_color = texture(TEXTURE,UV); // Get current color of pixel
+	
+	//Lets check that our current pixel colour is any of the OLDCOLORs we wish to swap
+	//If our pixel is an old colour then swap COLOR to NEWCOLOR, very simple
+    if (curr_color == REF1)
+	{
+        COLOR = NEW1;
+    }
+	else if (curr_color == REF2)
+	{
+        COLOR = NEW2;
+    }
+	else if (curr_color == REF3)
+	{
+        COLOR = NEW3;
+    }
+	else
+	{
+		//We didn't find any old colors for this pixel so keep it's original color
+        COLOR = curr_color;
+    }
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/REF1 = Color( 1, 1, 0, 1 )
+shader_param/REF2 = Color( 1, 0, 0, 1 )
+shader_param/REF3 = null
+shader_param/NEW1 = null
+shader_param/NEW2 = null
+shader_param/NEW3 = null
+
+[sub_resource type="Animation" id=3]
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Body/Left:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "clothes"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Clothes/Left:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "face"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Face/Left:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "hair"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Hair/Left:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "hair_colour"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Hair_Colour/Left:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Body/Right:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "clothes"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Clothes/Right:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "face"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Face/Right:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "hair"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Hair/Right:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "hair_colour"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Setup/Hair_Colour/Right:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
+}
 
 [node name="Player" type="Control"]
 material = ExtResource( 4 )
@@ -23,9 +237,8 @@ __meta__ = {
 }
 
 [node name="Connect" type="Control" parent="."]
-margin_left = 22.0
+visible = false
 margin_top = 106.0
-margin_right = 22.0
 margin_bottom = 106.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -52,9 +265,6 @@ __meta__ = {
 }
 
 [node name="Setup" type="Control" parent="."]
-visible = false
-margin_left = 22.0
-margin_right = 22.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -68,18 +278,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Body" type="TextureRect" parent="Setup/Sprite"]
-visible = false
-margin_right = 40.0
-margin_bottom = 40.0
-texture = ExtResource( 7 )
-expand = true
-stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Shadow" type="Sprite" parent="Setup/Sprite"]
+modulate = Color( 1, 1, 1, 0.458824 )
+texture = ExtResource( 9 )
+centered = false
+offset = Vector2( 4, 4 )
 
-[node name="Sprite2" type="Sprite" parent="Setup/Sprite"]
+[node name="Body" type="Sprite" parent="Setup/Sprite"]
+material = SubResource( 2 )
 position = Vector2( 4, 4 )
 texture = ExtResource( 7 )
 centered = false
@@ -129,9 +335,9 @@ __meta__ = {
 
 [node name="Left" type="TextureRect" parent="Setup/Body"]
 use_parent_material = true
-margin_left = 1.0
+margin_left = -1.0
 margin_top = 18.0
-margin_right = 4.0
+margin_right = 2.0
 margin_bottom = 24.0
 texture = ExtResource( 3 )
 __meta__ = {
@@ -140,9 +346,9 @@ __meta__ = {
 
 [node name="Right" type="TextureRect" parent="Setup/Body"]
 use_parent_material = true
-margin_left = 40.0
+margin_left = 42.0
 margin_top = 18.0
-margin_right = 43.0
+margin_right = 45.0
 margin_bottom = 24.0
 texture = ExtResource( 3 )
 flip_h = true
@@ -356,9 +562,9 @@ __meta__ = {
 
 [node name="Left" type="TextureRect" parent="Setup/Hair_Colour"]
 use_parent_material = true
-margin_left = 1.0
+margin_left = -1.0
 margin_top = 18.0
-margin_right = 4.0
+margin_right = 2.0
 margin_bottom = 24.0
 texture = ExtResource( 3 )
 __meta__ = {
@@ -367,9 +573,9 @@ __meta__ = {
 
 [node name="Right" type="TextureRect" parent="Setup/Hair_Colour"]
 use_parent_material = true
-margin_left = 40.0
+margin_left = 42.0
 margin_top = 18.0
-margin_right = 43.0
+margin_right = 45.0
 margin_bottom = 24.0
 texture = ExtResource( 3 )
 flip_h = true
@@ -471,6 +677,20 @@ texture = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AnimLeft" type="AnimationPlayer" parent="."]
+anims/body = SubResource( 3 )
+anims/clothes = SubResource( 4 )
+anims/face = SubResource( 6 )
+anims/hair = SubResource( 7 )
+anims/hair_colour = SubResource( 5 )
+
+[node name="AnimRight" type="AnimationPlayer" parent="."]
+anims/body = SubResource( 8 )
+anims/clothes = SubResource( 9 )
+anims/face = SubResource( 11 )
+anims/hair = SubResource( 12 )
+anims/hair_colour = SubResource( 10 )
 
 [connection signal="mouse_entered" from="Setup/Body" to="." method="_on_Body_mouse_entered"]
 [connection signal="mouse_entered" from="Setup/Face" to="." method="_on_Face_mouse_entered"]

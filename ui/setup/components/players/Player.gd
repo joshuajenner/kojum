@@ -1,6 +1,7 @@
 extends Control
 
-signal player_connected
+
+signal finished_setup
 
 onready var connect = $Connect
 onready var setup = $Setup
@@ -12,30 +13,42 @@ onready var hair = $Setup/Hair
 onready var colour = $Setup/Hair_Colour
 onready var clothes = $Setup/Clothes
 onready var controls = [body, face, hair, colour, clothes]
+enum customize {BODY, FACE, HAIR, COLOUR, CLOTHES}
 
 onready var prompt = $Connect/Prompt
 var kb_or_c = load("res://assets/textures/ui/kb_or_c.png")
 var only_c = load("res://assets/textures/ui/only_c.png")
 
-var player_no = 0
-var controller = -1
+export var player_no = 0
 var focus_index = 0
 var active = false
 
+# Preview Assets
+var bdy_b = load("res://assets/textures/ui/prvw_body_big.png")
+var bdy_s = load("res://assets/textures/ui/prvw_body_small.png")
+var l = Global.LIGHT_SKIN
+var m = Global.MED_SKIN
+var d = Global.DARK_SKIN
+
+var body_tex = [bdy_s, bdy_s, bdy_s, bdy_b, bdy_b, bdy_b]
+var skin_col = [l,m,d,l,m,d]
+
 
 func _ready():
+	setup.visible = false
+	connect.visible = true
+	active = false
+	set_focus_style(body)
+
+func turn_invisible():
+	modulate = Color(0,0,0,0)
+
+func turn_visible():
+	modulate = Color(1,1,1,1)
 	if Global.kb_taken:
 		prompt.set_texture(only_c)
 	else:
 		prompt.set_texture(kb_or_c)
-	player_no = 0
-	setup.visible = false
-	connect.visible = true
-	active = false
-	set_focus_mode(Control.FOCUS_ALL)
-	set_focus_style(body)
-	grab_focus()
-
 
 func set_focus_style(node):
 	for c in controls:
@@ -52,11 +65,9 @@ func set_focus_style(node):
 			c.get_node("Right").set_visible(false)
 			c.modulate = Color(1,1,1,0.3)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
 
 func ui_move(dir):
 	if focus_index + dir >= controls.size():
@@ -67,37 +78,76 @@ func ui_move(dir):
 		 focus_index = focus_index + dir
 	set_focus_style(controls[focus_index])
 
+func change_value(dir):
+	var section = ""
+	if (focus_index == customize.BODY):
+		section = "body"
+	elif (focus_index == customize.FACE):
+		section = "face"
+	elif (focus_index == customize.HAIR):
+		section = "hair"
+	elif (focus_index == customize.COLOUR):
+		section = "hair_colour"
+	elif (focus_index == customize.CLOTHES):
+		section = "clothes"
+	
+	controls[focus_index].get_node("Value").text = Global.customize_attr(player_no, section, dir)
+	update_preview()
+	
+	$AnimLeft.stop(true)
+	$AnimRight.stop(true)
+	if (dir == 1):
+		$AnimRight.play(section)
+	elif (dir == -1):
+		$AnimLeft.play(section)
+		
 
-func activate_connecter():
+func init_options():
+	body.get_node("Value").text = Global.availBodies[Global.allBodies[player_no]]
+	face.get_node("Value").text = Global.availFaces[Global.allBodies[player_no]]
+	hair.get_node("Value").text = Global.availHair[Global.allHair[player_no]]
+	colour.get_node("Value").text = Global.availHairColour[Global.allHairColour[player_no]]
+	clothes.get_node("Value").text = Global.availClothes[Global.allClothes[player_no]]
+
+
+func update_preview():
+	$Setup/Sprite/Body.texture = body_tex[Global.allBodies[player_no]]
+	$Setup/Sprite/Body.material.set_shader_param("NEW1", skin_col[Global.allSkin[player_no]][0])
+	$Setup/Sprite/Body.material.set_shader_param("NEW2", skin_col[Global.allSkin[player_no]][1])
+
+
+func connect_to_device(event, device):
+	if event.is_action_pressed("ui_accept"):
+		if device == -1:
+			Global.kb_taken = true
+		# IMPORTANT // sets device after connection
+		Global.allControllers[player_no] = device
+		active = true
+		display_customizers()
+
+func display_customizers():
+	p_no.set_text(("P" + str(player_no + 1)))
 	active = true
 	connect.visible = false
 	setup.visible = true
-	player_no = 1
-	p_no.set_text(("P" + str(player_no)))
-	emit_signal("player_connected")
+	init_options()
+	update_preview()
 
-func _input(event):
-#	if event is InputEventKey and 
+func receive_input(event):
 	if event.is_action_pressed("ui_accept"):
-		# First time
-		if player_no == 0:
-			if event is InputEventJoypadButton:
-				activate_connecter()
-			else:
-				if !Global.kb_taken:
-					Global.kb_taken = true
-					activate_connecter()
-					
 		# Accept input
-		elif active:
+		if active:
 			active = false
-			set_visible(false)
-	
+			modulate = Color(0,0,0,0)
 	if active:
 		if event.is_action_pressed("ui_down"):
 			ui_move(1)
 		elif event.is_action_pressed("ui_up"):
 			ui_move(-1)
+		elif event.is_action_pressed("ui_right"):
+			change_value(1)
+		elif event.is_action_pressed("ui_left"):
+			change_value(-1)
 
 
 func _on_Body_mouse_entered():

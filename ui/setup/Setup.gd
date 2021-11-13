@@ -1,6 +1,7 @@
 extends Node2D
 
 var title = "res://ui/title/Title.tscn"
+var player = "res://players/Player.tscn"
 
 onready var fill = $Fill
 onready var players = $UICanvas/UI/Players
@@ -9,7 +10,6 @@ onready var anim = $Anim
 
 onready var back = $Back
 
-var player_connector = load("res://ui/setup/components/Player.tscn")
 
 const RESOLUTION = Vector2(512, 288)
 var vp
@@ -51,8 +51,3 @@ func _input(event):
 		MenuSwitcher.switch_menu(title)
 		back.play()
 
-
-func _on_Player_player_connected():
-	var new_player = player_connector.instance()
-	players.add_child(new_player)
-	new_player.connect("player_connected", self, "_on_Player_player_connected")

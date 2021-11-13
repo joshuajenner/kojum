@@ -15,6 +15,9 @@ enum state {MOVE, ATTACK, HIT, STUN, BLOCK, GRAB}
 var isFacingRight = true
 export var action = state.MOVE
 
+var index = -1
+var device = -2
+
 export (int) var speed_max = 120
 export (int) var speed_min = 55
 export (int) var speed_current = 55
@@ -207,7 +210,6 @@ func set_anim():
 #		print("Joystick " + str(deviceid) + " disconnected")
 
 
-# warning-ignore:unused_argument
 func _physics_process(delta):
 	get_input()
 	handle_state()
