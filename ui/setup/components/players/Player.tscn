@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://ui/setup/components/players/Player.gd" type="Script" id=2]
@@ -9,6 +9,10 @@
 [ext_resource path="res://assets/textures/ui/prvw_body_small.png" type="Texture" id=7]
 [ext_resource path="res://assets/textures/ui/kb_or_c.png" type="Texture" id=8]
 [ext_resource path="res://assets/textures/ui/prvw_shadow.png" type="Texture" id=9]
+[ext_resource path="res://assets/textures/players/faces/big_1.png" type="Texture" id=10]
+[ext_resource path="res://shaders/recolour_sprite.tres" type="Material" id=11]
+[ext_resource path="res://assets/textures/players/hand_1.png" type="Texture" id=12]
+[ext_resource path="res://shaders/recolour_hands.tres" type="Material" id=13]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -288,6 +292,30 @@ offset = Vector2( 4, 4 )
 material = SubResource( 2 )
 position = Vector2( 4, 4 )
 texture = ExtResource( 7 )
+centered = false
+
+[node name="Face" type="Sprite" parent="Setup/Sprite"]
+texture = ExtResource( 10 )
+centered = false
+offset = Vector2( 4, 4 )
+hframes = 2
+
+[node name="Hair" type="Sprite" parent="Setup/Sprite"]
+material = ExtResource( 11 )
+centered = false
+offset = Vector2( 4, 4 )
+
+[node name="Left" type="Sprite" parent="Setup/Sprite"]
+material = ExtResource( 13 )
+position = Vector2( 13, 20 )
+texture = ExtResource( 12 )
+centered = false
+flip_h = true
+
+[node name="Right" type="Sprite" parent="Setup/Sprite"]
+material = ExtResource( 13 )
+position = Vector2( 24, 20 )
+texture = ExtResource( 12 )
 centered = false
 
 [node name="Number" type="Label" parent="Setup"]

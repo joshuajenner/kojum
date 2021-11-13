@@ -26,9 +26,9 @@ var active = false
 # Preview Assets
 var bdy_b = load("res://assets/textures/ui/prvw_body_big.png")
 var bdy_s = load("res://assets/textures/ui/prvw_body_small.png")
-var l = Global.LIGHT_SKIN
-var m = Global.MED_SKIN
-var d = Global.DARK_SKIN
+var l = Asset.LIGHT_SKIN
+var m = Asset.MED_SKIN
+var d = Asset.DARK_SKIN
 
 var body_tex = [bdy_s, bdy_s, bdy_s, bdy_b, bdy_b, bdy_b]
 var skin_col = [l,m,d,l,m,d]
@@ -104,17 +104,35 @@ func change_value(dir):
 
 func init_options():
 	body.get_node("Value").text = Global.availBodies[Global.allBodies[player_no]]
-	face.get_node("Value").text = Global.availFaces[Global.allBodies[player_no]]
-	hair.get_node("Value").text = Global.availHair[Global.allHair[player_no]]
-	colour.get_node("Value").text = Global.availHairColour[Global.allHairColour[player_no]]
-	clothes.get_node("Value").text = Global.availClothes[Global.allClothes[player_no]]
+	face.get_node("Value").text = str(Global.availFaces[Global.allFaces[player_no]])
+	hair.get_node("Value").text = str(Global.availHair[Global.allHair[player_no]])
+	colour.get_node("Value").text = str(Global.availHairColour[Global.allHairColour[player_no]])
+	clothes.get_node("Value").text = str(Global.availClothes[Global.allClothes[player_no]])
 
 
 func update_preview():
 	$Setup/Sprite/Body.texture = body_tex[Global.allBodies[player_no]]
 	$Setup/Sprite/Body.material.set_shader_param("NEW1", skin_col[Global.allSkin[player_no]][0])
 	$Setup/Sprite/Body.material.set_shader_param("NEW2", skin_col[Global.allSkin[player_no]][1])
+	
+	$Setup/Sprite/Left.material.set_shader_param("NEW1", skin_col[Global.allSkin[player_no]][0])
+	$Setup/Sprite/Left.material.set_shader_param("NEW2", skin_col[Global.allSkin[player_no]][1])
 
+	$Setup/Sprite/Right.material.set_shader_param("NEW1", skin_col[Global.allSkin[player_no]][0])
+	$Setup/Sprite/Right.material.set_shader_param("NEW2", skin_col[Global.allSkin[player_no]][1])
+	
+	if ("S" in Global.availBodies[Global.allBodies[player_no]]):
+		$Setup/Sprite/Hair.texture = Asset.HAIR_SMALL[Global.allHair[player_no]]
+		$Setup/Sprite/Face.texture = Asset.FACE_SMALL[Global.allFaces[player_no]]
+		$Setup/Sprite/Left.position.x = 13
+	elif ("B" in Global.availBodies[Global.allBodies[player_no]]):
+		$Setup/Sprite/Hair.texture = Asset.HAIR_BIG[Global.allHair[player_no]]
+		$Setup/Sprite/Face.texture = Asset.FACE_BIG[Global.allFaces[player_no]]
+		$Setup/Sprite/Left.position.x = 12
+
+	$Setup/Sprite/Hair.material.set_shader_param("NEW1", Asset.HAIR_COLOURS[Global.allHairColour[player_no]])
+	
+	
 
 func connect_to_device(event, device):
 	if event.is_action_pressed("ui_accept"):

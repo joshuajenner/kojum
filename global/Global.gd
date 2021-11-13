@@ -19,15 +19,12 @@ enum {NO, PAD}
 
 var availBodies = ["SL", "SM", "SD", "BL", "BM", "BD"]
 var availSkin = ["L", "M", "D"]
-var availFaces = [1,2,3,4]
-var availHair = [1,2,3,4]
-var availHairColour = [1,2,3,4]
+var availFaces = [1,2]
+var availHair = [1,2]
+var availHands = [1,2,3]
+var availHairColour = [1,2,3,4,5]
 var availClothes = [1,2,3,4]
 var availTeams = ["Dragons", "Monks", "Sun"]
-
-const LIGHT_SKIN = [Color8(240,198,158), Color8(231,182,136)]
-const MED_SKIN = [Color8(217,160,102), Color8(209,150,92)]
-const DARK_SKIN = [Color8(102,57,49), Color8(76,46,41)]
 
 
 # Called when the node enters the scene tree for the first time.
