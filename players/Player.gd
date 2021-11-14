@@ -15,7 +15,7 @@ enum state {MOVE, ATTACK, HIT, STUN, BLOCK, GRAB}
 var isFacingRight = true
 export var action = state.MOVE
 
-var index = -1
+var player_no = -1
 var device = -2
 
 export (int) var speed_max = 120
@@ -36,11 +36,26 @@ var stunMax = 80
 
 
 func _ready():
+	set_customs()
 	anim.play("default")
 	direction = Vector2(1, 0)
 #	Input.connect("joy_connection_changed",self,"joy_con_changed")
 
-
+func set_customs():
+	if ("S" in Global.availBodies[Global.allBodies[player_no]]):
+		$Sprite.texture = Asset.BODIES[0]
+		$Sprite/Clothes.texture = Asset.CLOTHES_SMALL[Global.allClothes[player_no]]
+		$Sprite/Hands/PivotLeft.position.x = 1
+	else:
+		$Sprite.texture = Asset.BODIES[1]
+		$Sprite/Clothes.texture = Asset.CLOTHES_BIG[Global.allClothes[player_no]]
+		$Sprite/Hands/PivotLeft.position.x = 0
+	$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Global.allSkin[player_no]][0])
+	$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Global.allSkin[player_no]][1])
+	
+	
+	
+	
 func get_input():
 	if action == state.MOVE:
 		velocity = Vector2()

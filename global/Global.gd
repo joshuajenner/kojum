@@ -20,10 +20,10 @@ enum {NO, PAD}
 var availBodies = ["SL", "SM", "SD", "BL", "BM", "BD"]
 var availSkin = ["L", "M", "D"]
 var availFaces = [1,2]
-var availHair = [1,2]
+var availHair = [1,2,3,4]
 var availHands = [1,2,3]
 var availHairColour = [1,2,3,4,5]
-var availClothes = [1,2,3,4]
+var availClothes = ["1B", "1W", "2B", "2W"]
 var availTeams = ["Dragons", "Monks", "Sun"]
 
 
@@ -48,6 +48,7 @@ func customize_attr(player, attr, dir):
 		return str(availHairColour[allHairColour[player]])
 	if (attr == "clothes"):
 		allClothes[player] = handle_attribute_change(allClothes[player], dir, availClothes.size())
+		set_hands(player, allClothes[player])
 		return str(availClothes[allClothes[player]])
 
 func set_skin(player, curr):
@@ -59,8 +60,14 @@ func set_skin(player, curr):
 	elif ("D" in body):
 		allSkin[player] = 2
 
-func set_hand():
-	pass
+func set_hands(player, curr):
+	var clothes = availClothes[curr]
+	if ("B" in clothes):
+		allHands[player] = 0
+	elif ("W" in clothes):
+		allHands[player] = 1
+	elif ("C" in clothes):
+		allHands[player] = 2
 
 func handle_attribute_change(curr, dir, size):
 	if ((curr + dir) >= size):

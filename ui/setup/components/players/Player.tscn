@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://ui/setup/components/players/Player.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://shaders/recolour_sprite.tres" type="Material" id=11]
 [ext_resource path="res://assets/textures/players/hand_1.png" type="Texture" id=12]
 [ext_resource path="res://shaders/recolour_hands.tres" type="Material" id=13]
+[ext_resource path="res://shaders/recolour_clothes.tres" type="Material" id=14]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -92,7 +93,7 @@ tracks/0/keys = {
 "values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "face"
 length = 0.18
 step = 0.02
@@ -109,7 +110,7 @@ tracks/0/keys = {
 "values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "hair"
 length = 0.18
 step = 0.02
@@ -126,8 +127,7 @@ tracks/0/keys = {
 "values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "hair_colour"
+[sub_resource type="Animation" id=7]
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
@@ -176,7 +176,7 @@ tracks/0/keys = {
 "values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=10]
 resource_name = "face"
 length = 0.18
 step = 0.02
@@ -193,7 +193,7 @@ tracks/0/keys = {
 "values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=11]
 resource_name = "hair"
 length = 0.18
 step = 0.02
@@ -210,8 +210,7 @@ tracks/0/keys = {
 "values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
 }
 
-[sub_resource type="Animation" id=10]
-resource_name = "hair_colour"
+[sub_resource type="Animation" id=12]
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
@@ -293,6 +292,13 @@ material = SubResource( 2 )
 position = Vector2( 4, 4 )
 texture = ExtResource( 7 )
 centered = false
+
+[node name="Clothes" type="Sprite" parent="Setup/Sprite"]
+material = ExtResource( 14 )
+centered = false
+offset = Vector2( 4, 4 )
+hframes = 8
+vframes = 4
 
 [node name="Face" type="Sprite" parent="Setup/Sprite"]
 texture = ExtResource( 10 )
@@ -709,16 +715,16 @@ __meta__ = {
 [node name="AnimLeft" type="AnimationPlayer" parent="."]
 anims/body = SubResource( 3 )
 anims/clothes = SubResource( 4 )
-anims/face = SubResource( 6 )
-anims/hair = SubResource( 7 )
-anims/hair_colour = SubResource( 5 )
+anims/face = SubResource( 5 )
+anims/hair = SubResource( 6 )
+anims/hair_colour = SubResource( 7 )
 
 [node name="AnimRight" type="AnimationPlayer" parent="."]
 anims/body = SubResource( 8 )
 anims/clothes = SubResource( 9 )
-anims/face = SubResource( 11 )
-anims/hair = SubResource( 12 )
-anims/hair_colour = SubResource( 10 )
+anims/face = SubResource( 10 )
+anims/hair = SubResource( 11 )
+anims/hair_colour = SubResource( 12 )
 
 [connection signal="mouse_entered" from="Setup/Body" to="." method="_on_Body_mouse_entered"]
 [connection signal="mouse_entered" from="Setup/Face" to="." method="_on_Face_mouse_entered"]
