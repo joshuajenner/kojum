@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://ui/setup/components/players/Player.gd" type="Script" id=2]
@@ -10,10 +10,13 @@
 [ext_resource path="res://assets/textures/ui/kb_or_c.png" type="Texture" id=8]
 [ext_resource path="res://assets/textures/ui/prvw_shadow.png" type="Texture" id=9]
 [ext_resource path="res://assets/textures/players/faces/big_1.png" type="Texture" id=10]
-[ext_resource path="res://shaders/recolour_sprite.tres" type="Material" id=11]
+[ext_resource path="res://shaders/recolour_hair.tres" type="Material" id=11]
 [ext_resource path="res://assets/textures/players/hand_1.png" type="Texture" id=12]
 [ext_resource path="res://shaders/recolour_hands.tres" type="Material" id=13]
 [ext_resource path="res://shaders/recolour_clothes.tres" type="Material" id=14]
+[ext_resource path="res://assets/textures/ui/press_a_small.png" type="Texture" id=15]
+[ext_resource path="res://assets/sfx/ui/button/back.wav" type="AudioStream" id=16]
+[ext_resource path="res://assets/textures/ui/arrow_6x4.png" type="Texture" id=17]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -72,7 +75,7 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ Vector2( -1, 18 ), Vector2( 0, 18 ), Vector2( 1, 18 ) ]
 }
 
@@ -226,6 +229,108 @@ tracks/0/keys = {
 "values": [ Vector2( 42, 18 ), Vector2( 41, 18 ), Vector2( 40, 18 ) ]
 }
 
+[sub_resource type="Animation" id=13]
+resource_name = "arrow_up_0"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Name/Panel/Letter0/Up:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -8 ), Vector2( 0, -7 ), Vector2( 0, -6 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "arrow_up_1"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Name/Panel/Letter1/Up:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -8 ), Vector2( 0, -7 ), Vector2( 0, -6 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "arrow_up_2"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Name/Panel/Letter2/Up:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -8 ), Vector2( 0, -7 ), Vector2( 0, -6 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "arrow_down_0"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Name/Panel/Letter0/Down:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 18 ), Vector2( 0, 17 ), Vector2( 0, 16 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "arrow_down_1"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Name/Panel/Letter1/Down:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 18 ), Vector2( 0, 17 ), Vector2( 0, 16 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "arrow_down_2"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Name/Panel/Letter2/Down:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 18 ), Vector2( 0, 17 ), Vector2( 0, 16 ) ]
+}
+
 [node name="Player" type="Control"]
 material = ExtResource( 4 )
 anchor_right = 1.0
@@ -267,16 +372,195 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Name" type="Control" parent="."]
+margin_top = 106.0
+margin_bottom = 106.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Name"]
+margin_left = -22.0
+margin_top = -66.0
+margin_right = 22.0
+margin_bottom = -37.0
+text = "Set
+Name"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Name"]
+margin_top = 12.0
+margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Letter0" type="Label" parent="Name/Panel"]
+margin_left = -11.0
+margin_top = -26.0
+margin_right = -5.0
+margin_bottom = -13.0
+text = "A"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Up" type="TextureRect" parent="Name/Panel/Letter0"]
+margin_top = -6.0
+margin_right = 6.0
+margin_bottom = -2.0
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Down" type="TextureRect" parent="Name/Panel/Letter0"]
+margin_top = 16.0
+margin_right = 6.0
+margin_bottom = 20.0
+texture = ExtResource( 17 )
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Letter1" type="Label" parent="Name/Panel"]
+margin_left = -2.0
+margin_top = -26.0
+margin_right = 4.0
+margin_bottom = -13.0
+text = "A"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Up" type="TextureRect" parent="Name/Panel/Letter1"]
+margin_top = -6.0
+margin_right = 6.0
+margin_bottom = -2.0
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Down" type="TextureRect" parent="Name/Panel/Letter1"]
+margin_top = 16.0
+margin_right = 6.0
+margin_bottom = 20.0
+texture = ExtResource( 17 )
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Letter2" type="Label" parent="Name/Panel"]
+margin_left = 7.0
+margin_top = -26.0
+margin_right = 13.0
+margin_bottom = -13.0
+text = "A"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Up" type="TextureRect" parent="Name/Panel/Letter2"]
+margin_top = -6.0
+margin_right = 6.0
+margin_bottom = -2.0
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Down" type="TextureRect" parent="Name/Panel/Letter2"]
+margin_top = 16.0
+margin_right = 6.0
+margin_bottom = 20.0
+texture = ExtResource( 17 )
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Line" type="ColorRect" parent="Name/Panel"]
+margin_left = -11.0
+margin_top = -14.0
+margin_right = -5.0
+margin_bottom = -13.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="TextureRect" parent="Name/Panel"]
+visible = false
+margin_left = -20.0
+margin_top = -16.0
+margin_right = -14.0
+margin_bottom = -12.0
+rect_rotation = -90.0
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Right" type="TextureRect" parent="Name/Panel"]
+visible = false
+margin_left = 21.0
+margin_top = -22.0
+margin_right = 27.0
+margin_bottom = -18.0
+rect_rotation = 90.0
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Number" type="Label" parent="Name"]
+margin_left = -22.0
+margin_top = -106.0
+margin_right = 22.0
+margin_bottom = -93.0
+text = "P0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Name"]
+margin_left = -21.772
+margin_top = 101.0
+margin_right = 18.228
+margin_bottom = 114.0
+text = "Next"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ready_Img" type="TextureRect" parent="Name"]
+margin_left = 10.03
+margin_top = 103.0
+margin_right = 22.03
+margin_bottom = 115.0
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Setup" type="Control" parent="."]
+visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Sprite" type="Control" parent="Setup"]
 margin_left = -20.0
-margin_top = 16.0
+margin_top = 10.6546
 margin_right = 20.0
-margin_bottom = 56.0
+margin_bottom = 50.6546
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -300,31 +584,33 @@ offset = Vector2( 4, 4 )
 hframes = 8
 vframes = 4
 
+[node name="Hair" type="Sprite" parent="Setup/Sprite"]
+material = ExtResource( 11 )
+centered = false
+offset = Vector2( 4, 4 )
+hframes = 2
+
 [node name="Face" type="Sprite" parent="Setup/Sprite"]
 texture = ExtResource( 10 )
 centered = false
 offset = Vector2( 4, 4 )
 hframes = 2
-
-[node name="Hair" type="Sprite" parent="Setup/Sprite"]
-material = ExtResource( 11 )
-centered = false
-offset = Vector2( 4, 4 )
+vframes = 2
 
 [node name="Left" type="Sprite" parent="Setup/Sprite"]
 material = ExtResource( 13 )
-position = Vector2( 13, 20 )
+position = Vector2( 12, 20 )
 texture = ExtResource( 12 )
 centered = false
 flip_h = true
 
 [node name="Right" type="Sprite" parent="Setup/Sprite"]
 material = ExtResource( 13 )
-position = Vector2( 24, 20 )
+position = Vector2( 23, 20 )
 texture = ExtResource( 12 )
 centered = false
 
-[node name="Number" type="Label" parent="Setup"]
+[node name="Name" type="Label" parent="Setup"]
 margin_left = -22.0
 margin_right = 22.0
 margin_bottom = 13.0
@@ -337,9 +623,9 @@ __meta__ = {
 [node name="Body" type="Panel" parent="Setup"]
 use_parent_material = true
 margin_left = -22.0
-margin_top = 60.0
+margin_top = 54.6546
 margin_right = 22.0
-margin_bottom = 89.0
+margin_bottom = 83.6546
 focus_next = NodePath("../Skin")
 __meta__ = {
 "_edit_use_anchors_": false
@@ -412,9 +698,9 @@ __meta__ = {
 [node name="Face" type="Panel" parent="Setup"]
 use_parent_material = true
 margin_left = -22.0
-margin_top = 90.0
+margin_top = 84.6546
 margin_right = 22.0
-margin_bottom = 119.0
+margin_bottom = 113.655
 focus_next = NodePath("../Skin")
 __meta__ = {
 "_edit_use_anchors_": false
@@ -488,9 +774,9 @@ __meta__ = {
 [node name="Hair" type="Panel" parent="Setup"]
 use_parent_material = true
 margin_left = -22.0
-margin_top = 120.0
+margin_top = 114.655
 margin_right = 22.0
-margin_bottom = 149.0
+margin_bottom = 143.655
 focus_next = NodePath("../Skin")
 __meta__ = {
 "_edit_use_anchors_": false
@@ -563,9 +849,9 @@ __meta__ = {
 [node name="Hair_Colour" type="Panel" parent="Setup"]
 use_parent_material = true
 margin_left = -22.0
-margin_top = 150.0
+margin_top = 144.655
 margin_right = 22.0
-margin_bottom = 179.0
+margin_bottom = 173.655
 focus_next = NodePath("../Skin")
 __meta__ = {
 "_edit_use_anchors_": false
@@ -596,9 +882,9 @@ __meta__ = {
 
 [node name="Left" type="TextureRect" parent="Setup/Hair_Colour"]
 use_parent_material = true
-margin_left = -1.0
+margin_left = 1.0
 margin_top = 18.0
-margin_right = 2.0
+margin_right = 4.0
 margin_bottom = 24.0
 texture = ExtResource( 3 )
 __meta__ = {
@@ -607,9 +893,9 @@ __meta__ = {
 
 [node name="Right" type="TextureRect" parent="Setup/Hair_Colour"]
 use_parent_material = true
-margin_left = 42.0
+margin_left = 40.0
 margin_top = 18.0
-margin_right = 45.0
+margin_right = 43.0
 margin_bottom = 24.0
 texture = ExtResource( 3 )
 flip_h = true
@@ -639,9 +925,9 @@ __meta__ = {
 [node name="Clothes" type="Panel" parent="Setup"]
 use_parent_material = true
 margin_left = -22.0
-margin_top = 180.0
+margin_top = 174.655
 margin_right = 22.0
-margin_bottom = 209.0
+margin_bottom = 203.655
 focus_next = NodePath("../Skin")
 __meta__ = {
 "_edit_use_anchors_": false
@@ -712,6 +998,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="Setup"]
+margin_left = -21.7717
+margin_top = 206.637
+margin_right = 18.2283
+margin_bottom = 219.637
+text = "Ready"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ready_Img" type="TextureRect" parent="Setup"]
+margin_left = 10.0301
+margin_top = 208.583
+margin_right = 22.0301
+margin_bottom = 220.583
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AnimLeft" type="AnimationPlayer" parent="."]
 anims/body = SubResource( 3 )
 anims/clothes = SubResource( 4 )
@@ -726,8 +1032,15 @@ anims/face = SubResource( 10 )
 anims/hair = SubResource( 11 )
 anims/hair_colour = SubResource( 12 )
 
-[connection signal="mouse_entered" from="Setup/Body" to="." method="_on_Body_mouse_entered"]
-[connection signal="mouse_entered" from="Setup/Face" to="." method="_on_Face_mouse_entered"]
-[connection signal="mouse_entered" from="Setup/Hair" to="." method="_on_Hair_mouse_entered"]
-[connection signal="mouse_entered" from="Setup/Hair_Colour" to="." method="_on_Hair_Colour_mouse_entered"]
-[connection signal="mouse_entered" from="Setup/Clothes" to="." method="_on_Clothes_mouse_entered"]
+[node name="AnimUp" type="AnimationPlayer" parent="."]
+anims/arrow_up_0 = SubResource( 13 )
+anims/arrow_up_1 = SubResource( 14 )
+anims/arrow_up_2 = SubResource( 15 )
+
+[node name="AnimDown" type="AnimationPlayer" parent="."]
+anims/arrow_down_0 = SubResource( 16 )
+anims/arrow_down_1 = SubResource( 17 )
+anims/arrow_down_2 = SubResource( 18 )
+
+[node name="Back" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )

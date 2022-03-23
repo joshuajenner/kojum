@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/textures/ui/top_right_frame.png" type="Texture" id=1]
+[ext_resource path="res://assets/textures/ui/arrow.png" type="Texture" id=2]
+[ext_resource path="res://ui/theme/main.theme" type="Theme" id=3]
+[ext_resource path="res://ui/components/Back.gd" type="Script" id=4]
+[ext_resource path="res://assets/sfx/ui/button/back.wav" type="AudioStream" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "back_hover"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arrow:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2, -13 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "back_normal"
+length = 0.12
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arrow:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2, -13 ), Vector2( 3, -13 ), Vector2( 4, -13 ) ]
+}
+
+[node name="Back" type="TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 462.0
+margin_top = 24.0
+margin_right = -16.0
+margin_bottom = -244.0
+theme = ExtResource( 3 )
+texture = ExtResource( 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrow" type="TextureRect" parent="."]
+margin_left = 4.0
+margin_top = -13.0
+margin_right = 8.0
+margin_bottom = -7.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Label" parent="."]
+margin_left = 1.0
+margin_top = -17.0
+margin_right = 35.0
+margin_bottom = -4.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "Back"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/back_hover = SubResource( 1 )
+anims/back_normal = SubResource( 2 )
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[connection signal="gui_input" from="Back" to="." method="_on_Back_gui_input"]
+[connection signal="mouse_entered" from="Back" to="." method="_on_Back_mouse_entered"]
+[connection signal="mouse_exited" from="Back" to="." method="_on_Back_mouse_exited"]

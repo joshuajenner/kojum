@@ -43,4 +43,4 @@ shader_param/REF2 = Color( 1, 0, 0, 1 )
 shader_param/REF3 = Color( 0, 0, 1, 1 )
 shader_param/NEW1 = null
 shader_param/NEW2 = null
-shader_param/NEW3 = null
+shader_param/NEW3 = Color( 0.901961, 0.901961, 0.901961, 1 )

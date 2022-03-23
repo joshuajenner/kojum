@@ -1,6 +1,6 @@
 extends Control
 
-signal instance_player
+signal instance_player(no)
 
 onready var allPlayers = $HBoxContainer
 
@@ -26,7 +26,7 @@ func setup_player_connectors():
 	for cont in Global.allControllers.size():
 		if Global.allControllers[cont] != -2:
 			allPlayers.get_child(cont).turn_visible()
-			allPlayers.get_child(cont).display_customizers()
+			allPlayers.get_child(cont).display_name_select()
 
 func display_next_connector():
 	# Show one for connection if not all are taken
@@ -42,20 +42,24 @@ func _gui_input(event):
 	# Set device to the correct joypad else its from kb
 	if event is InputEventJoypadButton:
 		device = event.get_device()
-	# Pass input to customizer with correct device
-	for child in allPlayers.get_children():
-		if Global.allControllers[child.player_no] == device:
-			child.receive_input(event)
-			inputPassed = true
-			break
-
-	# If none found, must be new device, pass it to the first customizer with no device
-	if !inputPassed:
+		print(Input.get_joy_name(device))
+	# Shitty fix for xbox controllers sending double inputs and controllers over bluetooth
+	if (("Bluetooth" in Input.get_joy_name(device)) or ("Series" in Input.get_joy_name(device))):
+		pass
+	else:
+		# Pass input to customizer with correct device
 		for child in allPlayers.get_children():
-			if Global.allControllers[child.player_no] == -2:
-				child.connect_to_device(event, device)
-				display_next_connector()
+			if Global.allControllers[child.player_no] == device:
+				child.receive_input(event)
+				inputPassed = true
 				break
+		# If none found, must be new device, pass it to the first customizer with no device
+		if !inputPassed:
+			for child in allPlayers.get_children():
+				if Global.allControllers[child.player_no] == -2:
+					child.connect_to_device(event, device)
+					display_next_connector()
+					break
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -63,8 +67,25 @@ func _gui_input(event):
 
 
 func _on_Player_finished_setup():
-	pass # Replace with function body.
-
+	emit_signal("instance_player", 0, $HBoxContainer/Player/Setup/Sprite/Body.global_position)
 
 func _on_Player2_finished_setup():
-	pass # Replace with function body.
+	emit_signal("instance_player", 1, $HBoxContainer/Player2/Setup/Sprite/Body.global_position)
+
+func _on_Player3_finished_setup():
+	emit_signal("instance_player", 2, $HBoxContainer/Player3/Setup/Sprite/Body.global_position)
+
+func _on_Player4_finished_setup():
+	emit_signal("instance_player", 3, $HBoxContainer/Player4/Setup/Sprite/Body.global_position)
+
+func _on_Player5_finished_setup():
+	emit_signal("instance_player", 4, $HBoxContainer/Player5/Setup/Sprite/Body.global_position)
+
+func _on_Player6_finished_setup():
+	emit_signal("instance_player", 5, $HBoxContainer/Player6/Setup/Sprite/Body.global_position)
+
+func _on_Player7_finished_setup():
+	emit_signal("instance_player", 6, $HBoxContainer/Player7/Setup/Sprite/Body.global_position)
+
+func _on_Player8_finished_setup():
+	emit_signal("instance_player", 7, $HBoxContainer/Player8/Setup/Sprite/Body.global_position)

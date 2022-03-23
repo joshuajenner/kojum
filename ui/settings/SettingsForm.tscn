@@ -1,0 +1,271 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
+[ext_resource path="res://ui/settings/SettingsForm.gd" type="Script" id=2]
+[ext_resource path="res://assets/textures/ui/slider_cap.png" type="Texture" id=3]
+
+[node name="SettingsForm" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -286.0
+margin_bottom = -144.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuMusic" type="Control" parent="."]
+margin_right = 226.0
+margin_bottom = 13.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MenuMusic"]
+margin_right = 59.0
+margin_bottom = 13.0
+text = "Menu Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MM_Slider" type="HSlider" parent="MenuMusic"]
+margin_left = 96.0
+margin_top = -1.0
+margin_right = 200.0
+margin_bottom = 15.0
+max_value = 1.0
+step = 0.01
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LC" type="TextureRect" parent="MenuMusic/MM_Slider"]
+show_behind_parent = true
+margin_left = -2.0
+margin_top = 4.0
+margin_right = 1.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RC" type="TextureRect" parent="MenuMusic/MM_Slider"]
+show_behind_parent = true
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 106.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MM_Value" type="Label" parent="MenuMusic"]
+margin_left = 208.0
+margin_right = 226.0
+margin_bottom = 13.0
+text = "100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuSFX" type="Control" parent="."]
+margin_top = 18.0
+margin_right = 226.0
+margin_bottom = 31.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MenuSFX"]
+margin_right = 59.0
+margin_bottom = 13.0
+text = "Menu SFX"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MS_Slider" type="HSlider" parent="MenuSFX"]
+margin_left = 96.0
+margin_top = -1.0
+margin_right = 200.0
+margin_bottom = 15.0
+max_value = 1.0
+step = 0.01
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LC" type="TextureRect" parent="MenuSFX/MS_Slider"]
+show_behind_parent = true
+margin_left = -2.0
+margin_top = 4.0
+margin_right = 1.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RC" type="TextureRect" parent="MenuSFX/MS_Slider"]
+show_behind_parent = true
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 106.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MS_Value" type="Label" parent="MenuSFX"]
+margin_left = 208.0
+margin_right = 226.0
+margin_bottom = 13.0
+text = "100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameMusic" type="Control" parent="."]
+margin_top = 54.0
+margin_right = 226.0
+margin_bottom = 67.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GameMusic"]
+margin_right = 59.0
+margin_bottom = 13.0
+text = "Game Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GM_Slider" type="HSlider" parent="GameMusic"]
+margin_left = 96.0
+margin_top = -1.0
+margin_right = 200.0
+margin_bottom = 15.0
+max_value = 1.0
+step = 0.01
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LC" type="TextureRect" parent="GameMusic/GM_Slider"]
+show_behind_parent = true
+margin_left = -2.0
+margin_top = 4.0
+margin_right = 1.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RC" type="TextureRect" parent="GameMusic/GM_Slider"]
+show_behind_parent = true
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 106.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GM_Value" type="Label" parent="GameMusic"]
+margin_left = 208.0
+margin_right = 226.0
+margin_bottom = 13.0
+text = "100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameSFX" type="Control" parent="."]
+margin_top = 72.0
+margin_right = 226.0
+margin_bottom = 85.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GameSFX"]
+margin_right = 59.0
+margin_bottom = 13.0
+text = "Game SFX"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GS_Slider" type="HSlider" parent="GameSFX"]
+margin_left = 96.0
+margin_top = -1.0
+margin_right = 200.0
+margin_bottom = 15.0
+max_value = 1.0
+step = 0.01
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LC" type="TextureRect" parent="GameSFX/GS_Slider"]
+show_behind_parent = true
+margin_left = -2.0
+margin_top = 4.0
+margin_right = 1.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RC" type="TextureRect" parent="GameSFX/GS_Slider"]
+show_behind_parent = true
+margin_left = 103.0
+margin_top = 4.0
+margin_right = 106.0
+margin_bottom = 11.0
+texture = ExtResource( 3 )
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GS_Value" type="Label" parent="GameSFX"]
+margin_left = 208.0
+margin_right = 226.0
+margin_bottom = 13.0
+text = "100"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Save" type="Button" parent="."]
+margin_left = 54.0
+margin_top = 108.0
+margin_right = 172.0
+margin_bottom = 122.0
+text = "Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="mouse_exited" from="MenuMusic/MM_Slider" to="." method="_on_MM_Slider_mouse_exited"]
+[connection signal="value_changed" from="MenuMusic/MM_Slider" to="." method="_on_MM_Slider_value_changed"]
+[connection signal="mouse_exited" from="MenuSFX/MS_Slider" to="." method="_on_MS_Slider_mouse_exited"]
+[connection signal="value_changed" from="MenuSFX/MS_Slider" to="." method="_on_MS_Slider_value_changed"]
+[connection signal="mouse_exited" from="GameMusic/GM_Slider" to="." method="_on_GM_Slider_mouse_exited"]
+[connection signal="value_changed" from="GameMusic/GM_Slider" to="." method="_on_GM_Slider_value_changed"]
+[connection signal="mouse_exited" from="GameSFX/GS_Slider" to="." method="_on_GS_Slider_mouse_exited"]
+[connection signal="value_changed" from="GameSFX/GS_Slider" to="." method="_on_GS_Slider_value_changed"]
+[connection signal="button_down" from="Save" to="." method="_on_Save_button_down"]

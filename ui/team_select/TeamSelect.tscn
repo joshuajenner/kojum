@@ -1,0 +1,266 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
+[ext_resource path="res://shaders/bb.tres" type="Material" id=2]
+[ext_resource path="res://assets/textures/ui/top_left_frame.png" type="Texture" id=3]
+[ext_resource path="res://ui/team_select/TeamSelect.gd" type="Script" id=4]
+[ext_resource path="res://ui/setup/Camera.gd" type="Script" id=5]
+[ext_resource path="res://assets/textures/ui/team_walk_box.png" type="Texture" id=6]
+[ext_resource path="res://assets/textures/ui/select_flags/dragons.png" type="Texture" id=7]
+[ext_resource path="res://assets/textures/ui/select_flags/shadow.png" type="Texture" id=8]
+[ext_resource path="res://assets/textures/ui/desc_line.png" type="Texture" id=9]
+[ext_resource path="res://ui/setup/components/dummy/Dummy.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/textures/ui/select_flags/monks.png" type="Texture" id=11]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 109, 64 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 512, 20 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 20, 512 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 20, 512 )
+
+[node name="TeamSelect" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+process_mode = 0
+script = ExtResource( 5 )
+
+[node name="Fill" type="Polygon2D" parent="."]
+color = Color( 0.305882, 0.419608, 0.2, 1 )
+offset = Vector2( -256, -144 )
+polygon = PoolVector2Array( 0, 0, 512, 0, 512, 288, 0, 288 )
+
+[node name="Right Box" type="Sprite" parent="."]
+position = Vector2( 112, 49 )
+texture = ExtResource( 6 )
+flip_h = true
+
+[node name="Right Area" type="Area2D" parent="Right Box"]
+position = Vector2( 6, 0 )
+
+[node name="Shape" type="CollisionShape2D" parent="Right Box/Right Area"]
+shape = SubResource( 1 )
+
+[node name="Left Box" type="Sprite" parent="."]
+position = Vector2( -112, 49 )
+texture = ExtResource( 6 )
+
+[node name="Left Area" type="Area2D" parent="Left Box"]
+position = Vector2( -6, 0 )
+
+[node name="Shape" type="CollisionShape2D" parent="Left Box/Left Area"]
+shape = SubResource( 1 )
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="DummyLN" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( -25, 36 )
+label = "Next"
+
+[node name="DummyLP" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( -196, 36 )
+label = "Prev"
+
+[node name="DummyLR" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( -113, 125 )
+label = "Not Ready"
+
+[node name="DummyRP" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( 25, 36 )
+label = "Prev"
+
+[node name="DummyRN" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( 196, 36 )
+label = "Next"
+
+[node name="DummyRR" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( 113, 125 )
+label = "Not Ready"
+
+[node name="DummyCancel" parent="YSort" instance=ExtResource( 10 )]
+position = Vector2( 0, 113.871 )
+label = "Back"
+
+[node name="TopWall" type="StaticBody2D" parent="."]
+position = Vector2( 0, -35 )
+
+[node name="Shape" type="CollisionShape2D" parent="TopWall"]
+shape = SubResource( 2 )
+
+[node name="BotWall" type="StaticBody2D" parent="."]
+position = Vector2( 0, 133 )
+
+[node name="Shape" type="CollisionShape2D" parent="BotWall"]
+shape = SubResource( 2 )
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2( -241, 0 )
+
+[node name="Shape" type="CollisionShape2D" parent="LeftWall"]
+shape = SubResource( 3 )
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2( 241, 0 )
+
+[node name="Shape" type="CollisionShape2D" parent="RightWall"]
+shape = SubResource( 4 )
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="UICanvas"]
+material = ExtResource( 2 )
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="UICanvas/UI"]
+use_parent_material = true
+margin_left = 16.0
+margin_top = 8.0
+margin_right = 99.0
+margin_bottom = 22.0
+text = "Team Select"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Frame" type="TextureRect" parent="UICanvas/UI"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 134.0
+margin_bottom = 69.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Left" type="Control" parent="UICanvas/UI"]
+margin_left = 42.0
+margin_top = 30.0
+margin_right = 82.0
+margin_bottom = 70.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shadow" type="TextureRect" parent="UICanvas/UI/Left"]
+self_modulate = Color( 1, 1, 1, 0.27451 )
+margin_top = 4.0
+margin_right = 40.0
+margin_bottom = 67.0
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Flag" type="TextureRect" parent="UICanvas/UI/Left/Shadow"]
+margin_right = 40.0
+margin_bottom = 63.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="UICanvas/UI/Left"]
+margin_left = 40.0
+margin_right = 122.0
+margin_bottom = 13.0
+text = "Koboyo Dragons"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Line" type="TextureRect" parent="UICanvas/UI/Left"]
+margin_left = 40.0
+margin_top = 16.0
+margin_right = 104.0
+margin_bottom = 17.0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Desc" type="Label" parent="UICanvas/UI/Left"]
+margin_left = 40.0
+margin_top = 20.0
+margin_right = 214.0
+margin_bottom = 81.0
+custom_constants/line_spacing = -1
+text = "Their fiery plays make for a unique spectacle, attracting viewership that has cemented Kojum as the national sport."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Right" type="Control" parent="UICanvas/UI"]
+margin_left = 266.0
+margin_top = 30.0
+margin_right = 306.0
+margin_bottom = 70.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Shadow" type="TextureRect" parent="UICanvas/UI/Right"]
+self_modulate = Color( 1, 1, 1, 0.27451 )
+margin_top = 4.0
+margin_right = 40.0
+margin_bottom = 67.0
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Flag" type="TextureRect" parent="UICanvas/UI/Right/Shadow"]
+margin_right = 40.0
+margin_bottom = 63.0
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="UICanvas/UI/Right"]
+margin_left = 40.0
+margin_right = 122.0
+margin_bottom = 13.0
+text = "Monks of Gaan"
+
+[node name="Line" type="TextureRect" parent="UICanvas/UI/Right"]
+margin_left = 40.0
+margin_top = 16.0
+margin_right = 104.0
+margin_bottom = 17.0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Desc" type="Label" parent="UICanvas/UI/Right"]
+margin_left = 40.0
+margin_top = 20.0
+margin_right = 214.0
+margin_bottom = 81.0
+custom_constants/line_spacing = -1
+text = "Finding that it trains the mind and body well, these monks have taken up Kojum as another exercise in their lifestyle."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="body_entered" from="Right Box/Right Area" to="." method="_on_Right_Area_body_entered"]
+[connection signal="body_entered" from="Left Box/Left Area" to="." method="_on_Left_Area_body_entered"]
+[connection signal="activated" from="YSort/DummyLN" to="." method="_on_DummyLN_activated"]
+[connection signal="activated" from="YSort/DummyLP" to="." method="_on_DummyLP_activated"]
+[connection signal="activated" from="YSort/DummyLR" to="." method="_on_DummyLR_activated"]
+[connection signal="activated" from="YSort/DummyRP" to="." method="_on_DummyRP_activated"]
+[connection signal="activated" from="YSort/DummyRN" to="." method="_on_DummyRN_activated"]
+[connection signal="activated" from="YSort/DummyRR" to="." method="_on_DummyRR_activated"]
+[connection signal="activated" from="YSort/DummyCancel" to="." method="_on_DummyCancel_activated"]

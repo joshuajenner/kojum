@@ -5,6 +5,8 @@ enum hitState {CLEAR, BLOCKED}
 export var hitCheck = hitState.CLEAR
 var parentPosition = Vector2()
 
+var team = 0
+
 signal hitBlocked
 
 

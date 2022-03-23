@@ -2,7 +2,7 @@ extends Area2D
 
 signal friction(friction)
 
-onready var anim = $AnimationPlayer
+onready var anim = $Anim
 onready var center = $Center
 
 const SPEED_MAX = 150
@@ -12,23 +12,35 @@ var friction_decay = false
 var friction = 100
 var speed = 0
 var perfect
-var canBonk = true
+var canBonk = false
 var rng = RandomNumberGenerator.new()
+var inPlay = true
 
 onready var initial_pos = self.position
 
+func _ready():
+	$Sprite.texture = load("res://assets/textures/balls/ball_2.png")
+	anim.play("display")
 
 func get_input():
 	if Input.is_action_just_pressed("reset"):
-		reset()
+		reset(initial_pos)
 	if Input.is_action_just_pressed("fire"):
 		fire_random()
 
-func reset():
-	anim.play("spin_none")
-	position = initial_pos
+func set_inPlay():
+	inPlay = true
+
+func remove():
+	anim.play("disappear")
+	inPlay = false
+
+func reset(givenPosition):
+	inPlay = false
+	position = givenPosition
 	direction = Vector2(0, 0)
 	speed = 0
+	anim.play("spawn")
 
 func fire_random():
 	direction = Vector2(rand_range(1,-1), rand_range(1,-1)).normalized()
@@ -55,47 +67,48 @@ func _process(delta):
 
 # Handle Ball Hit
 func _on_Ball_area_entered(area):
-	if area.name == "HitBox":
-		perfect = (center.global_position - area.get_parent().global_position).normalized()
-		perfect = Vector2(perfect.x, perfect.y)
-		
-		var newDir = area.direction
-		var angle = area.direction.angle()
-		speed = SPEED_MAX
-		friction = 0
-		friction_decay = true
+	if inPlay:
+		if area.name == "HitBox":
+			perfect = (center.global_position - area.get_parent().global_position).normalized()
+			perfect = Vector2(perfect.x, perfect.y)
 			
-		if area.direction.dot(perfect) > 0.98:
-			direction = newDir.normalized()
-		else:
-			rng.randomize()
-			angle = (angle - rng.randf_range(-0.2, 0.2))
-			direction = Vector2(cos(angle), sin(angle))
+			var newDir = area.direction
+			var angle = area.direction.angle()
+			speed = SPEED_MAX
+			friction = 0
+			friction_decay = true
+				
+			if area.direction.dot(perfect) > 0.98:
+				direction = newDir.normalized()
+			else:
+				rng.randomize()
+				angle = (angle - rng.randf_range(-0.2, 0.2))
+				direction = Vector2(cos(angle), sin(angle))
+				
 			
+			
+		if area.name == "BlockBox":
+			if speed > 0:
+				friction_decay = true
+				direction.y = -direction.y
+				direction.x = -direction.x
+				friction = 100
+				speed = 25
+			
+		if area.name == "HurtBox":
+			if speed > BONK_SPEED and canBonk:
+				friction_decay = true
+				direction.y = -direction.y
+				direction.x = -direction.x
+				friction = 100
+				speed = 25
 		
-		
-	if area.name == "BlockBox":
-		if speed > 0:
+		if area.name == "GrabBox":
 			friction_decay = true
-			direction.y = -direction.y
-			direction.x = -direction.x
+			canBonk = false
+			direction = -area.direction
 			friction = 100
-			speed = 25
-		
-	if area.name == "HurtBox":
-		if speed > BONK_SPEED and canBonk:
-			friction_decay = true
-			direction.y = -direction.y
-			direction.x = -direction.x
-			friction = 100
-			speed = 25
-	
-	if area.name == "GrabBox":
-		friction_decay = true
-		canBonk = false
-		direction = -area.direction
-		friction = 100
-		speed = 125
+			speed = 125
 		
 
 func handle_spin(delta):
@@ -124,6 +137,6 @@ func _on_Left_area_entered(area):
 		direction.x = -direction.x
 
 
-func _on_Ball_area_exited(area):
-	if area.name == "HurtBox":
-		canBonk = true
+#func _on_Ball_area_exited(area):
+#	if area.name == "HurtBox":
+#		canBonk = true

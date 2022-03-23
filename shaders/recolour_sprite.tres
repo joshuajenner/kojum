@@ -6,10 +6,12 @@ code = "shader_type canvas_item;
 uniform vec4 REF1 : hint_color;
 uniform vec4 REF2 : hint_color;
 uniform vec4 REF3 : hint_color;
+uniform vec4 REF4 : hint_color;
 
 uniform vec4 NEW1 : hint_color;
 uniform vec4 NEW2 : hint_color;
 uniform vec4 NEW3 : hint_color;
+uniform vec4 NEW4 : hint_color;
 
 void fragment() {
     vec4 curr_color = texture(TEXTURE,UV); // Get current color of pixel
@@ -28,6 +30,10 @@ void fragment() {
 	{
         COLOR = NEW3;
     }
+	else if (curr_color == REF4)
+	{
+        COLOR = NEW4;
+    }
 	else
 	{
 		//We didn't find any old colors for this pixel so keep it's original color
@@ -40,7 +46,9 @@ resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/REF1 = Color( 1, 1, 0, 1 )
 shader_param/REF2 = Color( 1, 0, 0, 1 )
-shader_param/REF3 = null
+shader_param/REF3 = Color( 0, 0, 1, 1 )
+shader_param/REF4 = null
 shader_param/NEW1 = null
 shader_param/NEW2 = null
 shader_param/NEW3 = null
+shader_param/NEW4 = null

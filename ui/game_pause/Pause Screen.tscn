@@ -1,0 +1,160 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
+[ext_resource path="res://ui/game_pause/Pause Screen.gd" type="Script" id=2]
+[ext_resource path="res://assets/textures/ui/pause_frame.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "close"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Fill:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("UI:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "open"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Fill:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.784314 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("UI:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Pause Screen" type="CanvasLayer"]
+pause_mode = 2
+script = ExtResource( 2 )
+
+[node name="Fill" type="ColorRect" parent="."]
+margin_left = -264.0
+margin_top = -144.0
+margin_right = 248.0
+margin_bottom = 144.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UI" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopFrame" type="TextureRect" parent="UI"]
+margin_left = -66.0
+margin_top = -72.0
+margin_right = 66.0
+margin_bottom = -69.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI"]
+margin_left = -38.0
+margin_top = -64.0
+margin_right = 38.0
+margin_bottom = -51.0
+text = "Paused by AAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resume" type="Button" parent="UI"]
+margin_left = -59.0
+margin_top = -20.0
+margin_right = 59.0
+margin_bottom = -6.0
+focus_next = NodePath("../Settings")
+focus_previous = NodePath("../Quit")
+text = "Resume"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Settings" type="Button" parent="UI"]
+margin_left = -59.0
+margin_top = 8.0
+margin_right = 59.0
+margin_bottom = 22.0
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../Resume")
+text = "Settings"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Button" parent="UI"]
+margin_left = -59.0
+margin_top = 36.0
+margin_right = 59.0
+margin_bottom = 50.0
+focus_next = NodePath("../Resume")
+focus_previous = NodePath("../Settings")
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BotFrame" type="TextureRect" parent="UI"]
+margin_left = -66.0
+margin_top = 72.0
+margin_right = 66.0
+margin_bottom = 75.0
+texture = ExtResource( 3 )
+flip_v = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/close = SubResource( 1 )
+anims/open = SubResource( 2 )
+
+[node name="Open" type="AudioStreamPlayer" parent="."]
+
+[node name="Close" type="AudioStreamPlayer" parent="."]
+
+[connection signal="button_down" from="UI/Resume" to="." method="_on_Resume_button_down"]
+[connection signal="button_down" from="UI/Quit" to="." method="_on_Quit_button_down"]

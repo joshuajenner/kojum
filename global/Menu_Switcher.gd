@@ -18,4 +18,11 @@ func switch_menu(path):
 	assert(get_tree().change_scene(path) == OK)
 	anim.play_backwards("fade")
 	layer = -1
-	
+
+func restart_scene():
+	layer = 10
+	anim.play("fade")
+	yield(anim, "animation_finished")
+	get_tree().reload_current_scene()
+	anim.play_backwards("fade")
+	layer = -1

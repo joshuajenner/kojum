@@ -85,3 +85,9 @@ player_no = 7
 
 [connection signal="finished_setup" from="HBoxContainer/Player" to="." method="_on_Player_finished_setup"]
 [connection signal="finished_setup" from="HBoxContainer/Player2" to="." method="_on_Player2_finished_setup"]
+[connection signal="finished_setup" from="HBoxContainer/Player3" to="." method="_on_Player3_finished_setup"]
+[connection signal="finished_setup" from="HBoxContainer/Player4" to="." method="_on_Player4_finished_setup"]
+[connection signal="finished_setup" from="HBoxContainer/Player5" to="." method="_on_Player5_finished_setup"]
+[connection signal="finished_setup" from="HBoxContainer/Player6" to="." method="_on_Player6_finished_setup"]
+[connection signal="finished_setup" from="HBoxContainer/Player7" to="." method="_on_Player7_finished_setup"]
+[connection signal="finished_setup" from="HBoxContainer/Player8" to="." method="_on_Player8_finished_setup"]

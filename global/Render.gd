@@ -33,9 +33,9 @@ func on_vp_size_change():
 	# Update scale
 	if targetScale != currentScale:
 		currentScale = targetScale
-		emit_signal("scale_changed", currentScale)
+		emit_signal("scale_changed", max(1, currentScale))
 	
-	emit_signal("window_resized", vp.size, currentScale)
+	emit_signal("window_resized", vp.size, max(1, currentScale))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
