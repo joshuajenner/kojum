@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://shaders/bb.tres" type="Material" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://assets/textures/ui/desc_line.png" type="Texture" id=9]
 [ext_resource path="res://ui/setup/components/dummy/Dummy.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/textures/ui/select_flags/monks.png" type="Texture" id=11]
+[ext_resource path="res://ui/components/Back.tscn" type="PackedScene" id=12]
+[ext_resource path="res://assets/textures/ui/team_back.png" type="Texture" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 109, 64 )
@@ -36,6 +38,9 @@ script = ExtResource( 5 )
 color = Color( 0.305882, 0.419608, 0.2, 1 )
 offset = Vector2( -256, -144 )
 polygon = PoolVector2Array( 0, 0, 512, 0, 512, 288, 0, 288 )
+
+[node name="Bg" type="Sprite" parent="."]
+texture = ExtResource( 13 )
 
 [node name="Right Box" type="Sprite" parent="."]
 position = Vector2( 112, 49 )
@@ -255,6 +260,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Back" parent="UICanvas/UI" instance=ExtResource( 12 )]
+margin_right = 496.0
+margin_bottom = 44.0
+
 [connection signal="body_entered" from="Right Box/Right Area" to="." method="_on_Right_Area_body_entered"]
 [connection signal="body_entered" from="Left Box/Left Area" to="." method="_on_Left_Area_body_entered"]
 [connection signal="activated" from="YSort/DummyLN" to="." method="_on_DummyLN_activated"]
@@ -264,3 +273,4 @@ __meta__ = {
 [connection signal="activated" from="YSort/DummyRN" to="." method="_on_DummyRN_activated"]
 [connection signal="activated" from="YSort/DummyRR" to="." method="_on_DummyRR_activated"]
 [connection signal="activated" from="YSort/DummyCancel" to="." method="_on_DummyCancel_activated"]
+[connection signal="clicked" from="UICanvas/UI/Back" to="." method="_on_Back_clicked"]

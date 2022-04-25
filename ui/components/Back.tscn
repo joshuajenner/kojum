@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/textures/ui/top_right_frame.png" type="Texture" id=1]
 [ext_resource path="res://assets/textures/ui/arrow.png" type="Texture" id=2]
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=3]
 [ext_resource path="res://ui/components/Back.gd" type="Script" id=4]
 [ext_resource path="res://assets/sfx/ui/button/back.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/ui/button/move.wav" type="AudioStream" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "back_hover"
@@ -82,6 +83,11 @@ anims/back_normal = SubResource( 2 )
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+bus = "Menu_SFX"
+
+[node name="Move" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+bus = "Menu_SFX"
 
 [connection signal="gui_input" from="Back" to="." method="_on_Back_gui_input"]
 [connection signal="mouse_entered" from="Back" to="." method="_on_Back_mouse_entered"]

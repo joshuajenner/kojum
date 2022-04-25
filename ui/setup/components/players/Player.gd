@@ -1,11 +1,13 @@
 extends Control
 
+var counter = 0
 
 signal finished_setup
 
 onready var connect = $Connect
 onready var tag = $Name
 onready var setup = $Setup
+onready var sfx = $UIAudio
 
 onready var p_no = $Name/Number
 onready var p_name = $Setup/Name
@@ -28,6 +30,7 @@ var menu = 0
 var selected_letter = 0
 var letters_index = [0,0,0]
 var letters = ["A", "A", "A"]
+var stick_just_fired = false
 onready var display_letters = [$Name/Panel/Letter0, $Name/Panel/Letter1, $Name/Panel/Letter2]
 
 # Preview Assets
@@ -49,6 +52,52 @@ func _ready():
 	active = false
 	p_name.set_text(Global.allNames[player_no][0] + Global.allNames[player_no][1] + Global.allNames[player_no][2])
 	set_focus_style(body)
+
+
+func _physics_process(_delta):
+	if active:
+		var zone = 0.5
+		var xAxis = Input.get_joy_axis(Global.allControllers[player_no], JOY_AXIS_0)
+		var yAxis = Input.get_joy_axis(Global.allControllers[player_no], JOY_AXIS_1)
+		if !stick_just_fired:
+			if xAxis > zone:
+				handle_stick("x", 1)
+				fire_stick()
+			elif xAxis < -zone:
+				handle_stick("x", -1)
+				fire_stick()
+			if yAxis > zone:
+				handle_stick("y", 1)
+				fire_stick()
+			elif yAxis < -zone:
+				handle_stick("y", -1)
+				fire_stick()
+
+func fire_stick():
+	stick_just_fired = true
+	$EchoStick.start()
+
+func _on_EchoStick_timeout():
+	stick_just_fired = false
+
+func handle_stick(axis, dir):
+	if menu == 1:
+		if axis == "x":
+			select_letter(dir)
+		elif axis == "y":
+			change_letter(dir)
+	elif menu == 2:
+		if axis == "x":
+			change_value(dir)
+		elif axis == "y":
+			ui_move(dir)
+
+
+
+func no_hover():
+	connect.visible = false
+	tag.visible = false
+	setup.visible = false
 
 func turn_invisible():
 	modulate = Color(0,0,0,0)
@@ -79,6 +128,10 @@ func set_focus_style(node):
 #func _process(delta):
 #	pass
 
+func ui_move_direct(ind):
+	focus_index = ind
+	set_focus_style(controls[focus_index])
+
 func ui_move(dir):
 	if focus_index + dir >= controls.size():
 		focus_index = 0
@@ -87,6 +140,7 @@ func ui_move(dir):
 	else:
 		 focus_index = focus_index + dir
 	set_focus_style(controls[focus_index])
+	sfx.play_move()
 
 func change_value(dir):
 	var section = ""
@@ -110,6 +164,7 @@ func change_value(dir):
 		$AnimRight.play(section)
 	elif (dir == -1):
 		$AnimLeft.play(section)
+	sfx.play_press()
 
 func init_options():
 	body.get_node("Value").text = Global.availBodies[Global.allBodies[player_no]]
@@ -157,9 +212,9 @@ func connect_to_device(event, device):
 			Global.kb_taken = true
 		# IMPORTANT // sets device after connection
 		Global.allControllers[player_no] = device
-		print(Global.allControllers)
 		active = true
 		display_name_select()
+		sfx.play_press()
 
 func display_name_select():
 	p_no.set_text(("P" + str(player_no + 1)))
@@ -176,6 +231,10 @@ func display_name_select():
 	else:
 		$Name/Ready_Img.texture = load("res://assets/textures/ui/press_a_small.png")
 
+func select_letter_direct(num):
+	selected_letter = num
+	$Name/Panel/Line.rect_position = line_coords[selected_letter]
+
 func select_letter(dir):
 	var next_spot = selected_letter + dir
 	if next_spot >= 3:
@@ -185,6 +244,7 @@ func select_letter(dir):
 	else:
 		selected_letter += dir
 	$Name/Panel/Line.rect_position = line_coords[selected_letter]
+	sfx.play_move()
 
 func change_letter(dir):
 	var next_spot = alphabet.findn(display_letters[selected_letter].text) + dir
@@ -202,6 +262,7 @@ func change_letter(dir):
 		$AnimUp.play("arrow_up_" + str(selected_letter))
 	elif dir == 1:
 		$AnimDown.play("arrow_down_" + str(selected_letter))
+	sfx.play_press()
 
 func display_customizers():
 	var nameArray = Global.allNames[player_no]
@@ -218,14 +279,17 @@ func display_customizers():
 		$Setup/Ready_Img.texture = load("res://assets/textures/ui/press_a_small.png")
 
 func receive_input(event):
+	# Character
 	if menu == 2:
 		if event.is_action_pressed("ui_accept"):
 			# Accept input
 			if active:
 				active = false
 				modulate = Color(0,0,0,0)
+				no_hover()
 				# Ready up
 				emit_signal("finished_setup")
+				sfx.play_press()
 		if active:
 			if event.is_action_pressed("ui_down"):
 				ui_move(1)
@@ -235,11 +299,15 @@ func receive_input(event):
 				change_value(1)
 			elif event.is_action_pressed("ui_left"):
 				change_value(-1)
+			elif event.is_action_pressed("ui_cancel"):
+				display_name_select()
 	#		if event.is_action_pressed("ui_cancel"):
 	#			MenuSwitcher.switch_menu("res://ui/title/Title.tscn")
 	#			$Back.play()
+	# Name
 	if menu == 1:
 		if event.is_action_pressed("ui_accept"):
+			sfx.play_press()
 			display_customizers()
 			menu = 2
 		if active:
@@ -251,25 +319,97 @@ func receive_input(event):
 				select_letter(1)
 			elif event.is_action_pressed("ui_left"):
 				select_letter(-1)
-	
 
 
-#func _on_Body_mouse_entered():
-#	set_focus_style(body)
-#	focus_index = 0
-#
-#func _on_Face_mouse_entered():
-#	set_focus_style(face)
-#	focus_index = 1
-#
-#func _on_Hair_mouse_entered():
-#	set_focus_style(hair)
-#	focus_index = 2
-#
-#func _on_Hair_Colour_mouse_entered():
-#	set_focus_style(colour)
-#	focus_index = 3
-#
-#func _on_Clothes_mouse_entered():
-#	set_focus_style(clothes)
-#	focus_index = 4
+func _on_Body_mouse_entered():
+	if active:
+		if focus_index != 0:
+			sfx.play_move()
+	ui_move_direct(0)
+func _on_Face_mouse_entered():
+	if active:
+		if focus_index != 1:
+			sfx.play_move()
+	ui_move_direct(1)
+func _on_Hair_mouse_entered():
+	if active:
+		if focus_index != 2:
+			sfx.play_move()
+	ui_move_direct(2)
+func _on_Hair_Colour_mouse_entered():
+	if active:
+		if focus_index != 3:
+			sfx.play_move()
+	ui_move_direct(3)
+func _on_Clothes_mouse_entered():
+	if active:
+		if focus_index != 4:
+			sfx.play_move()
+	ui_move_direct(4)
+
+
+func _on_Letter0_mouse_entered():
+	if active:
+		if selected_letter != 0:
+			sfx.play_move()
+	select_letter_direct(0)
+func _on_Up_0_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_letter(-1)
+		sfx.play_press()
+func _on_Down_0_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_letter(1)
+		sfx.play_press()
+
+func _on_Letter1_mouse_entered():
+	if active:
+		if selected_letter != 1:
+			sfx.play_move()
+	select_letter_direct(1)
+func _on_Up_1_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_letter(-1)
+		sfx.play_press()
+func _on_Down_1_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_letter(1)
+		sfx.play_press()
+
+func _on_Letter2_mouse_entered():
+	if active:
+		if selected_letter != 2:
+			sfx.play_move()
+	select_letter_direct(2)
+func _on_Up_2_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_letter(-1)
+		sfx.play_press()
+func _on_Down_2_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_letter(1)
+		sfx.play_press()
+
+
+func _on_Name_Ready_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		sfx.play_press()
+		display_customizers()
+		menu = 2
+func _on_Setup_Ready_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		if active:
+			active = false
+			no_hover()
+			modulate = Color(0,0,0,0)
+			# Ready up
+			emit_signal("finished_setup")
+			sfx.play_press()
+
+func _on_Left_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_value(-1)
+func _on_Right_gui_input(event):
+	if event.is_action_pressed("mouse_left_click"):
+		change_value(1)
+

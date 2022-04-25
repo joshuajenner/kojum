@@ -125,6 +125,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ClickArea" type="Panel" parent="."]
+margin_left = -9.0
+margin_top = -25.0
+margin_right = 9.0
+mouse_default_cursor_shape = 2
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/default = SubResource( 3 )
 anims/hit = SubResource( 4 )
@@ -132,5 +142,7 @@ anims/idle = SubResource( 5 )
 
 [node name="Hit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+bus = "Game_SFX"
 
 [connection signal="area_entered" from="DummyBox" to="." method="_on_DummyBox_area_entered"]
+[connection signal="gui_input" from="ClickArea" to="." method="_on_ClickArea_gui_input"]

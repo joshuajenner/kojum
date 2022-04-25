@@ -1,13 +1,11 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/textures/ui/title_bg.png" type="Texture" id=1]
 [ext_resource path="res://ui/title/Title.gd" type="Script" id=2]
-[ext_resource path="res://assets/sfx/ui/button/move.wav" type="AudioStream" id=3]
-[ext_resource path="res://assets/sfx/ui/button/press.wav" type="AudioStream" id=4]
+[ext_resource path="res://ui/audio/UIAudio.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=5]
 [ext_resource path="res://assets/textures/ui/title.png" type="Texture" id=6]
 [ext_resource path="res://shaders/bb.tres" type="Material" id=7]
-[ext_resource path="res://assets/sfx/ui/button/back.wav" type="AudioStream" id=8]
 [ext_resource path="res://ui/npcs/NPC_Ball.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/setup/Camera.gd" type="Script" id=10]
 
@@ -452,7 +450,6 @@ tracks/0/keys = {
 }
 
 [node name="Title" type="Node2D"]
-position = Vector2( 256, -20 )
 script = ExtResource( 2 )
 
 [node name="Camera" type="Camera2D" parent="."]
@@ -511,6 +508,7 @@ margin_left = -59.0
 margin_top = -28.0
 margin_right = 59.0
 margin_bottom = -14.0
+mouse_default_cursor_shape = 2
 text = "Play"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -521,6 +519,7 @@ use_parent_material = true
 margin_left = -59.0
 margin_right = 59.0
 margin_bottom = 14.0
+mouse_default_cursor_shape = 2
 text = "Controls"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -532,6 +531,7 @@ margin_left = -59.0
 margin_top = 28.0
 margin_right = 59.0
 margin_bottom = 42.0
+mouse_default_cursor_shape = 2
 text = "Settings"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -543,19 +543,13 @@ margin_left = -59.0
 margin_top = 56.0
 margin_right = 59.0
 margin_bottom = 70.0
+mouse_default_cursor_shape = 2
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Move" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
-
-[node name="Press" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-
-[node name="Back" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
+[node name="UIAudio" parent="." instance=ExtResource( 3 )]
 
 [node name="AnimMain" type="AnimationPlayer" parent="."]
 anims/ball_anim = SubResource( 1 )
@@ -569,6 +563,9 @@ anims/ball_stay = SubResource( 6 )
 anims/enter = SubResource( 7 )
 anims/exit = SubResource( 8 )
 
+[node name="EchoStick" type="Timer" parent="."]
+wait_time = 0.15
+
 [connection signal="button_down" from="UICanvas/Buttons/Play" to="." method="_on_Play_button_down"]
 [connection signal="focus_entered" from="UICanvas/Buttons/Play" to="." method="_on_Play_focus_entered"]
 [connection signal="mouse_entered" from="UICanvas/Buttons/Play" to="." method="_on_Play_mouse_entered"]
@@ -580,3 +577,4 @@ anims/exit = SubResource( 8 )
 [connection signal="button_down" from="UICanvas/Buttons/Quit" to="." method="_on_Quit_button_down"]
 [connection signal="focus_entered" from="UICanvas/Buttons/Quit" to="." method="_on_Quit_focus_entered"]
 [connection signal="mouse_entered" from="UICanvas/Buttons/Quit" to="." method="_on_Quit_mouse_entered"]
+[connection signal="timeout" from="EchoStick" to="." method="_on_EchoStick_timeout"]

@@ -196,3 +196,7 @@ func _on_DummyRR_activated():
 	else:
 		$YSort/DummyRR/Label.text = "Not Ready"
 	checkReady()
+
+
+func _on_Back_clicked():
+	MenuSwitcher.switch_menu(setup)

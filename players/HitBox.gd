@@ -4,6 +4,7 @@ export var direction = Vector2()
 enum hitState {CLEAR, BLOCKED}
 export var hitCheck = hitState.CLEAR
 var parentPosition = Vector2()
+export var justHitBall = false
 
 var team = 0
 

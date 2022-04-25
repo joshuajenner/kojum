@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/settings/SettingsScene.gd" type="Script" id=1]
 [ext_resource path="res://ui/setup/Camera.gd" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=5]
 [ext_resource path="res://ui/components/Back.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ui/settings/SettingsForm.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ui/audio/UIAudio.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/textures/ui/settings_back.png" type="Texture" id=9]
 
 [node name="SettingsScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -18,6 +20,9 @@ script = ExtResource( 2 )
 [node name="Fill" type="Polygon2D" parent="."]
 color = Color( 0.305882, 0.419608, 0.2, 1 )
 offset = Vector2( -256, -144 )
+
+[node name="Bg" type="Sprite" parent="."]
+texture = ExtResource( 9 )
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
@@ -52,9 +57,11 @@ __meta__ = {
 [node name="Back" parent="UICanvas/UI" instance=ExtResource( 6 )]
 
 [node name="SettingsForm" parent="UICanvas" instance=ExtResource( 7 )]
-margin_left = 128.0
+margin_left = 143.0
 margin_top = 60.0
-margin_right = -128.0
-margin_bottom = -84.0
+margin_right = -143.0
+margin_bottom = -102.0
+
+[node name="UIAudio" parent="." instance=ExtResource( 8 )]
 
 [connection signal="clicked" from="UICanvas/UI/Back" to="." method="_on_Back_clicked"]

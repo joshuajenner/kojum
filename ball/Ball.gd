@@ -4,8 +4,13 @@ signal friction(friction)
 
 onready var anim = $Anim
 onready var center = $Center
+onready var sfx_hit = $Audio/Ball_Hit
+onready var sfx_bounce = $Audio/Ball_Bounce
 
-const SPEED_MAX = 150
+export var sprite_num = 0
+
+const SPEED_MAX = 120
+const SPEED_PRIMED = 200
 const BONK_SPEED = 60
 var direction = Vector2(0, 0)
 var friction_decay = false
@@ -15,11 +20,12 @@ var perfect
 var canBonk = false
 var rng = RandomNumberGenerator.new()
 var inPlay = true
+var primed = false
 
 onready var initial_pos = self.position
 
 func _ready():
-	$Sprite.texture = load("res://assets/textures/balls/ball_2.png")
+	$Sprite.texture = load("res://assets/textures/balls/ball_" + str(sprite_num) + ".png")
 	anim.play("display")
 
 func get_input():
@@ -68,13 +74,18 @@ func _process(delta):
 # Handle Ball Hit
 func _on_Ball_area_entered(area):
 	if inPlay:
-		if area.name == "HitBox":
+		if area.name == "HitBox" and not area.justHitBall:
+			area.justHitBall = true
 			perfect = (center.global_position - area.get_parent().global_position).normalized()
 			perfect = Vector2(perfect.x, perfect.y)
 			
 			var newDir = area.direction
 			var angle = area.direction.angle()
-			speed = SPEED_MAX
+			if primed:
+				speed = SPEED_PRIMED
+				set_prime_status(false)
+			else:
+				speed = SPEED_MAX
 			friction = 0
 			friction_decay = true
 				
@@ -84,24 +95,25 @@ func _on_Ball_area_entered(area):
 				rng.randomize()
 				angle = (angle - rng.randf_range(-0.2, 0.2))
 				direction = Vector2(cos(angle), sin(angle))
-				
-			
+			sfx_hit.play()
 			
 		if area.name == "BlockBox":
+			set_prime_status(true)
 			if speed > 0:
 				friction_decay = true
-				direction.y = -direction.y
-				direction.x = -direction.x
+				direction = area.direction
+#				direction.y = -direction.y
+#				direction.x = -direction.x
 				friction = 100
 				speed = 25
 			
-		if area.name == "HurtBox":
-			if speed > BONK_SPEED and canBonk:
-				friction_decay = true
-				direction.y = -direction.y
-				direction.x = -direction.x
-				friction = 100
-				speed = 25
+#		if area.name == "HurtBox":
+#			if speed > BONK_SPEED and canBonk:
+#				friction_decay = true
+#				direction.y = -direction.y
+#				direction.x = -direction.x
+#				friction = 100
+#				speed = 25
 		
 		if area.name == "GrabBox":
 			friction_decay = true
@@ -110,6 +122,15 @@ func _on_Ball_area_entered(area):
 			friction = 100
 			speed = 125
 		
+
+func set_prime_status(status):
+	primed = status
+	if status:
+		$Sprite.material.set_shader_param("NEW1", Color8(237,167,0))
+	else:
+		$Sprite.material.set_shader_param("NEW1", Color8(0,0,0))
+	
+
 
 func handle_spin(delta):
 	if speed > 5:
@@ -123,18 +144,26 @@ func handle_spin(delta):
 func _on_Top_area_entered(area):
 	if area.get("type") == "ballWall":
 		direction.y = -direction.y
+		if inPlay:
+			sfx_bounce.play(speed)
 
 func _on_Right_area_entered(area):
 	if area.get("type") == "ballWall":
 		direction.x = -direction.x
+		if inPlay:
+			sfx_bounce.play(speed)
 
 func _on_Bottom_area_entered(area):
 	if area.get("type") == "ballWall":
 		direction.y = -direction.y
+		if inPlay:
+			sfx_bounce.play(speed)
 
 func _on_Left_area_entered(area):
 	if area.get("type") == "ballWall":
 		direction.x = -direction.x
+		if inPlay:
+			sfx_bounce.play(speed)
 
 
 #func _on_Ball_area_exited(area):

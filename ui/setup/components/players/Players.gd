@@ -27,6 +27,8 @@ func setup_player_connectors():
 		if Global.allControllers[cont] != -2:
 			allPlayers.get_child(cont).turn_visible()
 			allPlayers.get_child(cont).display_name_select()
+			if Global.allControllers[cont] == -1:
+				Global.kb_taken = true
 
 func display_next_connector():
 	# Show one for connection if not all are taken
@@ -42,7 +44,6 @@ func _gui_input(event):
 	# Set device to the correct joypad else its from kb
 	if event is InputEventJoypadButton:
 		device = event.get_device()
-		print(Input.get_joy_name(device))
 	# Shitty fix for xbox controllers sending double inputs and controllers over bluetooth
 	if (("Bluetooth" in Input.get_joy_name(device)) or ("Series" in Input.get_joy_name(device))):
 		pass

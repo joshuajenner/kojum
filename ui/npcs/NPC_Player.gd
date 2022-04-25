@@ -16,8 +16,7 @@ var isFacingRight = true
 export var action = state.MOVE
 
 export var player_no = 0
-#var device = -2
-#var team = 0
+var footstep_type = 0
 
 export (int) var speed_max = 120
 export (int) var speed_min = 55

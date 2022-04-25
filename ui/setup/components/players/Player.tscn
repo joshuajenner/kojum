@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://ui/setup/components/players/Player.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/textures/ui/press_a_small.png" type="Texture" id=15]
 [ext_resource path="res://assets/sfx/ui/button/back.wav" type="AudioStream" id=16]
 [ext_resource path="res://assets/textures/ui/arrow_6x4.png" type="Texture" id=17]
+[ext_resource path="res://ui/audio/UIAudio.tscn" type="PackedScene" id=18]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -234,7 +235,7 @@ resource_name = "arrow_up_0"
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Name/Panel/Letter0/Up:rect_position")
+tracks/0/path = NodePath("Name/Panel/Letter0/Up_0:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -243,7 +244,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, -8 ), Vector2( 0, -7 ), Vector2( 0, -6 ) ]
+"values": [ Vector2( 0, -2 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -251,7 +252,7 @@ resource_name = "arrow_up_1"
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Name/Panel/Letter1/Up:rect_position")
+tracks/0/path = NodePath("Name/Panel/Letter1/Up_1:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -260,7 +261,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, -8 ), Vector2( 0, -7 ), Vector2( 0, -6 ) ]
+"values": [ Vector2( 0, -2 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=15]
@@ -268,7 +269,7 @@ resource_name = "arrow_up_2"
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Name/Panel/Letter2/Up:rect_position")
+tracks/0/path = NodePath("Name/Panel/Letter2/Up_2:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -277,7 +278,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, -8 ), Vector2( 0, -7 ), Vector2( 0, -6 ) ]
+"values": [ Vector2( 0, -2 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -285,7 +286,7 @@ resource_name = "arrow_down_0"
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Name/Panel/Letter0/Down:rect_position")
+tracks/0/path = NodePath("Name/Panel/Letter0/Down_0:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -294,7 +295,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 18 ), Vector2( 0, 17 ), Vector2( 0, 16 ) ]
+"values": [ Vector2( 0, 25 ), Vector2( 0, 24 ), Vector2( 0, 23 ) ]
 }
 
 [sub_resource type="Animation" id=17]
@@ -302,7 +303,7 @@ resource_name = "arrow_down_1"
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Name/Panel/Letter1/Down:rect_position")
+tracks/0/path = NodePath("Name/Panel/Letter1/Down_1:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -311,7 +312,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 18 ), Vector2( 0, 17 ), Vector2( 0, 16 ) ]
+"values": [ Vector2( 0, 25 ), Vector2( 0, 24 ), Vector2( 0, 23 ) ]
 }
 
 [sub_resource type="Animation" id=18]
@@ -319,7 +320,7 @@ resource_name = "arrow_down_2"
 length = 0.18
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Name/Panel/Letter2/Down:rect_position")
+tracks/0/path = NodePath("Name/Panel/Letter2/Down_2:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -328,7 +329,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 18 ), Vector2( 0, 17 ), Vector2( 0, 16 ) ]
+"values": [ Vector2( 0, 25 ), Vector2( 0, 24 ), Vector2( 0, 23 ) ]
 }
 
 [node name="Player" type="Control"]
@@ -337,7 +338,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -512.0
 margin_bottom = -76.0
-mouse_filter = 1
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -400,27 +400,30 @@ __meta__ = {
 
 [node name="Letter0" type="Label" parent="Name/Panel"]
 margin_left = -11.0
-margin_top = -26.0
+margin_top = -32.0
 margin_right = -5.0
-margin_bottom = -13.0
+margin_bottom = -6.0
+mouse_filter = 0
 text = "A"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Up" type="TextureRect" parent="Name/Panel/Letter0"]
-margin_top = -6.0
+[node name="Up_0" type="TextureRect" parent="Name/Panel/Letter0"]
 margin_right = 6.0
-margin_bottom = -2.0
+margin_bottom = 4.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Down" type="TextureRect" parent="Name/Panel/Letter0"]
-margin_top = 16.0
+[node name="Down_0" type="TextureRect" parent="Name/Panel/Letter0"]
+margin_top = 23.0
 margin_right = 6.0
-margin_bottom = 20.0
+margin_bottom = 27.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 17 )
 flip_v = true
 __meta__ = {
@@ -429,28 +432,31 @@ __meta__ = {
 
 [node name="Letter1" type="Label" parent="Name/Panel"]
 margin_left = -2.0
-margin_top = -26.0
+margin_top = -32.0
 margin_right = 4.0
-margin_bottom = -13.0
+margin_bottom = -6.0
+mouse_filter = 0
 text = "A"
+valign = 1
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Up" type="TextureRect" parent="Name/Panel/Letter1"]
-margin_top = -6.0
+[node name="Up_1" type="TextureRect" parent="Name/Panel/Letter1"]
 margin_right = 6.0
-margin_bottom = -2.0
+margin_bottom = 4.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Down" type="TextureRect" parent="Name/Panel/Letter1"]
-margin_top = 16.0
+[node name="Down_1" type="TextureRect" parent="Name/Panel/Letter1"]
+margin_top = 23.0
 margin_right = 6.0
-margin_bottom = 20.0
+margin_bottom = 27.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 17 )
 flip_v = true
 __meta__ = {
@@ -459,27 +465,30 @@ __meta__ = {
 
 [node name="Letter2" type="Label" parent="Name/Panel"]
 margin_left = 7.0
-margin_top = -26.0
+margin_top = -32.0
 margin_right = 13.0
-margin_bottom = -13.0
+margin_bottom = -6.0
+mouse_filter = 0
 text = "A"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Up" type="TextureRect" parent="Name/Panel/Letter2"]
-margin_top = -6.0
+[node name="Up_2" type="TextureRect" parent="Name/Panel/Letter2"]
 margin_right = 6.0
-margin_bottom = -2.0
+margin_bottom = 4.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Down" type="TextureRect" parent="Name/Panel/Letter2"]
-margin_top = 16.0
+[node name="Down_2" type="TextureRect" parent="Name/Panel/Letter2"]
+margin_top = 23.0
 margin_right = 6.0
-margin_bottom = 20.0
+margin_bottom = 27.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 17 )
 flip_v = true
 __meta__ = {
@@ -491,6 +500,7 @@ margin_left = -11.0
 margin_top = -14.0
 margin_right = -5.0
 margin_bottom = -13.0
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -530,22 +540,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="Name"]
-margin_left = -21.772
-margin_top = 101.0
-margin_right = 18.228
+[node name="Ready_Img" type="TextureRect" parent="Name"]
+margin_left = 10.0
+margin_top = 102.0
+margin_right = 22.0
 margin_bottom = 114.0
-text = "Next"
+texture = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Ready_Img" type="TextureRect" parent="Name"]
-margin_left = 10.03
-margin_top = 103.0
-margin_right = 22.03
-margin_bottom = 115.0
-texture = ExtResource( 15 )
+[node name="Name_Ready" type="Label" parent="Name"]
+margin_left = -22.0
+margin_top = 101.0
+margin_right = 22.0
+margin_bottom = 114.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "Next"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -655,10 +667,11 @@ __meta__ = {
 
 [node name="Left" type="TextureRect" parent="Setup/Body"]
 use_parent_material = true
-margin_left = -1.0
+margin_left = 1.0
 margin_top = 18.0
-margin_right = 2.0
+margin_right = 4.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -670,6 +683,7 @@ margin_left = 42.0
 margin_top = 18.0
 margin_right = 45.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 flip_h = true
 __meta__ = {
@@ -735,6 +749,7 @@ margin_left = 1.0
 margin_top = 18.0
 margin_right = 4.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -746,6 +761,7 @@ margin_left = 40.0
 margin_top = 18.0
 margin_right = 43.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 flip_h = true
 __meta__ = {
@@ -810,6 +826,7 @@ margin_left = 1.0
 margin_top = 18.0
 margin_right = 4.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -821,6 +838,7 @@ margin_left = 40.0
 margin_top = 18.0
 margin_right = 43.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 flip_h = true
 __meta__ = {
@@ -886,6 +904,7 @@ margin_left = 1.0
 margin_top = 18.0
 margin_right = 4.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -897,6 +916,7 @@ margin_left = 40.0
 margin_top = 18.0
 margin_right = 43.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 flip_h = true
 __meta__ = {
@@ -962,6 +982,7 @@ margin_left = 1.0
 margin_top = 18.0
 margin_right = 4.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -973,6 +994,7 @@ margin_left = 40.0
 margin_top = 18.0
 margin_right = 43.0
 margin_bottom = 24.0
+mouse_default_cursor_shape = 2
 texture = ExtResource( 3 )
 flip_h = true
 __meta__ = {
@@ -998,22 +1020,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Setup"]
-margin_left = -21.7717
-margin_top = 206.637
-margin_right = 18.2283
-margin_bottom = 219.637
-text = "Ready"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Ready_Img" type="TextureRect" parent="Setup"]
 margin_left = 10.0301
 margin_top = 208.583
 margin_right = 22.0301
 margin_bottom = 220.583
 texture = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Setup_Ready" type="Label" parent="Setup"]
+margin_left = -22.0
+margin_top = 207.0
+margin_right = 22.0
+margin_bottom = 221.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "Ready"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1042,5 +1066,38 @@ anims/arrow_down_0 = SubResource( 16 )
 anims/arrow_down_1 = SubResource( 17 )
 anims/arrow_down_2 = SubResource( 18 )
 
+[node name="UIAudio" parent="." instance=ExtResource( 18 )]
+
 [node name="Back" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+
+[node name="EchoStick" type="Timer" parent="."]
+wait_time = 0.15
+
+[connection signal="mouse_entered" from="Name/Panel/Letter0" to="." method="_on_Letter0_mouse_entered"]
+[connection signal="gui_input" from="Name/Panel/Letter0/Up_0" to="." method="_on_Up_0_gui_input"]
+[connection signal="gui_input" from="Name/Panel/Letter0/Down_0" to="." method="_on_Down_0_gui_input"]
+[connection signal="mouse_entered" from="Name/Panel/Letter1" to="." method="_on_Letter1_mouse_entered"]
+[connection signal="gui_input" from="Name/Panel/Letter1/Up_1" to="." method="_on_Up_1_gui_input"]
+[connection signal="gui_input" from="Name/Panel/Letter1/Down_1" to="." method="_on_Down_1_gui_input"]
+[connection signal="mouse_entered" from="Name/Panel/Letter2" to="." method="_on_Letter2_mouse_entered"]
+[connection signal="gui_input" from="Name/Panel/Letter2/Up_2" to="." method="_on_Up_2_gui_input"]
+[connection signal="gui_input" from="Name/Panel/Letter2/Down_2" to="." method="_on_Down_2_gui_input"]
+[connection signal="gui_input" from="Name/Name_Ready" to="." method="_on_Name_Ready_gui_input"]
+[connection signal="mouse_entered" from="Setup/Body" to="." method="_on_Body_mouse_entered"]
+[connection signal="gui_input" from="Setup/Body/Left" to="." method="_on_Left_gui_input"]
+[connection signal="gui_input" from="Setup/Body/Right" to="." method="_on_Right_gui_input"]
+[connection signal="mouse_entered" from="Setup/Face" to="." method="_on_Face_mouse_entered"]
+[connection signal="gui_input" from="Setup/Face/Left" to="." method="_on_Left_gui_input"]
+[connection signal="gui_input" from="Setup/Face/Right" to="." method="_on_Right_gui_input"]
+[connection signal="mouse_entered" from="Setup/Hair" to="." method="_on_Hair_mouse_entered"]
+[connection signal="gui_input" from="Setup/Hair/Left" to="." method="_on_Left_gui_input"]
+[connection signal="gui_input" from="Setup/Hair/Right" to="." method="_on_Right_gui_input"]
+[connection signal="mouse_entered" from="Setup/Hair_Colour" to="." method="_on_Hair_Colour_mouse_entered"]
+[connection signal="gui_input" from="Setup/Hair_Colour/Left" to="." method="_on_Left_gui_input"]
+[connection signal="gui_input" from="Setup/Hair_Colour/Right" to="." method="_on_Right_gui_input"]
+[connection signal="mouse_entered" from="Setup/Clothes" to="." method="_on_Clothes_mouse_entered"]
+[connection signal="gui_input" from="Setup/Clothes/Left" to="." method="_on_Left_gui_input"]
+[connection signal="gui_input" from="Setup/Clothes/Right" to="." method="_on_Right_gui_input"]
+[connection signal="gui_input" from="Setup/Setup_Ready" to="." method="_on_Setup_Ready_gui_input"]
+[connection signal="timeout" from="EchoStick" to="." method="_on_EchoStick_timeout"]

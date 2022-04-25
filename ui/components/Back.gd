@@ -18,6 +18,7 @@ func _ready():
 
 func _on_Back_mouse_entered():
 	$Anim.play("back_hover")
+	$Move.play()
 
 func _on_Back_mouse_exited():
 	$Anim.play("back_normal")

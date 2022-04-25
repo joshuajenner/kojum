@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://ui/settings/SettingsForm.gd" type="Script" id=2]
 [ext_resource path="res://assets/textures/ui/slider_cap.png" type="Texture" id=3]
+[ext_resource path="res://ui/audio/UIAudio.tscn" type="PackedScene" id=4]
 
 [node name="SettingsForm" type="Control"]
 anchor_right = 1.0
@@ -35,6 +36,7 @@ margin_left = 96.0
 margin_top = -1.0
 margin_right = 200.0
 margin_bottom = 15.0
+mouse_default_cursor_shape = 2
 max_value = 1.0
 step = 0.01
 __meta__ = {
@@ -94,6 +96,7 @@ margin_left = 96.0
 margin_top = -1.0
 margin_right = 200.0
 margin_bottom = 15.0
+mouse_default_cursor_shape = 2
 max_value = 1.0
 step = 0.01
 __meta__ = {
@@ -153,6 +156,7 @@ margin_left = 96.0
 margin_top = -1.0
 margin_right = 200.0
 margin_bottom = 15.0
+mouse_default_cursor_shape = 2
 max_value = 1.0
 step = 0.01
 __meta__ = {
@@ -212,6 +216,7 @@ margin_left = 96.0
 margin_top = -1.0
 margin_right = 200.0
 margin_bottom = 15.0
+mouse_default_cursor_shape = 2
 max_value = 1.0
 step = 0.01
 __meta__ = {
@@ -255,17 +260,26 @@ margin_left = 54.0
 margin_top = 108.0
 margin_right = 172.0
 margin_bottom = 122.0
+mouse_default_cursor_shape = 2
 text = "Save"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="mouse_exited" from="MenuMusic/MM_Slider" to="." method="_on_MM_Slider_mouse_exited"]
+[node name="UIAudio" parent="." instance=ExtResource( 4 )]
+
+[connection signal="focus_entered" from="MenuMusic/MM_Slider" to="." method="_on_Slider_focus_entered"]
+[connection signal="mouse_entered" from="MenuMusic/MM_Slider" to="." method="_on_MM_Slider_mouse_entered"]
 [connection signal="value_changed" from="MenuMusic/MM_Slider" to="." method="_on_MM_Slider_value_changed"]
-[connection signal="mouse_exited" from="MenuSFX/MS_Slider" to="." method="_on_MS_Slider_mouse_exited"]
+[connection signal="focus_entered" from="MenuSFX/MS_Slider" to="." method="_on_Slider_focus_entered"]
+[connection signal="mouse_entered" from="MenuSFX/MS_Slider" to="." method="_on_MS_Slider_mouse_entered"]
 [connection signal="value_changed" from="MenuSFX/MS_Slider" to="." method="_on_MS_Slider_value_changed"]
-[connection signal="mouse_exited" from="GameMusic/GM_Slider" to="." method="_on_GM_Slider_mouse_exited"]
+[connection signal="focus_entered" from="GameMusic/GM_Slider" to="." method="_on_Slider_focus_entered"]
+[connection signal="mouse_entered" from="GameMusic/GM_Slider" to="." method="_on_GM_Slider_mouse_entered"]
 [connection signal="value_changed" from="GameMusic/GM_Slider" to="." method="_on_GM_Slider_value_changed"]
-[connection signal="mouse_exited" from="GameSFX/GS_Slider" to="." method="_on_GS_Slider_mouse_exited"]
+[connection signal="focus_entered" from="GameSFX/GS_Slider" to="." method="_on_Slider_focus_entered"]
+[connection signal="mouse_entered" from="GameSFX/GS_Slider" to="." method="_on_GS_Slider_mouse_entered"]
 [connection signal="value_changed" from="GameSFX/GS_Slider" to="." method="_on_GS_Slider_value_changed"]
 [connection signal="button_down" from="Save" to="." method="_on_Save_button_down"]
+[connection signal="focus_entered" from="Save" to="." method="_on_Save_focus_entered"]
+[connection signal="mouse_entered" from="Save" to="." method="_on_Save_mouse_entered"]

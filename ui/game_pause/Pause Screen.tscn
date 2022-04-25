@@ -1,8 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://ui/game_pause/Pause Screen.gd" type="Script" id=2]
 [ext_resource path="res://assets/textures/ui/pause_frame.png" type="Texture" id=3]
+[ext_resource path="res://ui/settings/SettingsForm.tscn" type="PackedScene" id=4]
+[ext_resource path="res://shaders/bb.tres" type="Material" id=5]
+[ext_resource path="res://ui/components/Back.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/textures/ui/top_left_frame.png" type="Texture" id=7]
+[ext_resource path="res://ui/audio/UIAudio.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "close"
@@ -30,6 +35,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("UI:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -59,6 +76,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("UI:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="Pause Screen" type="CanvasLayer"]
 pause_mode = 2
@@ -81,17 +110,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TopFrame" type="TextureRect" parent="UI"]
+[node name="Main" type="Control" parent="UI"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopFrame" type="TextureRect" parent="UI/Main"]
 margin_left = -66.0
 margin_top = -72.0
 margin_right = 66.0
-margin_bottom = -69.0
+margin_bottom = -68.0
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="UI"]
+[node name="Label" type="Label" parent="UI/Main"]
 margin_left = -38.0
 margin_top = -64.0
 margin_right = 38.0
@@ -101,52 +137,98 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Resume" type="Button" parent="UI"]
+[node name="Resume" type="Button" parent="UI/Main"]
 margin_left = -59.0
 margin_top = -20.0
 margin_right = 59.0
 margin_bottom = -6.0
 focus_next = NodePath("../Settings")
 focus_previous = NodePath("../Quit")
+mouse_default_cursor_shape = 2
 text = "Resume"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Settings" type="Button" parent="UI"]
+[node name="Settings" type="Button" parent="UI/Main"]
 margin_left = -59.0
 margin_top = 8.0
 margin_right = 59.0
 margin_bottom = 22.0
 focus_next = NodePath("../Quit")
 focus_previous = NodePath("../Resume")
+mouse_default_cursor_shape = 2
 text = "Settings"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Quit" type="Button" parent="UI"]
+[node name="Quit" type="Button" parent="UI/Main"]
 margin_left = -59.0
 margin_top = 36.0
 margin_right = 59.0
 margin_bottom = 50.0
 focus_next = NodePath("../Resume")
 focus_previous = NodePath("../Settings")
+mouse_default_cursor_shape = 2
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BotFrame" type="TextureRect" parent="UI"]
+[node name="BotFrame" type="TextureRect" parent="UI/Main"]
 margin_left = -66.0
 margin_top = 72.0
 margin_right = 66.0
-margin_bottom = 75.0
+margin_bottom = 76.0
 texture = ExtResource( 3 )
 flip_v = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Settings" type="Control" parent="UI"]
+visible = false
+material = ExtResource( 5 )
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsForm" parent="UI/Settings" instance=ExtResource( 4 )]
+margin_left = -113.0
+margin_top = -63.0
+margin_right = -113.0
+margin_bottom = -63.0
+
+[node name="Frame" type="TextureRect" parent="UI/Settings"]
+margin_left = -132.0
+margin_top = -90.0
+margin_right = -14.0
+margin_bottom = -45.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="UI/Settings/Frame"]
+use_parent_material = true
+margin_top = -16.0
+margin_right = 83.0
+margin_bottom = -3.0
+text = "Settings"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" parent="UI/Settings" instance=ExtResource( 6 )]
+margin_left = 100.0
+margin_top = -90.0
+margin_right = 134.0
+margin_bottom = -70.0
+
+[node name="EchoStick" type="Timer" parent="."]
+wait_time = 0.15
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/close = SubResource( 1 )
@@ -156,5 +238,15 @@ anims/open = SubResource( 2 )
 
 [node name="Close" type="AudioStreamPlayer" parent="."]
 
-[connection signal="button_down" from="UI/Resume" to="." method="_on_Resume_button_down"]
-[connection signal="button_down" from="UI/Quit" to="." method="_on_Quit_button_down"]
+[node name="UIAudio" parent="." instance=ExtResource( 8 )]
+
+[connection signal="button_down" from="UI/Main/Resume" to="." method="_on_Resume_button_down"]
+[connection signal="mouse_entered" from="UI/Main/Resume" to="." method="_on_Resume_mouse_entered"]
+[connection signal="button_down" from="UI/Main/Settings" to="." method="_on_Settings_button_down"]
+[connection signal="focus_entered" from="UI/Main/Settings" to="." method="_on_Settings_focus_entered"]
+[connection signal="focus_exited" from="UI/Main/Settings" to="." method="_on_Settings_focus_exited"]
+[connection signal="mouse_entered" from="UI/Main/Settings" to="." method="_on_Settings_mouse_entered"]
+[connection signal="button_down" from="UI/Main/Quit" to="." method="_on_Quit_button_down"]
+[connection signal="mouse_entered" from="UI/Main/Quit" to="." method="_on_Quit_mouse_entered"]
+[connection signal="clicked" from="UI/Settings/Back" to="." method="_on_Back_clicked"]
+[connection signal="timeout" from="EchoStick" to="." method="_on_EchoStick_timeout"]

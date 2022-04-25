@@ -11,15 +11,14 @@ onready var title = $UICanvas/Title
 onready var fill = $Fill
 #onready var anim = $Anim
 
-onready var press = $Press
-onready var move = $Move
+onready var sfx = $UIAudio
 
 var setup = "res://ui/setup/Setup.tscn"
 var settings_scene = "res://ui/settings/SettingsScene.tscn"
 
 
 var firstFocus = true
-
+var stick_just_fired = false
 
 func _ready():
 	Render.connect("window_resized", self, "on_Window_Resized")
@@ -27,7 +26,6 @@ func _ready():
 	on_Scale_Changed(Render.currentScale)
 	on_Window_Resized(Render.vp.size, Render.currentScale)
 	play.grab_focus()
-	$AnimMain.play("enter")
 	if Global.titleFirstLoad:
 		$AnimBalls.play("ball_anim")
 		Global.titleFirstLoad = false
@@ -63,6 +61,37 @@ func on_Scale_Changed(sc):
 	title.rect_scale = Vector2(sc, sc)
 #	bg.rect_scale = Vector2(sc, sc)
 
+func _physics_process(_delta):
+		var zone = 0.5
+		var xAxis = Input.get_joy_axis(0, JOY_AXIS_0)
+		var yAxis = Input.get_joy_axis(0, JOY_AXIS_1)
+		if !stick_just_fired:
+			var ev = InputEventAction.new()
+			ev.set_device(0)
+			if xAxis > zone:
+				ev.action = "ui_right"
+				fire_stick(ev)
+			elif xAxis < -zone:
+				ev.action = "ui_left"
+				fire_stick(ev)
+			if yAxis > zone:
+				ev.action = "ui_down"
+				fire_stick(ev)
+			elif yAxis < -zone:
+				ev.action = "ui_up"
+				fire_stick(ev)
+
+func fire_stick(ev):
+	ev.pressed = true
+	Input.parse_input_event(ev)
+	ev.pressed = false
+	Input.parse_input_event(ev)
+	stick_just_fired = true
+	$EchoStick.start()
+
+func _on_EchoStick_timeout():
+	stick_just_fired = false
+
 
 func _on_Play_mouse_entered():
 	play.grab_focus()
@@ -78,8 +107,7 @@ func _on_Quit_mouse_entered():
 
 
 func _on_Play_button_down():
-	press.play()
-	$AnimMain.play("exit")
+	sfx.play_press()
 	MenuSwitcher.switch_menu(setup)
 
 
@@ -87,17 +115,17 @@ func _on_Play_focus_entered():
 	if firstFocus:
 		firstFocus = false
 	else:
-		move.play()
+		sfx.play_move()
 		
 
 func _on_Controls_focus_entered():
-	move.play()
+	sfx.play_move()
 
 func _on_Settings_focus_entered():
-	move.play()
+	sfx.play_move()
 
 func _on_Quit_focus_entered():
-	move.play()
+	sfx.play_move()
 
 
 func _on_Quit_button_down():
@@ -105,6 +133,6 @@ func _on_Quit_button_down():
 
 
 func _on_Settings_button_down():
-	press.play()
+	sfx.play_press()
 	$AnimMain.play("exit")
 	MenuSwitcher.switch_menu(settings_scene)

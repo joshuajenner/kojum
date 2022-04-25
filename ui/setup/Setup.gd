@@ -9,13 +9,15 @@ onready var players = $UICanvas/UI/Players
 onready var canvas = $UICanvas
 onready var anim = $Anim
 
+enum FOOTSTEP { dirt, wood, stone }
+export(FOOTSTEP) var footstep_sounds = FOOTSTEP.dirt
+
 func _ready():
 	var _w = Render.connect("window_resized", self, "on_Window_Resized")
 	var _s = Render.connect("scale_changed", self, "on_Scale_Changed")
 	on_Window_Resized(Render.vp.size, Render.currentScale)
 	on_Scale_Changed(Render.currentScale)
 	hide_dummy()
-	anim.play("enter")
 
 func on_Window_Resized(ws, sc):
 	canvas.offset.x = max(0, (ws.x/2 - 512*sc/2))
@@ -43,7 +45,7 @@ func _on_Players_instance_player(no, coords):
 	var instance = player.instance()
 	instance.player_no = no
 	instance.device = Global.allControllers[no]
-	instance.position = coords - (Render.RESOLUTION/2) + Vector2(16,31)
+	instance.global_position = coords - (Render.RESOLUTION/2) + Vector2(16,31)
 	$YSort.add_child(instance)
 	if no == 0:
 		show_dummy()
@@ -61,7 +63,6 @@ func _on_Dummy_activated():
 
 func _on_Cancel_activated():
 	MenuSwitcher.switch_menu(title)
-
 
 func _on_Back_clicked():
 	MenuSwitcher.switch_menu(title)

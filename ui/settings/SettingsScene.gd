@@ -28,3 +28,8 @@ func on_Scale_Changed(sc):
 
 func _on_Back_clicked():
 	MenuSwitcher.switch_menu(title)
+	
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		MenuSwitcher.switch_menu(title)
+		$UIAudio.play_back()

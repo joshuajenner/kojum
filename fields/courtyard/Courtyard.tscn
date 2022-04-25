@@ -1,0 +1,397 @@
+[gd_scene load_steps=36 format=2]
+
+[ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
+[ext_resource path="res://fields/set_field_colour.gd" type="Script" id=2]
+[ext_resource path="res://fields/FieldCamera.gd" type="Script" id=3]
+[ext_resource path="res://fields/Fill.gd" type="Script" id=4]
+[ext_resource path="res://fields/music/FieldMusic.tscn" type="PackedScene" id=5]
+[ext_resource path="res://fields/Goal.tscn" type="PackedScene" id=6]
+[ext_resource path="res://fields/walls/PlayerWall.tscn" type="PackedScene" id=7]
+[ext_resource path="res://fields/walls/BallWall.tscn" type="PackedScene" id=8]
+[ext_resource path="res://ui/field/Countdown.tscn" type="PackedScene" id=9]
+[ext_resource path="res://ui/audio/Whistle.tscn" type="PackedScene" id=10]
+[ext_resource path="res://fields/scenes/Goal Juice.tscn" type="PackedScene" id=11]
+[ext_resource path="res://ball/Ball.tscn" type="PackedScene" id=12]
+[ext_resource path="res://ui/field/TeamScore.tscn" type="PackedScene" id=13]
+[ext_resource path="res://ui/game_pause/Pause Screen.tscn" type="PackedScene" id=14]
+[ext_resource path="res://ui/setup/components/dummy/Dummy.tscn" type="PackedScene" id=15]
+[ext_resource path="res://assets/textures/fields/Courtyard/mid_wall.png" type="Texture" id=16]
+[ext_resource path="res://assets/textures/fields/Courtyard/top_right_wall.png" type="Texture" id=17]
+[ext_resource path="res://assets/textures/fields/Courtyard/goal_right_wall.png" type="Texture" id=18]
+[ext_resource path="res://assets/textures/fields/Courtyard/left_team_roof.png" type="Texture" id=19]
+[ext_resource path="res://assets/music/courtyard_longer_v2.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/textures/fields/Courtyard/goal_left_wall.png" type="Texture" id=21]
+[ext_resource path="res://assets/textures/fields/Courtyard/right_team_roof.png" type="Texture" id=22]
+[ext_resource path="res://assets/textures/fields/Courtyard/far_left_wall.png" type="Texture" id=23]
+[ext_resource path="res://assets/textures/fields/Courtyard/far_right_wall.png" type="Texture" id=24]
+[ext_resource path="res://assets/sfx/goal_09.wav" type="AudioStream" id=25]
+[ext_resource path="res://fields/Field.gd" type="Script" id=26]
+[ext_resource path="res://assets/textures/fields/Courtyard/Courtyard_v1_Lower.png" type="Texture" id=27]
+[ext_resource path="res://assets/textures/fields/Courtyard/Courtyard_v1_Upper.png" type="Texture" id=28]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 REF1 : hint_color;
+
+uniform vec4 NEW1 : hint_color;
+
+void fragment() {
+    vec4 curr_color = texture(TEXTURE,UV); // Get current color of pixel
+	
+	//Lets check that our current pixel colour is any of the OLDCOLORs we wish to swap
+	//If our pixel is an old colour then swap COLOR to NEWCOLOR, very simple
+    if (curr_color == REF1)
+	{
+        COLOR = NEW1;
+    }
+	else
+	{
+		//We didn't find any old colors for this pixel so keep it's original color
+        COLOR = curr_color;
+    }
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/REF1 = Color( 0, 0, 0, 1 )
+shader_param/NEW1 = null
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+uniform vec4 REF1 : hint_color;
+uniform vec4 REF2 : hint_color;
+uniform vec4 REF3 : hint_color;
+
+uniform vec4 NEW1 : hint_color;
+uniform vec4 NEW2 : hint_color;
+uniform vec4 NEW3 : hint_color;
+
+void fragment() {
+    vec4 curr_color = texture(TEXTURE,UV); // Get current color of pixel
+	
+	//Lets check that our current pixel colour is any of the OLDCOLORs we wish to swap
+	//If our pixel is an old colour then swap COLOR to NEWCOLOR, very simple
+    if (curr_color == REF1)
+	{
+        COLOR = NEW1;
+    }
+	else if (curr_color == REF2)
+	{
+        COLOR = NEW2;
+    }
+	else if (curr_color == REF3)
+	{
+        COLOR = NEW3;
+    }
+	else
+	{
+		//We didn't find any old colors for this pixel so keep it's original color
+        COLOR = curr_color;
+    }
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = SubResource( 3 )
+shader_param/REF1 = Color( 1, 1, 0, 1 )
+shader_param/REF2 = Color( 1, 0, 0, 1 )
+shader_param/REF3 = Color( 0, 0, 1, 1 )
+shader_param/NEW1 = null
+shader_param/NEW2 = null
+shader_param/NEW3 = Color( 0, 0, 0, 1 )
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = SubResource( 3 )
+shader_param/REF1 = Color( 1, 1, 0, 1 )
+shader_param/REF2 = Color( 1, 0, 0, 1 )
+shader_param/REF3 = Color( 0, 0, 1, 1 )
+shader_param/NEW1 = null
+shader_param/NEW2 = null
+shader_param/NEW3 = Color( 0, 0, 0, 1 )
+
+[sub_resource type="Animation" id=6]
+length = 2.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("TeamScoreLeft:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1, 1.5 ),
+"transitions": PoolRealArray( 1, 5 ),
+"update": 0,
+"values": [ Vector2( -218, -110 ), Vector2( -160, -70 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TeamScoreRight:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1, 1.5 ),
+"transitions": PoolRealArray( 1, 5 ),
+"update": 0,
+"values": [ Vector2( 218, -110 ), Vector2( 160, -70 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 2.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_ui_win"
+} ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("TeamScoreLeft:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -218, -110 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TeamScoreRight:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 218, -110 ) ]
+}
+
+[node name="Base" type="Node2D"]
+script = ExtResource( 26 )
+path = "res://fields/dojo/Dojo.tscn"
+team1_spawns = [ Vector2( -112, -58 ), Vector2( -150, 0 ), Vector2( -112, 0 ), Vector2( -74, 0 ), Vector2( -150, 58 ), Vector2( -112, 58 ), Vector2( -74, 58 ), Vector2( -36, 58 ) ]
+team2_spawns = [ Vector2( 112, -58 ), Vector2( 150, 0 ), Vector2( 112, 0 ), Vector2( 74, 0 ), Vector2( 150, 58 ), Vector2( 112, 58 ), Vector2( 74, 58 ), Vector2( 36, 58 ) ]
+team1_ballSpawns_start = Vector2( -10, 24 )
+team1_ballSpawns_end = Vector2( -44, 100 )
+team2_ballSpawns_start = Vector2( 10, 24 )
+team2_ballSpawns_end = Vector2( 44, 100 )
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2( 0, -2 )
+current = true
+script = ExtResource( 3 )
+
+[node name="Fill" type="Polygon2D" parent="."]
+color = Color( 0.521569, 0.537255, 0.54902, 1 )
+script = ExtResource( 4 )
+
+[node name="Back" type="Sprite" parent="."]
+texture = ExtResource( 27 )
+
+[node name="Goal Juice" parent="." instance=ExtResource( 11 )]
+position = Vector2( -112, -60 )
+rotation = -1.5708
+
+[node name="Goal Juice2" parent="." instance=ExtResource( 11 )]
+position = Vector2( 112, -60 )
+rotation = -1.5708
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="Ball" parent="YSort" instance=ExtResource( 12 )]
+material = SubResource( 2 )
+position = Vector2( 0, 58 )
+sprite_num = 3
+
+[node name="Rematch" parent="YSort" instance=ExtResource( 15 )]
+position = Vector2( -70, 0 )
+label = "Rematch"
+
+[node name="Quit" parent="YSort" instance=ExtResource( 15 )]
+position = Vector2( 70, 0 )
+label = "Quit"
+
+[node name="FarRightWall" type="Sprite" parent="YSort"]
+position = Vector2( 224, -2 )
+texture = ExtResource( 24 )
+offset = Vector2( 0, -25 )
+
+[node name="MidWall" type="Sprite" parent="YSort"]
+texture = ExtResource( 16 )
+offset = Vector2( 0, -26 )
+
+[node name="TopRightWall" type="Sprite" parent="YSort"]
+position = Vector2( 173, -80 )
+texture = ExtResource( 17 )
+offset = Vector2( 0, -24 )
+
+[node name="GoalRightWall" type="Sprite" parent="YSort"]
+position = Vector2( 51, -80 )
+texture = ExtResource( 18 )
+offset = Vector2( 0, -23 )
+
+[node name="GoalLeftWall" type="Sprite" parent="YSort"]
+position = Vector2( -112, -80 )
+texture = ExtResource( 21 )
+offset = Vector2( 0, -30 )
+
+[node name="FarLeftWall" type="Sprite" parent="YSort"]
+position = Vector2( -240, 32 )
+texture = ExtResource( 23 )
+offset = Vector2( 0, -26 )
+
+[node name="FlagsLeft" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( -240, -96 )
+texture = ExtResource( 19 )
+script = ExtResource( 2 )
+side = 0
+
+[node name="Over" type="Sprite" parent="."]
+texture = ExtResource( 28 )
+
+[node name="FlagsRight" type="Sprite" parent="Over"]
+material = SubResource( 5 )
+position = Vector2( 200, -123 )
+texture = ExtResource( 22 )
+script = ExtResource( 2 )
+side = 1
+
+[node name="Clock" type="Label" parent="."]
+margin_left = -12.0
+margin_top = -128.85
+margin_right = 14.0
+margin_bottom = -114.85
+theme = ExtResource( 1 )
+text = "00:00"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerWalls" type="Node2D" parent="."]
+visible = false
+
+[node name="Top" parent="PlayerWalls" instance=ExtResource( 7 )]
+position = Vector2( 0, -92 )
+scale = Vector2( 20, 2 )
+
+[node name="TopMid" parent="PlayerWalls" instance=ExtResource( 7 )]
+position = Vector2( 0, -32 )
+scale = Vector2( 3.2, 4 )
+
+[node name="Bot" parent="PlayerWalls" instance=ExtResource( 7 )]
+position = Vector2( 0, 128 )
+scale = Vector2( 20, 1 )
+
+[node name="LeftSide" parent="PlayerWalls" instance=ExtResource( 7 )]
+position = Vector2( -212, 16 )
+scale = Vector2( 2, 11 )
+
+[node name="RightSide" parent="PlayerWalls" instance=ExtResource( 7 )]
+position = Vector2( 212, 16 )
+scale = Vector2( 2, 11 )
+
+[node name="BallWalls" type="Node2D" parent="."]
+
+[node name="Top" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( 0, -98 )
+scale = Vector2( 8, 2 )
+
+[node name="Top Upper" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( 0, -120 )
+scale = Vector2( 16, 1 )
+
+[node name="TopLeft" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( -174, -98 )
+scale = Vector2( 3, 2 )
+
+[node name="TopRight" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( 174, -98 )
+scale = Vector2( 3, 2 )
+
+[node name="TopMid" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( 0, -38 )
+scale = Vector2( 3.2, 4 )
+
+[node name="Bot" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( 0, 132 )
+scale = Vector2( 20, 1 )
+
+[node name="RightSide" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( 212, 16 )
+scale = Vector2( 2, 11 )
+
+[node name="LeftSide" parent="BallWalls" instance=ExtResource( 8 )]
+position = Vector2( -212, 16 )
+scale = Vector2( 2, 11 )
+
+[node name="Goal" parent="." instance=ExtResource( 6 )]
+position = Vector2( -112, -96 )
+scale = Vector2( 4, 1 )
+
+[node name="Goal2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 112, -96 )
+scale = Vector2( 4, 1 )
+
+[node name="TeamScoreLeft" parent="." instance=ExtResource( 13 )]
+position = Vector2( -218, -110 )
+
+[node name="TeamScoreRight" parent="." instance=ExtResource( 13 )]
+position = Vector2( 218, -110 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="BallSpawn" type="Timer" parent="."]
+one_shot = true
+
+[node name="Countdown" parent="." instance=ExtResource( 9 )]
+
+[node name="Music" parent="." instance=ExtResource( 5 )]
+stream = ExtResource( 20 )
+bus = "Game_Music"
+
+[node name="Whistle" parent="." instance=ExtResource( 10 )]
+volume_db = 0.0
+bus = "Game_SFX"
+
+[node name="GoalSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 25 )
+pitch_scale = 2.0
+bus = "Game_SFX"
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/game_over = SubResource( 6 )
+anims/ready = SubResource( 7 )
+
+[node name="Pause Screen" parent="." instance=ExtResource( 14 )]
+layer = -1
+
+[connection signal="activated" from="YSort/Rematch" to="." method="_on_Rematch_activated"]
+[connection signal="activated" from="YSort/Quit" to="." method="_on_Quit_activated"]
+[connection signal="area_entered" from="Goal" to="." method="_on_Goal_area_entered"]
+[connection signal="area_entered" from="Goal2" to="." method="_on_Goal2_area_entered"]
+[connection signal="winner_announced" from="TeamScoreLeft" to="." method="_on_TeamScoreLeft_winner_announced"]
+[connection signal="winner_announced" from="TeamScoreRight" to="." method="_on_TeamScoreRight_winner_announced"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="BallSpawn" to="." method="_on_BallSpawn_timeout"]
+[connection signal="almost_finished" from="Countdown" to="." method="_on_Countdown_almost_finished"]
+[connection signal="finished" from="Countdown" to="." method="_on_Countdown_finished"]
+[connection signal="started" from="Countdown" to="." method="_on_Countdown_started"]
+[connection signal="finished" from="Whistle" to="." method="_on_Whistle_finished"]

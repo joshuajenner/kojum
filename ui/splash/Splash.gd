@@ -9,15 +9,13 @@ var titleScreen = "res://ui/title/Title.tscn"
 # var a = 2
 # var b = "text"
 
-
-
 func _ready():
 	var _ws = Render.connect("window_resized", self, "on_Window_Resized")
 	var _sc = Render.connect("scale_changed", self, "on_Scale_Changed")
 	on_Window_Resized(Render.vp.size, Render.currentScale)
 	on_Scale_Changed(Render.currentScale)
 	$Anim.play("start")
-	MenuMusic.play()
+	MenuMusic.fadein()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

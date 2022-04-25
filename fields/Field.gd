@@ -21,7 +21,11 @@ export (Vector2) var team1_ballSpawns_end
 export (Vector2) var team2_ballSpawns_start
 export (Vector2) var team2_ballSpawns_end
 
-const MATCH_TIME = 10
+enum FOOTSTEP { dirt, wood, stone }
+export(FOOTSTEP) var footstep_sounds = FOOTSTEP.dirt
+
+
+const MATCH_TIME = 120
 var timerOn = false
 var winning_team = null
 
@@ -32,33 +36,17 @@ func _ready():
 	set_team_custos()
 	select_spawns()
 	spawn_Players()
-	freeze_Players()
+	# Temp
+#	freeze_Players()
 	hide_dummies()
 	$Goal/Shape.disabled = false
 	$Goal2/Shape.disabled = false
-	$Countdown.start()
+	# Temp
+#	$Countdown.start()
 
 func set_team_custos():
 	$TeamScoreLeft.set_team(Global.chosenTeams[0])
 	$TeamScoreRight.set_team(Global.chosenTeams[1])
-	
-	$Back/FlagsLeft.material.set_shader_param("NEW1", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][0])
-	$Back/FlagsLeft.material.set_shader_param("NEW2", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][1])
-	$Back/FlagsLeft.material.set_shader_param("NEW3", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][2])
-	$Back/FlagsLeft.material.set_shader_param("NEW4", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][3])
-	$Over/FlagsBotLeft.material.set_shader_param("NEW1", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][0])
-	$Over/FlagsBotLeft.material.set_shader_param("NEW2", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][1])
-	$Over/FlagsBotLeft.material.set_shader_param("NEW3", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][2])
-	$Over/FlagsBotLeft.material.set_shader_param("NEW4", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[0]][3])
-	
-	$Back/FlagsRight.material.set_shader_param("NEW1", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][0])
-	$Back/FlagsRight.material.set_shader_param("NEW2", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][1])
-	$Back/FlagsRight.material.set_shader_param("NEW3", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][2])
-	$Back/FlagsRight.material.set_shader_param("NEW4", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][3])
-	$Over/FlagsBotRight.material.set_shader_param("NEW1", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][0])
-	$Over/FlagsBotRight.material.set_shader_param("NEW2", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][1])
-	$Over/FlagsBotRight.material.set_shader_param("NEW3", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][2])
-	$Over/FlagsBotRight.material.set_shader_param("NEW4", Global.TEAM_FIELD_COLOURS[Global.chosenTeams[1]][3])
 
 
 func spawn_Players():
@@ -70,6 +58,7 @@ func spawn_Players():
 			instance = player.instance()
 			instance.player_no = p
 			instance.device = Global.allControllers[p]
+			instance.footstep_type = footstep_sounds
 		
 			if Global.allTeams[p] == Global.chosenTeams[0]:
 				instance.position = team1_spawns[usedSpawns[team1_spawn_index]]
@@ -128,6 +117,7 @@ func _on_Goal_area_entered(area):
 		$BallSpawn.start(2)
 		$"Goal Juice".play_goal()
 		teamJustScored = 2
+		$GoalSFX.play()
 
 
 func _on_Goal2_area_entered(area):
@@ -137,6 +127,7 @@ func _on_Goal2_area_entered(area):
 		$BallSpawn.start(2)
 		$"Goal Juice2".play_goal()
 		teamJustScored = 1
+		$GoalSFX.play()
 
 func hide_dummies():
 	$YSort/Rematch.hide()
@@ -181,7 +172,7 @@ func _on_Countdown_finished():
 
 
 func _on_Countdown_started():
-	$Music.play()
+	$Music.fade_in()
 
 func _on_BallSpawn_timeout():
 	rng.randomize()

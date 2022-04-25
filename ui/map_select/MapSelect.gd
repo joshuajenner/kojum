@@ -21,7 +21,7 @@ var spawns = [
 	Vector2(176, 56),
 	Vector2(132, 56),
 	Vector2(88, 56),
-	Vector2(44, 56)
+	Vector2(44, 56),
 ]
 
 
@@ -30,7 +30,6 @@ func _ready():
 	Render.connect("scale_changed", self, "on_Scale_Changed")
 	on_Window_Resized(Render.vp.size, Render.currentScale)
 	on_Scale_Changed(Render.currentScale)
-	anim.play("enter")
 	
 	var instance
 	for p in range(Global.allControllers.size()):
@@ -39,7 +38,8 @@ func _ready():
 			instance.player_no = p
 			instance.device = Global.allControllers[p]
 			$YSort.add_child(instance)
-			instance.position = spawns[p]
+			instance.global_position = spawns[p]
+	
 
 
 func on_Window_Resized(ws, sc):
@@ -87,4 +87,7 @@ func _on_Play_activated():
 
 
 func _on_Cancel_activated():
+	MenuSwitcher.switch_menu(teamSelect)
+
+func _on_Back_clicked():
 	MenuSwitcher.switch_menu(teamSelect)

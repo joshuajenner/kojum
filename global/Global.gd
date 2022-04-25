@@ -1,13 +1,21 @@
 extends Node
 
-#signal player_connected
+var config_path = "res://config.cfg"
+var config  = ConfigFile.new()
+var settings = config.load(config_path)
+var audio = "audio"
+
+var MM_Bus = AudioServer.get_bus_index("Menu_Music")
+var MS_Bus = AudioServer.get_bus_index("Menu_SFX")
+var GM_Bus = AudioServer.get_bus_index("Game_Music")
+var GS_Bus = AudioServer.get_bus_index("Game_SFX")
 
 var kb_taken = false
 var titleFirstLoad = true
 
 # -2 = None // -1 = KB // 0-7 = Controller
-var allControllers = [-1,0,-2,-2,-2,-2,-2,-2]
-var allNames = [["J","S","H"],["J","N","R"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"]]
+var allControllers = [0,-1,-2,-2,-2,-2,-2,-2]
+var allNames = [["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"]]
 var allBodies = [0,0,0,0,0,0,0,0]
 var allSkin = [0,0,0,0,0,0,0,0]
 var allFaces = [0,0,0,0,0,0,0,0]
@@ -16,8 +24,8 @@ var allHairColour = [0,0,0,0,0,0,0,0]
 var allClothes = [0,0,0,0,0,0,0,0]
 var allHands = [0,0,0,0,0,0,0,0]
 var allColour = [0,0,0,0,0,0,0,0]
-var allTeams = [1,3,0,0,0,0,0,0]
-var chosenTeams = [1,3]
+var allTeams = [1,2,0,0,0,0,0,0]
+var chosenTeams = [1,2]
 enum {NO, PAD}
 
 var availBodies = ["SL", "SM", "SD", "BL", "BM", "BD"]
@@ -58,16 +66,16 @@ var TEAM_ICONS = [
 # {PRVW, BLUE, GREEN, YELLOW, ORANGE, RED, PURPLE, PINK, BROWN, BLACK}
 # Color8(45,74,149)
 var TEAM_FIELD_COLOURS = [
-	[Color8(74,84,98), Color8(0,0,0), Color8(51,57,65), Color8(0,0,0)],
-	[Color8(45,78,162), Color8(45,78,162), Color8(44,70,135), Color8(34,44,68)],
-	[Color8(6,101,47), Color8(6,85,39), Color8(6,70,33), Color8(6,35,18)],
-	[Color8(237,167,0), Color8(0,0,0), Color8(199,141,5), Color8(0,0,0)],
-	[Color8(223,113,37), Color8(0,0,0), Color8(211,105,34), Color8(0,0,0)],
-	[Color8(172,50,50), Color8(0,0,0), Color8(140,49,49), Color8(0,0,0)],
-	[Color8(118,66,138), Color8(0,0,0), Color8(85,57,96), Color8(0,0,0)],
-	[Color8(205,106,175), Color8(0,0,0), Color8(191,90,160), Color8(0,0,0)],
-	[Color8(143,86,59), Color8(0,0,0), Color8(109,71,54), Color8(0,0,0)],
-	[Color8(0,0,0), Color8(0,0,0), Color8(0,0,0), Color8(0,0,0)]
+	[Color8(74,84,98), Color8(51,57,65), Color8(39,43,47)],
+	[Color8(45,78,162),  Color8(44,70,135), Color8(34,44,68)],
+	[Color8(6,101,47), Color8(6,70,33), Color8(6,35,18)],
+	[Color8(237,167,0), Color8(199,141,5), Color8(153,110,11)],
+	[Color8(223,113,37),  Color8(211,105,34), Color8(157,85,37)],
+	[Color8(172,50,50),  Color8(140,49,49), Color8(95,43,43)],
+	[Color8(118,66,138), Color8(85,57,96), Color8(54,43,59)],
+	[Color8(205,106,175), Color8(191,90,160), Color8(154,76,130)],
+	[Color8(143,86,59), Color8(109,71,54), Color8(66,49,41)],
+	[Color8(0,0,0), Color8(0,0,0), Color8(0,0,0)]
 ]
 
 
@@ -78,16 +86,22 @@ var timeDict = OS.get_time()
 
 const allMaps = [
 	"res://fields/dojo/Dojo.tscn",
-	"res://fields/dojo/Dojo.tscn"
+	"res://fields/city/City.tscn"
 ]
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	if (timeDict.hour == 16):
-		team_select.push_back(demonz)
-		TEAM_ICONS.push_back(demonz_icon)
-	print(timeDict.hour)
+	# Apply Settings
+	AudioServer.set_bus_volume_db(MM_Bus, linear2db(config.get_value(audio, "menu_music")))
+	AudioServer.set_bus_volume_db(MS_Bus, linear2db(config.get_value(audio, "menu_sfx")))
+	AudioServer.set_bus_volume_db(GM_Bus, linear2db(config.get_value(audio, "game_music")))
+	AudioServer.set_bus_volume_db(GS_Bus, linear2db(config.get_value(audio, "game_sfx")))
+	
+	# Demonz
+#	if (timeDict.hour == 4):
+#		team_select.push_back(demonz)
+#		TEAM_ICONS.push_back(demonz_icon)
+#	print(timeDict.hour)
 
 # Attribute, direction
 func customize_attr(player, attr, dir):
