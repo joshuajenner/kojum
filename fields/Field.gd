@@ -36,13 +36,11 @@ func _ready():
 	set_team_custos()
 	select_spawns()
 	spawn_Players()
-	# Temp
-#	freeze_Players()
+	freeze_Players()
 	hide_dummies()
 	$Goal/Shape.disabled = false
 	$Goal2/Shape.disabled = false
-	# Temp
-#	$Countdown.start()
+	$Countdown.start()
 
 func set_team_custos():
 	$TeamScoreLeft.set_team(Global.chosenTeams[0])
@@ -111,7 +109,7 @@ func time_from_seconds(time):
 	return minutes + ":" + seconds
 
 func _on_Goal_area_entered(area):
-	if area.name == "Ball" :
+	if area.name == "Ball":
 		$TeamScoreRight.increase_score(1)
 		area.remove()
 		$BallSpawn.start(2)
@@ -121,7 +119,7 @@ func _on_Goal_area_entered(area):
 
 
 func _on_Goal2_area_entered(area):
-	if area.name == "Ball" :
+	if area.name == "Ball":
 		$TeamScoreLeft.increase_score(1)
 		area.remove()
 		$BallSpawn.start(2)
@@ -213,3 +211,23 @@ func _on_Rematch_activated():
 
 func _on_Quit_activated():
 	MenuSwitcher.switch_menu(map_select)
+
+
+func _on_Goal_body_entered(body):
+	if body.name == "Ball":
+		$TeamScoreRight.increase_score(1)
+		body.remove()
+		$BallSpawn.start(2)
+		$"Goal Juice".play_goal()
+		teamJustScored = 2
+		$GoalSFX.play()
+
+
+func _on_Goal2_body_entered(body):
+	if body.name == "Ball":
+		$TeamScoreLeft.increase_score(1)
+		body.remove()
+		$BallSpawn.start(2)
+		$"Goal Juice2".play_goal()
+		teamJustScored = 1
+		$GoalSFX.play()

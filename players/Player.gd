@@ -45,16 +45,22 @@ var assisted_direction = Vector2()
 var deadZoneVelocity = 0.2 
 var deadZoneDirection = 0.08
 var stun = 0
-var stunCurrent = 115
-var stunMax = 115
+var stunCurrent = 100
+var stunMax = 100
 
+var mask_num = -1
+var mask_size = ""
 
 
 func _ready():
-	set_customs()
 	device = Global.allControllers[player_no]
 	team = Global.allTeams[player_no]
 	hitBox.team = team
+	blockBox.team = team
+	grabBox.team = team
+	hitBox.player_no = player_no
+	mask_num = Global.allMasks[player_no]
+	set_customs()
 	action = state.MOVE
 	anim.play("default")
 	assisted_direction = Vector2(0, 0)
@@ -70,6 +76,7 @@ func set_customs():
 		$Sprite/Face.texture = Asset.FACE_SMALL[Global.allFaces[player_no]]
 		$Sprite/Hair.texture = Asset.HAIR_SMALL[Global.allHair[player_no]]
 		$Crown.frame = 1
+		mask_size = "small"
 	elif ("B" in Global.availBodies[Global.allBodies[player_no]]):
 		$Sprite.texture = Asset.BODIES[1]
 		$Sprite/Clothes.texture = Asset.CLOTHES_BIG[Global.allClothes[player_no]]
@@ -77,8 +84,35 @@ func set_customs():
 		$Sprite/Face.texture = Asset.FACE_BIG[Global.allFaces[player_no]]
 		$Sprite/Hair.texture = Asset.HAIR_BIG[Global.allHair[player_no]]
 		$Crown.frame = 2
-	$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Global.allSkin[player_no]][0])
-	$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Global.allSkin[player_no]][1])
+		mask_size = "big"
+	
+	if team == 9:
+		$Sprite.material.set_shader_param("NEW1", Asset.DEMON_SKIN)
+		$Sprite.material.set_shader_param("NEW2", Asset.DEMON_SKIN)
+		$Sprite/Clothes.texture = Asset.demon_clothes
+		$Sprite/Hair.texture = Asset.demon_hair
+		$Sprite/Smoke.emitting = true
+		$Sprite/Smoke.visible = true
+		if mask_num == -1:
+			mask_num = Asset.request_mask(player_no)
+			$Sprite/Face.texture = load("res://assets/textures/players/faces/demon_" + str(mask_num) + "_" + str(mask_size) + ".png")
+			$Sprite/Face.material.set_shader_param("NEW1", Asset.DEMON_COLOUR[mask_num][0])
+			$Sprite/Face.material.set_shader_param("NEW2", Asset.DEMON_COLOUR[mask_num][1])
+			$Sprite/Face.material.set_shader_param("NEW3", Asset.DEMON_COLOUR[mask_num][2])
+		else:
+			$Sprite/Face.texture = load("res://assets/textures/players/faces/demon_" + str(mask_num) + "_" + str(mask_size) + ".png")
+			$Sprite/Face.material.set_shader_param("NEW1", Asset.DEMON_COLOUR[mask_num][0])
+			$Sprite/Face.material.set_shader_param("NEW2", Asset.DEMON_COLOUR[mask_num][1])
+			$Sprite/Face.material.set_shader_param("NEW3", Asset.DEMON_COLOUR[mask_num][2])
+			
+	else:
+		$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Global.allSkin[player_no]][0])
+		$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Global.allSkin[player_no]][1])
+		$Sprite/Smoke.emitting = false
+		$Sprite/Smoke.visible = false
+		if mask_num != -1:
+			Asset.return_mask(mask_num, player_no)
+			mask_num = -1
 	
 	# Set clothes colours
 	$Sprite/Clothes.material.set_shader_param("NEW1", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][0])
@@ -109,8 +143,6 @@ func get_input():
 				velocity.x = 1
 				raw_direction.x = -1
 				raw_direction.y = 0
-#			if not Input.is_action_pressed('right') and not Input.is_action_pressed('left'):
-#				velocity.x = 0
 			if Input.is_action_pressed('down'):
 				velocity.y += 1
 				raw_direction.x = 0
@@ -119,8 +151,6 @@ func get_input():
 				velocity.y += 1
 				raw_direction.x = 0
 				raw_direction.y = -1
-#			if not Input.is_action_pressed('up') and not Input.is_action_pressed('down'):
-#				velocity.y = 0
 			if Input.is_action_pressed('right') && Input.is_action_pressed('down'):
 				raw_direction.x = 1
 				raw_direction.y = 1
@@ -208,7 +238,6 @@ func get_input():
 					action = state.DASH
 					stun += 1
 					stunCurrent = stunMax
-				
 
 
 func set_assist():
@@ -216,7 +245,7 @@ func set_assist():
 	var check_vector = null
 	var aim_target = null
 	var target_vector = null
-	var target_type = "none"
+#	var target_type = "none"
 	var difference = 0
 	var check_difference = 0
 	var prev_difference = null
@@ -471,15 +500,16 @@ func _on_BlockBox_area_entered(area):
 	# If Block gets Grabbed
 	if action == state.BLOCK:
 		if area.name == "GrabBox":
-			action = state.HIT
-			if stun < 3:
-				stun += 1
-			if assisted_direction.x > 1:
-				anim.play("hit_right")
-			else:
-				anim.play("hit_left")
-			$Audio/Block_Broken.play()
-			sfx_block.stop()
+			if area.team != team:
+				action = state.HIT
+				if stun < 3:
+					stun += 1
+				if assisted_direction.x > 1:
+					anim.play("hit_right")
+				else:
+					anim.play("hit_left")
+				$Audio/Block_Broken.play()
+				sfx_block.stop()
 
 
 func spawn_dust(dir):
@@ -502,10 +532,12 @@ func show_crown():
 func setWhiteOutlineHands():
 	$Sprite.material.set_shader_param("NEW4", Color8(255,255,255))
 	$Sprite/Hair.material.set_shader_param("NEW2", Color8(255,255,255))
+	$Sprite/Face.material.set_shader_param("NEW4", Color8(255,255,255))
 
 func setBlackOutlineHands():
 	$Sprite.material.set_shader_param("NEW4", Color8(0,0,0))
 	$Sprite/Hair.material.set_shader_param("NEW2", Color8(0,0,0))
+	$Sprite/Face.material.set_shader_param("NEW4", Color8(0,0,0))
 
 func hitFlash():
 	$Sprite/Hair.material.set_shader_param("NEW1", Color8(255,255,255))
@@ -519,6 +551,13 @@ func hitFlash():
 	$Sprite.material.set_shader_param("NEW4", Color8(255,255,255))
 	$Sprite/Hands/PivotLeft/Left.material.set_shader_param("NEW3", Color8(255,255,255))
 	$Sprite/Hands/PivotRight/Right.material.set_shader_param("NEW3", Color8(255,255,255))
+	if team == 9:
+		$Sprite/Face.material.set_shader_param("NEW1", Color8(255,255,255))
+		$Sprite/Face.material.set_shader_param("NEW2", Color8(255,255,255))
+		$Sprite/Face.material.set_shader_param("NEW3", Color8(255,255,255))
+		$Sprite/Face.material.set_shader_param("NEW4", Color8(255,255,255))
+		
+	
 
 
 func resetFlash():
@@ -528,8 +567,15 @@ func resetFlash():
 	$Sprite/Clothes.material.set_shader_param("NEW2", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][1])
 	$Sprite/Clothes.material.set_shader_param("NEW3", Asset.CLOTHES_WHITE)
 #	$Sprite/Clothes.material.set_shader_param("NEW4", Color8(0,0,0))
-	$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Global.allSkin[player_no]][0])
-	$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Global.allSkin[player_no]][1])
+	if team == 9:
+		$Sprite.material.set_shader_param("NEW1", Asset.DEMON_SKIN)
+		$Sprite.material.set_shader_param("NEW2", Asset.DEMON_SKIN)
+		$Sprite/Face.material.set_shader_param("NEW1", Asset.DEMON_COLOUR[mask_num][0])
+		$Sprite/Face.material.set_shader_param("NEW2", Asset.DEMON_COLOUR[mask_num][1])
+		$Sprite/Face.material.set_shader_param("NEW3", Asset.DEMON_COLOUR[mask_num][2])
+	else:
+		$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Global.allSkin[player_no]][0])
+		$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Global.allSkin[player_no]][1])
 #	$Sprite.material.set_shader_param("NEW4", Color8(0,0,0))
 	$Sprite/Hands/PivotLeft/Left.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][0])
 	$Sprite/Hands/PivotRight/Right.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][0])

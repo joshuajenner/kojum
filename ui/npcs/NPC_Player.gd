@@ -2,6 +2,9 @@ extends KinematicBody2D
 
 signal debug(speed)
 
+var dust_big = load("res://players/Dust_Big.tscn")
+var dust_dash = load("res://players/Dust_Dash.tscn")
+
 onready var anim = $AnimationPlayer
 onready var arrow = $Arrow
 onready var rightPivot = $Sprite/Hands/PivotRight
@@ -11,7 +14,7 @@ onready var blockBox = $Sprite/Hands/PivotRight/HitBox
 onready var grabBox = $Sprite/Hands/PivotRight/GrabBox
 onready var stunUI = $Sprite/Stun
 
-enum state {MOVE, ATTACK, HIT, STUN, BLOCK, GRAB}
+enum state {MOVE, ATTACK, HIT, STUN, BLOCK, GRAB, FROZEN, DASH}
 var isFacingRight = true
 export var action = state.MOVE
 
@@ -23,7 +26,7 @@ export (int) var speed_min = 55
 export (int) var speed_current = 55
 export (int) var speed_action = 0
 export (bool) var already_hit = false
-export (bool) var canRotateHands = false
+export (bool) var canRotateHands = true
 var speed_reset = 1
 export (Vector2) var velocity = Vector2()
 export (Vector2) var direction = Vector2()
@@ -34,6 +37,31 @@ var stunCurrent = 80
 var stunMax = 80
 
 
+enum bodies { small, big }
+export(bodies) var Body_Type = bodies.small
+
+enum skinz { light, medium, dark }
+export(skinz) var Shade = skinz.light
+
+enum faces { main_sm, fem_sm, glasses, scar, closed, fem_lg, main_lg, fold }
+export(faces) var Face = faces.main_sm
+
+export (int) var Hair = 0
+
+enum colours { white,grey,black,blonde,orange,red,l_brown,m_brown,d_brown }
+export(colours) var Colour = colours.white
+
+export (int) var Clothes = 0
+
+enum handz { blank,white,colour }
+export(handz) var Hand = handz.blank
+
+export (int) var Team = 0
+
+
+enum side { left,right }
+export(side) var Facing = side.left
+
 
 func _ready():
 	set_customs()
@@ -42,34 +70,44 @@ func _ready():
 #	hitBox.team = team
 	action = state.MOVE
 	anim.play("default")
-	velocity = Vector2(1, 1)
-	direction = Vector2(1, 1)
+	
+	if Facing == side.left:
+		isFacingRight = false
+	else:
+		isFacingRight = true
 	
 #	Input.connect("joy_connection_changed",self,"joy_con_changed")
 
 func set_customs():
-	$Sprite.texture = Asset.BODIES[1]
-	$Sprite/Clothes.texture = Asset.CLOTHES_BIG[1]
-	$Sprite/Hands/PivotLeft.position.x = 0
-	$Sprite/Face.texture = Asset.FACE_BIG[0]
-	$Sprite/Hair.texture = Asset.HAIR_BIG[0]
-	$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[1][0])
-	$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[1][1])
+	$Sprite.texture = Asset.BODIES[Body_Type]
+	if Body_Type == bodies.small:
+		$Sprite/Clothes.texture = Asset.CLOTHES_SMALL[Clothes]
+		$Sprite/Face.texture = Asset.FACE_SMALL[Face]
+		$Sprite/Hair.texture = Asset.HAIR_SMALL[Hair]
+		$Sprite/Hands/PivotLeft.position.x = 1
+	else:
+		$Sprite/Clothes.texture = Asset.CLOTHES_BIG[Clothes]
+		$Sprite/Face.texture = Asset.FACE_BIG[Face]
+		$Sprite/Hair.texture = Asset.HAIR_BIG[Hair]
+		$Sprite/Hands/PivotLeft.position.x = 0
+		
+	$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Shade][0])
+	$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Shade][1])
 	
 	# Set clothes colours
-	$Sprite/Clothes.material.set_shader_param("NEW1", Asset.CLOTHES_COLOUR[0][0])
-	$Sprite/Clothes.material.set_shader_param("NEW2", Asset.CLOTHES_COLOUR[0][1])
+	$Sprite/Clothes.material.set_shader_param("NEW1", Asset.CLOTHES_COLOUR[Team][0])
+	$Sprite/Clothes.material.set_shader_param("NEW2", Asset.CLOTHES_COLOUR[Team][1])
 	$Sprite/Clothes.material.set_shader_param("NEW3", Asset.CLOTHES_WHITE)
 	
 	# Set hair colour
-	$Sprite/Hair.material.set_shader_param("NEW1", Asset.HAIR_COLOURS[0])
-	$Sprite/Hair.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[0][0])
+	$Sprite/Hair.material.set_shader_param("NEW1", Asset.HAIR_COLOURS[Colour])
+	$Sprite/Hair.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Team][0])
 	
 	# Set hands, and colours
-	$Sprite/Hands/PivotLeft/Left.texture = Asset.HANDS[0]
-	$Sprite/Hands/PivotRight/Right.texture = Asset.HANDS[0]
-	$Sprite/Hands/PivotLeft/Left.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[0][0])
-	$Sprite/Hands/PivotRight/Right.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[0][0])
+	$Sprite/Hands/PivotLeft/Left.texture = Asset.HANDS[Hand]
+	$Sprite/Hands/PivotRight/Right.texture = Asset.HANDS[Hand]
+	$Sprite/Hands/PivotLeft/Left.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Team][0])
+	$Sprite/Hands/PivotRight/Right.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Team][0])
 	
 	
 func get_input():
@@ -171,13 +209,16 @@ func set_velocity(delta):
 	if action == state.MOVE:
 		speed_current += (speed_current * 0.2)
 		velocity = velocity.normalized() * clamp(speed_current, speed_min, speed_max) * delta * 60
-
+	
 	if action == state.ATTACK:
 		velocity = direction.normalized() * speed_action * speed_reset * delta * 60
 		
 	if action == state.HIT:
 		velocity = -direction.normalized() * speed_action * delta * 60
-	
+		
+	if action == state.DASH:
+		velocity = direction.normalized() * speed_action * delta * 60
+		
 	if action == state.GRAB:
 		velocity = direction.normalized() * speed_action * speed_reset * delta * 60
 	
@@ -211,7 +252,6 @@ func set_anim():
 			anim.play("attack_left")
 	
 	if action == state.BLOCK:
-		print(global_position)
 		if isFacingRight:
 			anim.play("block_right")
 		else: 
@@ -219,6 +259,12 @@ func set_anim():
 		if canRotateHands:
 			leftPivot.rotation = direction.angle()
 			rightPivot.rotation = direction.angle()
+	
+	if action == state.DASH:
+		if isFacingRight:
+			anim.play("dash_right")
+		else: 
+			anim.play("dash_left")
 	
 	if action == state.STUN:
 		if isFacingRight:
@@ -292,6 +338,9 @@ func _on_HurtBox_area_entered(area):
 #					direction.x = -1
 
 
+func show_mark():
+	$Mark2.play("mark")
+
 func _on_DashCheck_area_entered(area):
 	if (area.name == "HurtBox" && area.get_parent().get_node("Sprite") != $Sprite) or area.name == "Ball":
 		speed_reset = 0.15
@@ -314,7 +363,22 @@ func _on_HitBox_hitBlocked():
 
 func checkGrab():
 	pass
-	
+
+func spawn_dust(dir):
+	var d = dust_big.instance()
+	d.position = $Dust.global_position
+	d.direction = dir
+	d.rotation_degrees = rad2deg(direction.angle())
+	get_parent().add_child(d)
+
+
+func spawn_dust_dash(dir):
+	var d = dust_dash.instance()
+	d.position = $Dust.global_position
+	d.direction = dir
+	d.rotation_degrees = rad2deg(direction.angle())
+	get_parent().add_child(d)
+
 
 func setWhiteOutlineHands():
 	$Sprite.material.set_shader_param("NEW4", Color8(255,255,255))
@@ -339,15 +403,15 @@ func hitFlash():
 
 
 func resetFlash():
-	$Sprite/Hair.material.set_shader_param("NEW1", Asset.HAIR_COLOURS[Global.allHairColour[player_no]])
-	$Sprite/Hair.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][0])
-	$Sprite/Clothes.material.set_shader_param("NEW1", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][0])
-	$Sprite/Clothes.material.set_shader_param("NEW2", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][1])
+	$Sprite/Hair.material.set_shader_param("NEW1", Asset.HAIR_COLOURS[Colour])
+	$Sprite/Hair.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Colour][0])
+	$Sprite/Clothes.material.set_shader_param("NEW1", Asset.CLOTHES_COLOUR[Team][0])
+	$Sprite/Clothes.material.set_shader_param("NEW2", Asset.CLOTHES_COLOUR[Team][1])
 	$Sprite/Clothes.material.set_shader_param("NEW3", Asset.CLOTHES_WHITE)
 #	$Sprite/Clothes.material.set_shader_param("NEW4", Color8(0,0,0))
-	$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Global.allSkin[player_no]][0])
-	$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Global.allSkin[player_no]][1])
+	$Sprite.material.set_shader_param("NEW1", Asset.ALL_SKIN[Shade][0])
+	$Sprite.material.set_shader_param("NEW2", Asset.ALL_SKIN[Shade][1])
 #	$Sprite.material.set_shader_param("NEW4", Color8(0,0,0))
-	$Sprite/Hands/PivotLeft/Left.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][0])
-	$Sprite/Hands/PivotRight/Right.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Global.allTeams[player_no]][0])
+	$Sprite/Hands/PivotLeft/Left.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Team][0])
+	$Sprite/Hands/PivotRight/Right.material.set_shader_param("NEW3", Asset.CLOTHES_COLOUR[Team][0])
 

@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
-[ext_resource path="res://shaders/bb.tres" type="Material" id=2]
 [ext_resource path="res://assets/textures/ui/top_left_frame.png" type="Texture" id=3]
 [ext_resource path="res://ui/team_select/TeamSelect.gd" type="Script" id=4]
 [ext_resource path="res://ui/setup/Camera.gd" type="Script" id=5]
@@ -120,11 +119,7 @@ shape = SubResource( 4 )
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
 [node name="UI" type="Control" parent="UICanvas"]
-material = ExtResource( 2 )
 theme = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Title" type="Label" parent="UICanvas/UI"]
 use_parent_material = true

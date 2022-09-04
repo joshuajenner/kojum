@@ -12,15 +12,17 @@ export var sprite_num = 0
 const SPEED_MAX = 120
 const SPEED_PRIMED = 200
 const BONK_SPEED = 60
-var direction = Vector2(0, 0)
+export (Vector2) var direction = Vector2(0, 0)
 var friction_decay = false
 var friction = 100
-var speed = 0
+export (int) var speed = 0
 var perfect
 var canBonk = false
 var rng = RandomNumberGenerator.new()
-var inPlay = true
+export (bool) var inPlay = true
 var primed = false
+
+var just_bounced = false
 
 onready var initial_pos = self.position
 
@@ -156,6 +158,7 @@ func _on_Right_area_entered(area):
 func _on_Bottom_area_entered(area):
 	if area.get("type") == "ballWall":
 		direction.y = -direction.y
+
 		if inPlay:
 			sfx_bounce.play(speed)
 
@@ -169,3 +172,4 @@ func _on_Left_area_entered(area):
 #func _on_Ball_area_exited(area):
 #	if area.name == "HurtBox":
 #		canBonk = true
+

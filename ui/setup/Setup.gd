@@ -17,7 +17,6 @@ func _ready():
 	var _s = Render.connect("scale_changed", self, "on_Scale_Changed")
 	on_Window_Resized(Render.vp.size, Render.currentScale)
 	on_Scale_Changed(Render.currentScale)
-	hide_dummy()
 
 func on_Window_Resized(ws, sc):
 	canvas.offset.x = max(0, (ws.x/2 - 512*sc/2))
@@ -45,18 +44,18 @@ func _on_Players_instance_player(no, coords):
 	var instance = player.instance()
 	instance.player_no = no
 	instance.device = Global.allControllers[no]
-	instance.global_position = coords - (Render.RESOLUTION/2) + Vector2(16,31)
+	instance.global_position = coords - (Render.RESOLUTION/2) + Vector2(15,30)
 	$YSort.add_child(instance)
-	if no == 0:
-		show_dummy()
+#	if no == 0:
+#		show_dummy()
 	
-func hide_dummy():
-	$YSort/Dummy.visible = false
-	$YSort/Cancel.visible = false
-
-func show_dummy():
-	$YSort/Dummy.visible = true
-	$YSort/Cancel.visible = true
+#func hide_dummy():
+#	$YSort/Dummy.visible = false
+#	$YSort/Cancel.visible = false
+#
+#func show_dummy():
+#	$YSort/Dummy.visible = true
+#	$YSort/Cancel.visible = true
 
 func _on_Dummy_activated():
 	MenuSwitcher.switch_menu(teams)
@@ -66,3 +65,10 @@ func _on_Cancel_activated():
 
 func _on_Back_clicked():
 	MenuSwitcher.switch_menu(title)
+
+
+func _on_Redo_PND_activated(player_no):
+	$UICanvas/UI/Players.redo_setup(player_no)
+	for child in $YSort.get_children():
+		if "Player" in child.name:
+			child.queue_free()

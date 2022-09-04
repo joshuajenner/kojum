@@ -37,6 +37,10 @@ func display_next_connector():
 			allPlayers.get_child(cont).turn_visible()
 			break
 
+func redo_setup(player_no):
+	for child in allPlayers.get_children():
+		if child.player_no == player_no:
+			child.redo()
 
 func _gui_input(event):
 	var inputPassed = false

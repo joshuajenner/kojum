@@ -6,8 +6,8 @@ export var hitCheck = hitState.CLEAR
 var parentPosition = Vector2()
 export var justHitBall = false
 
+var player_no = 0
 var team = 0
-
 signal hitBlocked
 
 
@@ -24,5 +24,6 @@ func _process(_delta):
 
 func _on_HitBox_area_entered(area):
 	if area.name == "BlockBox":
-		hitCheck = hitState.BLOCKED
-		emit_signal("hitBlocked")
+		if area.team != team:
+			hitCheck = hitState.BLOCKED
+			emit_signal("hitBlocked")

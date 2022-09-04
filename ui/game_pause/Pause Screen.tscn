@@ -99,9 +99,6 @@ margin_top = -144.0
 margin_right = 248.0
 margin_bottom = 144.0
 color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="UI" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0 )

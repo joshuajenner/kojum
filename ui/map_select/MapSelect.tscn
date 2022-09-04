@@ -1,15 +1,16 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://ui/map_select/MapSelect.gd" type="Script" id=1]
 [ext_resource path="res://ui/setup/Camera.gd" type="Script" id=2]
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=3]
-[ext_resource path="res://shaders/bb.tres" type="Material" id=4]
 [ext_resource path="res://assets/textures/ui/top_left_frame.png" type="Texture" id=5]
 [ext_resource path="res://ui/setup/components/dummy/Dummy.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/textures/ui/map_thumbs/dojo.png" type="Texture" id=7]
 [ext_resource path="res://ui/components/Back.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/textures/ui/map_back.png" type="Texture" id=9]
 [ext_resource path="res://assets/textures/ui/map_thumbs/courtyard_thumb.png" type="Texture" id=10]
+[ext_resource path="res://assets/textures/ui/map_thumbs/market_thumb.png" type="Texture" id=11]
+[ext_resource path="res://assets/textures/ui/map_thumbs/arena.png" type="Texture" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 512, 20 )
@@ -66,7 +67,7 @@ texture = ExtResource( 9 )
 [node name="YSort" type="YSort" parent="."]
 
 [node name="Map1" parent="YSort" instance=ExtResource( 6 )]
-position = Vector2( -64, 8 )
+position = Vector2( -144, 8 )
 label = "Selected"
 
 [node name="Frame" type="Sprite" parent="YSort/Map1"]
@@ -87,7 +88,7 @@ __meta__ = {
 }
 
 [node name="Map2" parent="YSort" instance=ExtResource( 6 )]
-position = Vector2( 64, 8 )
+position = Vector2( -48, 8 )
 
 [node name="Frame" type="Sprite" parent="YSort/Map2"]
 position = Vector2( 0, -70 )
@@ -102,6 +103,44 @@ theme = ExtResource( 3 )
 text = "Courtyard
 "
 align = 1
+
+[node name="Map3" parent="YSort" instance=ExtResource( 6 )]
+position = Vector2( 48, 8 )
+
+[node name="Frame" type="Sprite" parent="YSort/Map3"]
+position = Vector2( 0, -70 )
+texture = ExtResource( 11 )
+
+[node name="Name" type="Label" parent="YSort/Map3/Frame"]
+margin_left = -34.0
+margin_top = -36.0
+margin_right = 36.0
+margin_bottom = -7.0
+theme = ExtResource( 3 )
+text = "Market"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Map4" parent="YSort" instance=ExtResource( 6 )]
+position = Vector2( 144, 8 )
+
+[node name="Frame" type="Sprite" parent="YSort/Map4"]
+position = Vector2( 0, -70 )
+texture = ExtResource( 12 )
+
+[node name="Name" type="Label" parent="YSort/Map4/Frame"]
+margin_left = -34.0
+margin_top = -36.0
+margin_right = 36.0
+margin_bottom = -7.0
+theme = ExtResource( 3 )
+text = "Arena"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Play" parent="YSort" instance=ExtResource( 6 )]
 position = Vector2( 0, 108 )
@@ -140,11 +179,7 @@ offset = Vector2( 0, 5 )
 transform = Transform2D( 1, 0, 0, 1, 0, 5 )
 
 [node name="UI" type="Control" parent="UICanvas"]
-material = ExtResource( 4 )
 theme = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Title" type="Label" parent="UICanvas/UI"]
 use_parent_material = true
@@ -176,6 +211,8 @@ anims/enter = SubResource( 4 )
 
 [connection signal="activated" from="YSort/Map1" to="." method="_on_Map1_activated"]
 [connection signal="activated" from="YSort/Map2" to="." method="_on_Map2_activated"]
+[connection signal="activated" from="YSort/Map3" to="." method="_on_Map3_activated"]
+[connection signal="activated" from="YSort/Map4" to="." method="_on_Map4_activated"]
 [connection signal="activated" from="YSort/Play" to="." method="_on_Play_activated"]
 [connection signal="activated" from="YSort/Cancel" to="." method="_on_Cancel_activated"]
 [connection signal="clicked" from="UICanvas/UI/Back" to="." method="_on_Back_clicked"]

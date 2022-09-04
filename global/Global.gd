@@ -1,10 +1,5 @@
 extends Node
 
-var config_path = "res://config.cfg"
-var config  = ConfigFile.new()
-var settings = config.load(config_path)
-var audio = "audio"
-
 var MM_Bus = AudioServer.get_bus_index("Menu_Music")
 var MS_Bus = AudioServer.get_bus_index("Menu_SFX")
 var GM_Bus = AudioServer.get_bus_index("Game_Music")
@@ -14,7 +9,7 @@ var kb_taken = false
 var titleFirstLoad = true
 
 # -2 = None // -1 = KB // 0-7 = Controller
-var allControllers = [0,-1,-2,-2,-2,-2,-2,-2]
+var allControllers = [-2,-2,-2,-2,-2,-2,-2,-2]
 var allNames = [["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"],["A","A","A"]]
 var allBodies = [0,0,0,0,0,0,0,0]
 var allSkin = [0,0,0,0,0,0,0,0]
@@ -24,8 +19,10 @@ var allHairColour = [0,0,0,0,0,0,0,0]
 var allClothes = [0,0,0,0,0,0,0,0]
 var allHands = [0,0,0,0,0,0,0,0]
 var allColour = [0,0,0,0,0,0,0,0]
-var allTeams = [1,2,0,0,0,0,0,0]
-var chosenTeams = [1,2]
+var allTeams = [0,0,0,0,0,0,0,0]
+# -1 = No mask
+var allMasks = [-1,-1,-1,-1,-1,-1,-1,-1]
+var chosenTeams = [0,0]
 enum {NO, PAD}
 
 var availBodies = ["SL", "SM", "SD", "BL", "BM", "BD"]
@@ -37,6 +34,7 @@ var availHairColour = [1,2,3,4,5,6,7,8,9]
 var availClothes = ["1B", "1W", "2B", "2W", "3B", "3W", "3C", "4B", "4C", "5B", "5C", "6B", "6W", "6C", "7B", "7W", "7C", "8B", "8W", "9B", "9W", "9C", "10B", "10C", "11B", "11C", "12C"]
 # var availTeams = ["Dragons", "Monks", "Sun"]
 
+var demonz_found = false
 
 var team_select = [
 	[],
@@ -67,13 +65,13 @@ var TEAM_ICONS = [
 # Color8(45,74,149)
 var TEAM_FIELD_COLOURS = [
 	[Color8(74,84,98), Color8(51,57,65), Color8(39,43,47)],
-	[Color8(45,78,162),  Color8(44,70,135), Color8(34,44,68)],
-	[Color8(6,101,47), Color8(6,70,33), Color8(6,35,18)],
-	[Color8(237,167,0), Color8(199,141,5), Color8(153,110,11)],
-	[Color8(223,113,37),  Color8(211,105,34), Color8(157,85,37)],
-	[Color8(172,50,50),  Color8(140,49,49), Color8(95,43,43)],
+	[Color8(46,79,163), Color8(43,66,125), Color8(34,44,68)],
+	[Color8(6,101,47), Color8(8,78,37), Color8(6,35,18)],
+	[Color8(237,167,0), Color8(198,140,6), Color8(153,110,11)],
+	[Color8(223,113,37), Color8(188,92,36), Color8(157,85,37)],
+	[Color8(173,51,51), Color8(140,49,49), Color8(95,43,43)],
 	[Color8(118,66,138), Color8(85,57,96), Color8(54,43,59)],
-	[Color8(205,106,175), Color8(191,90,160), Color8(154,76,130)],
+	[Color8(205,106,175), Color8(185,85,155), Color8(154,76,130)],
 	[Color8(143,86,59), Color8(109,71,54), Color8(66,49,41)],
 	[Color8(0,0,0), Color8(0,0,0), Color8(0,0,0)]
 ]
@@ -86,11 +84,28 @@ var timeDict = OS.get_time()
 
 const allMaps = [
 	"res://fields/dojo/Dojo.tscn",
-	"res://fields/city/City.tscn"
+	"res://fields/courtyard/Courtyard.tscn",
+	"res://fields/market/Market.tscn",
+	"res://fields/temple/Temple.tscn"
 ]
+
+var config_path = "user://config.cfg"
+var config  = ConfigFile.new()
+var settings = config.load(config_path)
+var audio = "audio"
 
 
 func _ready():
+	#	ProjectSettings.load_resource_pack("user://Kojum.pck")
+	
+	# If config not found, create config
+	if settings != OK:
+		config.set_value(audio, "menu_music", 0.1)
+		config.set_value(audio, "menu_sfx", 0.5)
+		config.set_value(audio, "game_music", 0.1)
+		config.set_value(audio, "game_sfx", 0.5)
+		config.save("user://config.cfg")
+		
 	# Apply Settings
 	AudioServer.set_bus_volume_db(MM_Bus, linear2db(config.get_value(audio, "menu_music")))
 	AudioServer.set_bus_volume_db(MS_Bus, linear2db(config.get_value(audio, "menu_sfx")))
@@ -98,9 +113,11 @@ func _ready():
 	AudioServer.set_bus_volume_db(GS_Bus, linear2db(config.get_value(audio, "game_sfx")))
 	
 	# Demonz
-#	if (timeDict.hour == 4):
-#		team_select.push_back(demonz)
-#		TEAM_ICONS.push_back(demonz_icon)
+	if (timeDict.hour == 4):
+		team_select.push_back(demonz)
+		TEAM_ICONS.push_back(demonz_icon)
+		team_select[2][2] = "These wandering warriors enjoy Kojum as light sparring. They claim to be looking for demons, and have found them!"
+		demonz_found = true
 #	print(timeDict.hour)
 
 # Attribute, direction

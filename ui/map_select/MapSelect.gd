@@ -4,7 +4,7 @@ extends Node2D
 onready var fill = $Fill
 onready var canvas = $UICanvas
 onready var anim = $Anim
-onready var mapDummies = [$YSort/Map1/Label, $YSort/Map2/Label]
+onready var mapDummies = [$YSort/Map1/Label, $YSort/Map2/Label, $YSort/Map3/Label, $YSort/Map4/Label]
 
 
 var player = preload("res://players/Player.tscn")
@@ -80,6 +80,12 @@ func _on_Map1_activated():
 func _on_Map2_activated():
 	set_Selected_Map(1)
 
+func _on_Map3_activated():
+	set_Selected_Map(2)
+
+func _on_Map4_activated():
+	set_Selected_Map(3)
+
 
 func _on_Play_activated():
 	MenuSwitcher.switch_menu(Global.allMaps[selectedMap])
@@ -91,3 +97,6 @@ func _on_Cancel_activated():
 
 func _on_Back_clicked():
 	MenuSwitcher.switch_menu(teamSelect)
+
+
+

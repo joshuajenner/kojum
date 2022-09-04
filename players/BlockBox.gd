@@ -6,6 +6,7 @@ export var direction = Vector2()
 # var a = 2
 # var b = "text"
 
+var team = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

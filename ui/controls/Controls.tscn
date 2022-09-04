@@ -1,23 +1,2085 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=30 format=2]
 
-[ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
+[ext_resource path="res://ui/controls/Controls.gd" type="Script" id=1]
+[ext_resource path="res://ui/setup/Camera.gd" type="Script" id=2]
+[ext_resource path="res://ui/theme/main.theme" type="Theme" id=3]
+[ext_resource path="res://assets/textures/ui/top_left_frame.png" type="Texture" id=5]
+[ext_resource path="res://assets/textures/ui/controls_tabs.png" type="Texture" id=6]
+[ext_resource path="res://ui/controls/Main.gd" type="Script" id=7]
+[ext_resource path="res://ui/components/Back.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/textures/ui/map_back.png" type="Texture" id=9]
+[ext_resource path="res://ui/audio/UIAudio.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/textures/ui/example_frame.png" type="Texture" id=11]
+[ext_resource path="res://assets/textures/ui/press_a_small.png" type="Texture" id=12]
+[ext_resource path="res://assets/textures/ui/press_left.png" type="Texture" id=13]
+[ext_resource path="res://assets/textures/ui/press_right.png" type="Texture" id=14]
+[ext_resource path="res://assets/textures/ui/press_up.png" type="Texture" id=15]
+[ext_resource path="res://ui/npcs/Controls_Player.tscn" type="PackedScene" id=16]
+[ext_resource path="res://ball/Ball.tscn" type="PackedScene" id=17]
+[ext_resource path="res://fields/walls/BallWall.tscn" type="PackedScene" id=18]
+[ext_resource path="res://assets/textures/ui/arrow_6x4.png" type="Texture" id=19]
 
-[node name="Controls" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme = ExtResource( 1 )
+[sub_resource type="Animation" id=1]
+resource_name = "move"
+length = 4.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 100, 140 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Player:velocity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8, 1.4, 2.2, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1, 0 ), Vector2( 0, 1 ), Vector2( -1, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:direction")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1, 0 ), Vector2( -1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player:Facing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player:action")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player:speed_current")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 55 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player2:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 300, 170 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Player2:velocity")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.7, 1.6, 1.8, 2, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( -1, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Player2:direction")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 1.6, 2, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 0 ), Vector2( -1, 0 ), Vector2( -1, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Player2:Facing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 1.6, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 1, 0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Player2:action")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 1.1, 1.8, 2.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 7, 0, 7 ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Player2")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 1.1, 2.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "add_stun"
+}, {
+"args": [  ],
+"method": "add_stun"
+} ]
+}
+tracks/12/type = "method"
+tracks/12/path = NodePath("Player2")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "reset"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player:velocity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Player:direction")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 100, 140 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 300, 170 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player:action")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player2:action")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "stop"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 70, 180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ball:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 92, 175 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 360, 180 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player3:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 382, 180 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player2:velocity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player2:action")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player:action")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Player3:speed_reset")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Ball:speed")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Ball:rotation_degrees")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Player3:action")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Player3")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Ball:inPlay")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "strike"
+length = 5.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 70, 180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ball:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 92, 175 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 360, 180 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player3:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 382, 180 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player2:velocity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player2:action")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player:action")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 1.7, 1.8, 2.3, 2.4, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 0, 1, 0, 1, 0, 1 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Player3:speed_reset")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Ball:speed")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Ball:rotation_degrees")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Player3:action")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 5.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 0 ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Player3")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 5.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Ball:inPlay")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Player:direction")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Player:speed_reset")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 1.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "block"
+length = 5.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 70, 180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ball:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 220, 175 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 340, 180 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player3:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 382, 180 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player2:velocity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 2.5, 2.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player2:action")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2, 2.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 4, 1 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player:action")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.9, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Player3:speed_reset")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Ball:speed")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 100 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Ball:rotation_degrees")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Player3:action")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 0.6, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 4, 0 ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Player3")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 5.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Ball:direction")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( -1, 0 ) ]
+}
+tracks/13/type = "method"
+tracks/13/path = NodePath("Player2")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Player3:direction")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -1, 0 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Player3:Facing")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Player3:canRotateHands")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Player:speed_reset")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Player:speed_action")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 100 ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Player:velocity")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0, 0.8, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Ball:inPlay")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "stop"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 70, 180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ball:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 220, 175 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 360, 180 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player3:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 382, 180 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player2:velocity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player:action")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player3:speed_reset")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Ball:speed")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Ball:rotation_degrees")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Player3:action")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/10/type = "method"
+tracks/10/path = NodePath("Player3")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Ball:direction")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Player2:action")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Ball:inPlay")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Player3:already_hit")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/15/type = "method"
+tracks/15/path = NodePath("Ball")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_prime_status"
+} ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "grab"
+length = 5.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 140, 180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ball:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 160, 175 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 355, 180 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player3:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 382, 180 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player2:velocity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player2:action")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 5 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player:action")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.9, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 5, 0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Player3:speed_reset")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Ball:speed")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Ball:rotation_degrees")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0.0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Player3:action")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 0.6, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 4, 0 ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Player3")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 1, 5.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "add_stun"
+}, {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Ball:direction")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/13/type = "method"
+tracks/13/path = NodePath("Player2")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Player3:direction")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -1, 0 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Player3:Facing")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Player3:canRotateHands")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Player:speed_reset")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Player:speed_action")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 100 ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Player:velocity")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0, 0.8, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Ball:inPlay")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("Player2:direction")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ) ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("Player3:already_hit")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "stop"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 140, 180 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ball:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 160, 175 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 360, 180 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player3:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 382, 180 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player2:velocity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player:action")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player3:speed_reset")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Ball:speed")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Ball:rotation_degrees")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Player3:action")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/10/type = "method"
+tracks/10/path = NodePath("Player3")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "remove_stun"
+} ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Ball:direction")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Player2:action")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Ball:inPlay")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "left_click"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Tabs/Left:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( -35, 3 ), Vector2( -34, 3 ), Vector2( -33, 3 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "right_click"
+length = 0.18
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Tabs/Right:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 34, -3 ), Vector2( 33, -3 ), Vector2( 32, -3 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 256, 10 ), Vector2( 256, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("UICanvas:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 10 ), Vector2( 0, 0 ) ]
+}
+
+[node name="Controls" type="Node2D"]
+position = Vector2( 256, 0 )
+script = ExtResource( 1 )
+
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+process_mode = 0
+script = ExtResource( 2 )
+
+[node name="Fill" type="Polygon2D" parent="."]
+color = Color( 0.305882, 0.419608, 0.2, 1 )
+offset = Vector2( -256, -144 )
+polygon = PoolVector2Array( 0, 0, 512, 0, 512, 288, 0, 288 )
+
+[node name="Bg" type="Sprite" parent="."]
+texture = ExtResource( 9 )
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="UICanvas"]
+theme = ExtResource( 3 )
+
+[node name="Title" type="Label" parent="UICanvas/UI"]
+use_parent_material = true
+margin_left = 16.0
+margin_top = 8.0
+margin_right = 99.0
+margin_bottom = 21.0
+text = "Controls"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Controls"
+[node name="Frame" type="TextureRect" parent="UICanvas/UI"]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 134.0
+margin_bottom = 69.0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Frame" type="TextureRect" parent="."]
+[node name="Back" parent="UICanvas/UI" instance=ExtResource( 8 )]
+margin_right = 496.0
+margin_bottom = 44.0
+
+[node name="Main" type="Control" parent="UICanvas"]
+margin_right = 299.0
+margin_bottom = 163.0
+theme = ExtResource( 3 )
+script = ExtResource( 7 )
+
+[node name="Overall" type="Control" parent="UICanvas/Main"]
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UICanvas/Main/Overall"]
+margin_left = 32.0
+margin_top = 40.0
+margin_right = 480.0
+margin_bottom = 110.0
+bbcode_enabled = true
+bbcode_text = "[color=lime]Kojum[/color] is a game that mixes martial arts and football.
+
+The team with the most goals wins. [color=aqua]Strike[/color], [color=aqua]Block[/color], or [color=aqua]Grab[/color] the ball to send it into your opponents’ goal, and if you find them getting in your way, use those same moves to stop them.
+
+Use your moves on your opponents to apply [color=#eda700]Stun[/color] charges which fade over time. Applying enough [color=#eda700]Stun[/color] charges quickly will cause your opponent to be stunned and unable to move for a brief period. This provides you an opportunity to score.
+
+Master your abilities, and find the right balance between setting up your goals, and fighting your opponents to dominate on the field.
+
+Good Luck.
+"
+text = "Kojum is a game that mixes martial arts and football.
+
+The team with the most goals wins. Strike, Block, or Grab the ball to send it into your opponents’ goal, and if you find them getting in your way, use those same moves to stop them.
+
+Use your moves on your opponents to apply Stun charges which fade over time. Applying enough Stun charges quickly will cause your opponent to be stunned and unable to move for a brief period. This provides you an opportunity to score.
+
+Master your abilities, and find the right balance between setting up your goals, and fighting your opponents to dominate on the field.
+
+Good Luck.
+"
+fit_content_height = true
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Movement" type="Control" parent="UICanvas/Main"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Frame" type="Sprite" parent="UICanvas/Main/Movement"]
+position = Vector2( 140, 170 )
+texture = ExtResource( 11 )
+
+[node name="Frame2" type="Sprite" parent="UICanvas/Main/Movement"]
+position = Vector2( 372, 170 )
+texture = ExtResource( 11 )
+
+[node name="Label1" type="RichTextLabel" parent="UICanvas/Main/Movement"]
+margin_left = 32.0
+margin_top = 40.0
+margin_right = 248.0
+margin_bottom = 88.0
+bbcode_enabled = true
+bbcode_text = "[color=aqua]Move[/color] around by using WASD or the Left Thumbstick."
+meta_underlined = false
+text = "Move around by using WASD or the Left Thumbstick."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="RichTextLabel" parent="UICanvas/Main/Movement"]
+margin_left = 264.0
+margin_top = 40.0
+margin_right = 480.0
+margin_bottom = 102.0
+bbcode_enabled = true
+bbcode_text = "[color=aqua]Dash[/color] by pressing M or     for a burst of speed. This applies a [color=#eda700]Stun[/color] charge to yourself so use it wisely. You cannot [color=aqua]Dash[/color] if you have two stun charges."
+meta_underlined = false
+text = "Dash by pressing M or     for a burst of speed. This applies a Stun charge to yourself so use it wisely. You cannot Dash if you have two stun charges."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/Main/Movement/Label2"]
+margin_left = 124.0
+margin_top = 1.0
+margin_right = 136.0
+margin_bottom = 13.0
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" parent="UICanvas/Main/Movement" instance=ExtResource( 16 )]
+position = Vector2( 100, 140 )
+action = 6
+direction = Vector2( 1, 0 )
+Body_Type = 1
+Shade = 1
+Facing = 1
+
+[node name="Player2" parent="UICanvas/Main/Movement" instance=ExtResource( 16 )]
+position = Vector2( 300, 170 )
+action = 6
+direction = Vector2( 1, 0 )
+Body_Type = 1
+Shade = 1
+Facing = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UICanvas/Main/Movement"]
+anims/move = SubResource( 1 )
+anims/reset = SubResource( 2 )
+
+[node name="Strike" type="Control" parent="UICanvas/Main"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Frame" type="Sprite" parent="UICanvas/Main/Strike"]
+position = Vector2( 140, 170 )
+texture = ExtResource( 11 )
+
+[node name="Frame2" type="Sprite" parent="UICanvas/Main/Strike"]
+position = Vector2( 372, 170 )
+texture = ExtResource( 11 )
+
+[node name="Label1" type="RichTextLabel" parent="UICanvas/Main/Strike"]
+margin_left = 32.0
+margin_top = 40.0
+margin_right = 248.0
+margin_bottom = 88.0
+bbcode_enabled = true
+bbcode_text = "[color=aqua]Strike[/color] a target by pressing J or    . Hitting the ball will send it in the direction you are facing."
+meta_underlined = false
+text = "Strike a target by pressing J or    . Hitting the ball will send it in the direction you are facing."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/Main/Strike/Label1"]
+margin_left = 177.0
+margin_top = 1.0
+margin_right = 189.0
+margin_bottom = 13.0
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="RichTextLabel" parent="UICanvas/Main/Strike"]
+margin_left = 264.0
+margin_top = 40.0
+margin_right = 480.0
+margin_bottom = 102.0
+bbcode_enabled = true
+bbcode_text = "[color=aqua]Strike[/color] an opponent to apply a [color=#eda700]Stun[/color] charge to them. 3 charges will cause them to be stunned."
+meta_underlined = false
+text = "Strike an opponent to apply a Stun charge to them. 3 charges will cause them to be stunned."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player3" parent="UICanvas/Main/Strike" instance=ExtResource( 16 )]
+position = Vector2( 382, 180 )
+speed_reset = 0
+Body_Type = 1
+Face = 3
+Hair = 2
+control_sync = 1
+
+[node name="Player" parent="UICanvas/Main/Strike" instance=ExtResource( 16 )]
+position = Vector2( 360, 180 )
+speed_reset = 0
+direction = Vector2( 1, 0 )
+Body_Type = 1
+Shade = 1
+Facing = 1
+control_sync = 1
+
+[node name="Player2" parent="UICanvas/Main/Strike" instance=ExtResource( 16 )]
+position = Vector2( 70, 180 )
+action = 1
+Body_Type = 1
+Shade = 1
+Facing = 1
+control_sync = 1
+
+[node name="Ball" parent="UICanvas/Main/Strike" instance=ExtResource( 17 )]
+position = Vector2( 92, 175 )
+sprite_num = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UICanvas/Main/Strike"]
+anims/stop = SubResource( 3 )
+anims/strike = SubResource( 4 )
+
+[node name="Block" type="Control" parent="UICanvas/Main"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Frame" type="Sprite" parent="UICanvas/Main/Block"]
+position = Vector2( 140, 170 )
+texture = ExtResource( 11 )
+
+[node name="Frame2" type="Sprite" parent="UICanvas/Main/Block"]
+position = Vector2( 372, 170 )
+texture = ExtResource( 11 )
+
+[node name="Label1" type="RichTextLabel" parent="UICanvas/Main/Block"]
+margin_left = 32.0
+margin_top = 40.0
+margin_right = 248.0
+margin_bottom = 104.0
+bbcode_enabled = true
+bbcode_text = "[color=aqua]Block[/color] by pressing L or    . [color=aqua]Blocking[/color] the ball stops it in front of you and primes it. A [color=aqua]Strike[/color] on a primed ball will send it farther than normal."
+meta_underlined = false
+text = "Block by pressing L or    . Blocking the ball stops it in front of you and primes it. A Strike on a primed ball will send it farther than normal."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/Main/Block/Label1"]
+margin_left = 123.0
+margin_top = 1.0
+margin_right = 135.0
+margin_bottom = 13.0
+texture = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="RichTextLabel" parent="UICanvas/Main/Block"]
+margin_left = 264.0
+margin_top = 40.0
+margin_right = 480.0
+margin_bottom = 102.0
+bbcode_enabled = true
+bbcode_text = "A well timed [color=aqua]Block[/color] will stop an opponent that is trying to [color=aqua]Strike[/color] you. This also applies a [color=#eda700]Stun[/color] charge to them."
+meta_underlined = false
+text = "A well timed Block will stop an opponent that is trying to Strike you. This also applies a Stun charge to them."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player3" parent="UICanvas/Main/Block" instance=ExtResource( 16 )]
+position = Vector2( 382, 180 )
+action = 6
+already_hit = true
+speed_reset = 0
+direction = Vector2( -1, 0 )
+Body_Type = 1
+Face = 3
+Hair = 2
+control_sync = 2
+
+[node name="Player" parent="UICanvas/Main/Block" instance=ExtResource( 16 )]
+position = Vector2( 360, 180 )
+action = 6
+speed_action = 100
+Body_Type = 1
+Shade = 1
+Facing = 1
+control_sync = 2
+
+[node name="Player2" parent="UICanvas/Main/Block" instance=ExtResource( 16 )]
+position = Vector2( 70, 180 )
+action = 6
+Body_Type = 1
+Shade = 1
+Facing = 1
+control_sync = 2
+
+[node name="Ball" parent="UICanvas/Main/Block" instance=ExtResource( 17 )]
+position = Vector2( 220, 175 )
+sprite_num = 4
+inPlay = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UICanvas/Main/Block"]
+anims/block = SubResource( 5 )
+anims/stop = SubResource( 6 )
+
+[node name="Grab" type="Control" parent="UICanvas/Main"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Frame" type="Sprite" parent="UICanvas/Main/Grab"]
+position = Vector2( 140, 170 )
+texture = ExtResource( 11 )
+
+[node name="Frame2" type="Sprite" parent="UICanvas/Main/Grab"]
+position = Vector2( 372, 170 )
+texture = ExtResource( 11 )
+
+[node name="Label1" type="RichTextLabel" parent="UICanvas/Main/Grab"]
+margin_left = 32.0
+margin_top = 40.0
+margin_right = 248.0
+margin_bottom = 104.0
+bbcode_enabled = true
+bbcode_text = "[color=aqua]Grab[/color] by pressing K or    . [color=aqua]Grabbing[/color] the ball will send it behind you."
+meta_underlined = false
+text = "Grab by pressing K or    . Grabbing the ball will send it behind you."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UICanvas/Main/Grab/Label1"]
+margin_left = 120.0
+margin_top = 1.0
+margin_right = 132.0
+margin_bottom = 13.0
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="RichTextLabel" parent="UICanvas/Main/Grab"]
+margin_left = 264.0
+margin_top = 40.0
+margin_right = 480.0
+margin_bottom = 102.0
+bbcode_enabled = true
+bbcode_text = "[color=aqua]Grab[/color] a [color=aqua]blocking[/color] opponent to break their guard. This applies a [color=#eda700]Stun[/color] charge to them."
+meta_underlined = false
+text = "Grab a blocking opponent to break their guard. This applies a Stun charge to them."
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player3" parent="UICanvas/Main/Grab" instance=ExtResource( 16 )]
+position = Vector2( 382, 180 )
+speed_reset = 0
+direction = Vector2( -1, 0 )
+Body_Type = 1
+Face = 3
+Hair = 2
+control_sync = 3
+
+[node name="Player" parent="UICanvas/Main/Grab" instance=ExtResource( 16 )]
+position = Vector2( 355, 180 )
+speed_action = 100
+Body_Type = 1
+Shade = 1
+Facing = 1
+control_sync = 3
+
+[node name="Player2" parent="UICanvas/Main/Grab" instance=ExtResource( 16 )]
+position = Vector2( 140, 180 )
+direction = Vector2( 1, 0 )
+Body_Type = 1
+Shade = 1
+Facing = 1
+control_sync = 3
+
+[node name="Ball" parent="UICanvas/Main/Grab" instance=ExtResource( 17 )]
+position = Vector2( 160, 175 )
+sprite_num = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UICanvas/Main/Grab"]
+anims/grab = SubResource( 7 )
+anims/stop = SubResource( 8 )
+
+[node name="BallWall2" parent="UICanvas/Main" instance=ExtResource( 18 )]
+position = Vector2( 24, 170 )
+scale = Vector2( 1, 7 )
+collision_layer = 5
+collision_mask = 5
+
+[node name="BallWall" parent="UICanvas/Main" instance=ExtResource( 18 )]
+position = Vector2( 256, 170 )
+scale = Vector2( 1, 7 )
+collision_layer = 5
+collision_mask = 5
+
+[node name="Tabs" type="Sprite" parent="UICanvas/Main"]
+position = Vector2( 256, 260 )
+texture = ExtResource( 6 )
+hframes = 5
+
+[node name="Left" type="TextureRect" parent="UICanvas/Main/Tabs"]
+margin_left = -33.0
+margin_top = 3.0
+margin_right = -27.0
+margin_bottom = 15.0
+rect_rotation = -90.0
+mouse_default_cursor_shape = 2
+texture = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Right" type="TextureRect" parent="UICanvas/Main/Tabs"]
+margin_left = 32.0
+margin_top = -3.0
+margin_right = 38.0
+margin_bottom = 9.0
+rect_rotation = 90.0
+mouse_default_cursor_shape = 2
+texture = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrows" type="AnimationPlayer" parent="UICanvas/Main"]
+anims/left_click = SubResource( 9 )
+anims/right_click = SubResource( 10 )
+
+[node name="UIAudio" parent="UICanvas/Main" instance=ExtResource( 10 )]
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/enter = SubResource( 11 )
+
+[connection signal="clicked" from="UICanvas/UI/Back" to="." method="_on_Back_clicked"]
+[connection signal="change_title" from="UICanvas/Main" to="." method="_on_Main_change_title"]
+[connection signal="gui_input" from="UICanvas/Main/Tabs/Left" to="UICanvas/Main" method="_on_Left_gui_input"]
+[connection signal="gui_input" from="UICanvas/Main/Tabs/Right" to="UICanvas/Main" method="_on_Right_gui_input"]

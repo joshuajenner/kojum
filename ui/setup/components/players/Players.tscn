@@ -13,7 +13,7 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 464.0
+margin_right = 392.0
 custom_constants/separation = 56
 alignment = 1
 __meta__ = {
@@ -23,63 +23,62 @@ __meta__ = {
 [node name="Player" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 36.0
-margin_right = 36.0
+margin_right = 0.0
 margin_bottom = 0.0
 
 [node name="Player2" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 92.0
-margin_right = 92.0
+margin_left = 56.0
+margin_right = 56.0
 margin_bottom = 0.0
 player_no = 1
 
 [node name="Player3" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 148.0
-margin_right = 148.0
+margin_left = 112.0
+margin_right = 112.0
 margin_bottom = 0.0
 player_no = 2
 
 [node name="Player4" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 204.0
-margin_right = 204.0
+margin_left = 168.0
+margin_right = 168.0
 margin_bottom = 0.0
 player_no = 3
 
 [node name="Player5" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 260.0
-margin_right = 260.0
+margin_left = 224.0
+margin_right = 224.0
 margin_bottom = 0.0
 player_no = 4
 
 [node name="Player6" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 316.0
-margin_right = 316.0
+margin_left = 280.0
+margin_right = 280.0
 margin_bottom = 0.0
 player_no = 5
 
 [node name="Player7" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 372.0
-margin_right = 372.0
+margin_left = 336.0
+margin_right = 336.0
 margin_bottom = 0.0
 player_no = 6
 
 [node name="Player8" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 428.0
-margin_right = 428.0
+margin_left = 392.0
+margin_right = 392.0
 margin_bottom = 0.0
 player_no = 7
 

@@ -38,10 +38,14 @@ func _ready():
 	on_Window_Resized(Render.vp.size, Render.currentScale)
 	on_Scale_Changed(Render.currentScale)
 	
-	rng.randomize()
-	leftIndex = rng.randi_range(1, Global.team_select.size()-1)
-	rng.randomize()
-	rightIndex = rng.randi_range(1, Global.team_select.size()-1)
+	if Global.demonz_found:
+		leftIndex = 2
+		rightIndex = 8
+	else:
+		rng.randomize()
+		leftIndex = rng.randi_range(1, Global.team_select.size()-1)
+		rng.randomize()
+		rightIndex = rng.randi_range(1, Global.team_select.size()-1)
 	moveIndex(1, 1)
 	displayTeam(0, leftIndex)
 	displayTeam(1, rightIndex)
@@ -128,22 +132,26 @@ func setTeams(side):
 		for body in leftArea.get_overlapping_bodies():
 			if "Player" in body.name:
 				Global.allTeams[body.player_no] = leftIndex
+				body.team = leftIndex
 				body.set_customs()
 	elif side == 1:
 		for body in rightArea.get_overlapping_bodies():
 			if "Player" in body.name:
 				Global.allTeams[body.player_no] = rightIndex
+				body.team = rightIndex
 				body.set_customs()
 
 
 func _on_Left_Area_body_entered(body):
 	if ("Player" in body.name):
 		Global.allTeams[body.player_no] = leftIndex
+		body.team = leftIndex
 		body.set_customs()
 		
 func _on_Right_Area_body_entered(body):
 	if ("Player" in body.name):
 		Global.allTeams[body.player_no] = rightIndex
+		body.team = rightIndex
 		body.set_customs()
 
 func _on_DummyCancel_activated():

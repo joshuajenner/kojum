@@ -167,10 +167,11 @@ __meta__ = {
 }
 
 [node name="Tied" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = -14.0
-margin_top = -29.0
+margin_top = -26.0
 margin_right = 14.0
-margin_bottom = -15.0
+margin_bottom = -12.0
 theme = ExtResource( 4 )
 text = "TIED"
 align = 1
@@ -179,7 +180,8 @@ __meta__ = {
 }
 
 [node name="Crown" type="Sprite" parent="."]
-position = Vector2( 0, -22 )
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 0, -19 )
 texture = ExtResource( 5 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]

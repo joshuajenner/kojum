@@ -28,7 +28,7 @@ func fadeout():
 	$FadeOut.interpolate_property(player, "volume_db", 0, -80, transition_duration, transition_type, Tween.EASE_IN, 0)
 	$FadeOut.start()
 
-func _on_FadeOut_tween_completed(object, key):
+func _on_FadeOut_tween_completed(object, _key):
 	object.stop()
 
 
@@ -43,7 +43,5 @@ func stop():
 #	pass
 
 
-
-
-
-
+func _on_MenuMusic_finished():
+	play()

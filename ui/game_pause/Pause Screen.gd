@@ -20,14 +20,12 @@ func _ready():
 	Render.connect("scale_changed", self, "on_Scale_Changed")
 	on_Scale_Changed(Render.currentScale)
 	on_Window_Resized(Render.vp.size, Render.currentScale)
+	bg.rect_position = Vector2(0,0)
 
 
 func on_Window_Resized(ws, sc):
 	ui.rect_position = ws/2 / sc
-	
-	bg.rect_position.x = -(bg.rect_size.x*sc/2 - ws.x/2)
-	bg.rect_position.y = -(bg.rect_size.y*sc/2 - ws.y/2)
-	bg.rect_size = Vector2(ws.x + 4, ws.y + 4)
+	bg.rect_size = Vector2(ws.x, ws.y)
 
 func on_Scale_Changed(sc):
 	scale = Vector2(sc, sc)
@@ -122,6 +120,7 @@ func show_settings():
 	$UI/Main.visible = false
 	$UI/Settings.visible = true
 	$UI/Settings/SettingsForm/MenuMusic/MM_Slider.grab_focus()
+
 func hide_settings():
 	settings_open = false
 	$UI/Main.visible = true
@@ -141,6 +140,7 @@ func _on_Quit_button_down():
 	sfx.play_back()
 	get_tree().paused = false
 	MenuSwitcher.switch_menu(map_select)
+	MenuMusic.fadein()
 
 func _on_Settings_button_down():
 	show_settings()

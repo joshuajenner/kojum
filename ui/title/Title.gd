@@ -15,7 +15,9 @@ onready var sfx = $UIAudio
 
 var setup = "res://ui/setup/Setup.tscn"
 var settings_scene = "res://ui/settings/SettingsScene.tscn"
+var controls_scene = "res://ui/controls/Controls.tscn"
 
+var device = 0
 
 var firstFocus = true
 var stick_just_fired = false
@@ -32,9 +34,12 @@ func _ready():
 	else:
 		$AnimBalls.play("ball_stay")
 
-func ball():
-	print($YSort/Ball.position)
-	print($YSort/Ball2.position)
+func _input(event):
+	if event is InputEventJoypadButton:
+		device = event.get_device()
+	# Shitty fix for xbox controllers sending double inputs and controllers over bluetooth
+	if (("Bluetooth" in Input.get_joy_name(device)) or ("Series" in Input.get_joy_name(device))):
+		get_tree().set_input_as_handled()
 
 
 func on_Window_Resized(ws, _sc):
@@ -136,3 +141,8 @@ func _on_Settings_button_down():
 	sfx.play_press()
 	$AnimMain.play("exit")
 	MenuSwitcher.switch_menu(settings_scene)
+
+
+func _on_Controls_button_down():
+	sfx.play_press()
+	MenuSwitcher.switch_menu(controls_scene)

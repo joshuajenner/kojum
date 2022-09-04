@@ -2,7 +2,7 @@ extends Control
 
 onready var sfx = $UIAudio
 
-var config_path = "res://config.cfg"
+var config_path = "user://config.cfg"
 var config  = ConfigFile.new()
 var settings = config.load(config_path)
 var audio = "audio"
@@ -14,6 +14,8 @@ var GS_Bus = AudioServer.get_bus_index("Game_SFX")
 
 var initValues = [0,0,0,0]
 
+var device = 0
+
 func _ready():
 	initValues[0] = config.get_value(audio, "menu_music")
 	initValues[1] = config.get_value(audio, "menu_sfx")
@@ -23,6 +25,15 @@ func _ready():
 	$MenuSFX/MS_Slider.value = config.get_value(audio, "menu_sfx")
 	$GameMusic/GM_Slider.value = config.get_value(audio, "game_music")
 	$GameSFX/GS_Slider.value = config.get_value(audio, "game_sfx")
+	first_focus()
+
+func _input(event):
+	if event is InputEventJoypadButton:
+		device = event.get_device()
+		# Shitty fix for xbox controllers sending double inputs and controllers over bluetooth
+		if (("Bluetooth" in Input.get_joy_name(device)) or ("Series" in Input.get_joy_name(device))):
+			get_tree().set_input_as_handled()
+
 
 func first_focus():
 	$MenuMusic/MM_Slider.grab_focus()

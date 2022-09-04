@@ -2,6 +2,9 @@ extends Area2D
 
 export var direction = Vector2()
 
+var control_sync = 0
+var team = 0
+
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"

@@ -92,8 +92,6 @@ func handle_stick(axis, dir):
 		elif axis == "y":
 			ui_move(dir)
 
-
-
 func no_hover():
 	connect.visible = false
 	tag.visible = false
@@ -108,6 +106,11 @@ func turn_visible():
 		prompt.set_texture(only_c)
 	else:
 		prompt.set_texture(kb_or_c)
+
+func redo():
+	turn_visible()
+	display_customizers()
+	active = true
 
 func set_focus_style(node):
 	for c in controls:

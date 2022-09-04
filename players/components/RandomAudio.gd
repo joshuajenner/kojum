@@ -19,7 +19,6 @@ func get_random_child():
 
 func play():
 	num = get_random_child()
-	print(get_child(num).global_position)
 	get_child(num).pitch_scale = 1
 	get_child(num).play()
 
@@ -29,4 +28,9 @@ func stop():
 func play_lower():
 	num = get_random_child()
 	get_child(num).pitch_scale = 0.7
+	get_child(num).play()
+	
+func play_higher():
+	num = get_random_child()
+	get_child(num).pitch_scale = 1.3
 	get_child(num).play()

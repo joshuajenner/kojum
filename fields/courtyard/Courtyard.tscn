@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://ui/theme/main.theme" type="Theme" id=1]
 [ext_resource path="res://fields/set_field_colour.gd" type="Script" id=2]
@@ -7,11 +7,10 @@
 [ext_resource path="res://fields/music/FieldMusic.tscn" type="PackedScene" id=5]
 [ext_resource path="res://fields/Goal.tscn" type="PackedScene" id=6]
 [ext_resource path="res://fields/walls/PlayerWall.tscn" type="PackedScene" id=7]
-[ext_resource path="res://fields/walls/BallWall.tscn" type="PackedScene" id=8]
+[ext_resource path="res://ball/KineBall.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/field/Countdown.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/audio/Whistle.tscn" type="PackedScene" id=10]
 [ext_resource path="res://fields/scenes/Goal Juice.tscn" type="PackedScene" id=11]
-[ext_resource path="res://ball/Ball.tscn" type="PackedScene" id=12]
 [ext_resource path="res://ui/field/TeamScore.tscn" type="PackedScene" id=13]
 [ext_resource path="res://ui/game_pause/Pause Screen.tscn" type="PackedScene" id=14]
 [ext_resource path="res://ui/setup/components/dummy/Dummy.tscn" type="PackedScene" id=15]
@@ -19,7 +18,7 @@
 [ext_resource path="res://assets/textures/fields/Courtyard/top_right_wall.png" type="Texture" id=17]
 [ext_resource path="res://assets/textures/fields/Courtyard/goal_right_wall.png" type="Texture" id=18]
 [ext_resource path="res://assets/textures/fields/Courtyard/left_team_roof.png" type="Texture" id=19]
-[ext_resource path="res://assets/music/courtyard_longer_v2.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/music/courtyard_music_v1.ogg" type="AudioStream" id=20]
 [ext_resource path="res://assets/textures/fields/Courtyard/goal_left_wall.png" type="Texture" id=21]
 [ext_resource path="res://assets/textures/fields/Courtyard/right_team_roof.png" type="Texture" id=22]
 [ext_resource path="res://assets/textures/fields/Courtyard/far_left_wall.png" type="Texture" id=23]
@@ -28,35 +27,8 @@
 [ext_resource path="res://fields/Field.gd" type="Script" id=26]
 [ext_resource path="res://assets/textures/fields/Courtyard/Courtyard_v1_Lower.png" type="Texture" id=27]
 [ext_resource path="res://assets/textures/fields/Courtyard/Courtyard_v1_Upper.png" type="Texture" id=28]
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-uniform vec4 REF1 : hint_color;
-
-uniform vec4 NEW1 : hint_color;
-
-void fragment() {
-    vec4 curr_color = texture(TEXTURE,UV); // Get current color of pixel
-	
-	//Lets check that our current pixel colour is any of the OLDCOLORs we wish to swap
-	//If our pixel is an old colour then swap COLOR to NEWCOLOR, very simple
-    if (curr_color == REF1)
-	{
-        COLOR = NEW1;
-    }
-	else
-	{
-		//We didn't find any old colors for this pixel so keep it's original color
-        COLOR = curr_color;
-    }
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = SubResource( 1 )
-shader_param/REF1 = Color( 0, 0, 0, 1 )
-shader_param/NEW1 = null
+[ext_resource path="res://assets/textures/ui/clock_sh.png" type="Texture" id=29]
+[ext_resource path="res://fields/walls/KineWall.tscn" type="PackedScene" id=30]
 
 [sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
@@ -213,11 +185,6 @@ rotation = -1.5708
 
 [node name="YSort" type="YSort" parent="."]
 
-[node name="Ball" parent="YSort" instance=ExtResource( 12 )]
-material = SubResource( 2 )
-position = Vector2( 0, 58 )
-sprite_num = 3
-
 [node name="Rematch" parent="YSort" instance=ExtResource( 15 )]
 position = Vector2( -70, 0 )
 label = "Rematch"
@@ -255,6 +222,10 @@ position = Vector2( -240, 32 )
 texture = ExtResource( 23 )
 offset = Vector2( 0, -26 )
 
+[node name="Ball" parent="YSort" instance=ExtResource( 8 )]
+position = Vector2( 0, 58 )
+sprite_num = 2
+
 [node name="FlagsLeft" type="Sprite" parent="."]
 material = SubResource( 4 )
 position = Vector2( -240, -96 )
@@ -272,11 +243,16 @@ texture = ExtResource( 22 )
 script = ExtResource( 2 )
 side = 1
 
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.705882 )
+position = Vector2( 1, -121 )
+texture = ExtResource( 29 )
+
 [node name="Clock" type="Label" parent="."]
 margin_left = -12.0
-margin_top = -128.85
+margin_top = -128.0
 margin_right = 14.0
-margin_bottom = -114.85
+margin_bottom = -114.0
 theme = ExtResource( 1 )
 text = "00:00"
 align = 1
@@ -285,7 +261,6 @@ __meta__ = {
 }
 
 [node name="PlayerWalls" type="Node2D" parent="."]
-visible = false
 
 [node name="Top" parent="PlayerWalls" instance=ExtResource( 7 )]
 position = Vector2( 0, -92 )
@@ -309,45 +284,49 @@ scale = Vector2( 2, 11 )
 
 [node name="BallWalls" type="Node2D" parent="."]
 
-[node name="Top" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="Top" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( 0, -98 )
 scale = Vector2( 8, 2 )
 
-[node name="Top Upper" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="TopUpper" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( 0, -120 )
 scale = Vector2( 16, 1 )
 
-[node name="TopLeft" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="TopLeft" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( -174, -98 )
 scale = Vector2( 3, 2 )
 
-[node name="TopRight" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="TopRight" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( 174, -98 )
 scale = Vector2( 3, 2 )
 
-[node name="TopMid" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="TopMid" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( 0, -38 )
 scale = Vector2( 3.2, 4 )
 
-[node name="Bot" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="Bot" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( 0, 132 )
 scale = Vector2( 20, 1 )
 
-[node name="RightSide" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="RightSide" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( 212, 16 )
 scale = Vector2( 2, 11 )
 
-[node name="LeftSide" parent="BallWalls" instance=ExtResource( 8 )]
+[node name="LeftSide" parent="BallWalls" instance=ExtResource( 30 )]
 position = Vector2( -212, 16 )
 scale = Vector2( 2, 11 )
 
 [node name="Goal" parent="." instance=ExtResource( 6 )]
 position = Vector2( -112, -96 )
 scale = Vector2( 4, 1 )
+collision_layer = 5
+collision_mask = 5
 
 [node name="Goal2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 112, -96 )
 scale = Vector2( 4, 1 )
+collision_layer = 5
+collision_mask = 5
 
 [node name="TeamScoreLeft" parent="." instance=ExtResource( 13 )]
 position = Vector2( -218, -110 )
@@ -385,8 +364,8 @@ layer = -1
 
 [connection signal="activated" from="YSort/Rematch" to="." method="_on_Rematch_activated"]
 [connection signal="activated" from="YSort/Quit" to="." method="_on_Quit_activated"]
-[connection signal="area_entered" from="Goal" to="." method="_on_Goal_area_entered"]
-[connection signal="area_entered" from="Goal2" to="." method="_on_Goal2_area_entered"]
+[connection signal="body_entered" from="Goal" to="." method="_on_Goal_body_entered"]
+[connection signal="body_entered" from="Goal2" to="." method="_on_Goal2_body_entered"]
 [connection signal="winner_announced" from="TeamScoreLeft" to="." method="_on_TeamScoreLeft_winner_announced"]
 [connection signal="winner_announced" from="TeamScoreRight" to="." method="_on_TeamScoreRight_winner_announced"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

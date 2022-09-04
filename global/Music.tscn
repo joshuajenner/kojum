@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://global/Music.gd" type="Script" id=1]
-[ext_resource path="res://assets/music/24483268_asian-hip-hop_by_denver_unlike_mom_preview.mp3" type="AudioStream" id=2]
+[ext_resource path="res://assets/music/title.wav" type="AudioStream" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fade_in"
@@ -108,4 +108,5 @@ anims/fade_out = SubResource( 3 )
 
 [node name="FadeOut" type="Tween" parent="."]
 
+[connection signal="finished" from="MenuMusic" to="." method="_on_MenuMusic_finished"]
 [connection signal="tween_completed" from="FadeOut" to="." method="_on_FadeOut_tween_completed"]
